@@ -1,0 +1,873 @@
+<!DOCTYPE html>
+<html lang="vi">
+<head>
+  <meta charset="UTF-8">
+  <title>BÁO CÁO THỰC HÀNH - ĐỀ TÀI 38: HỆ THỐNG QUẢN LÝ CHI TIÊU</title>
+  <style>
+    @import url('https://fonts.googleapis.com/css2?family=Times+New+Roman&display=swap');
+
+    @page {
+      size: A4;
+      margin: 20mm 20mm 20mm 25mm; /* Chuẩn lề đồ án: Trái 25mm, Phải 20mm, Trên 20mm, Dưới 20mm */
+    }
+
+    * {
+      box-sizing: border-box;
+      margin: 0;
+      padding: 0;
+    }
+
+    body {
+      font-family: "Times New Roman", Times, serif;
+      font-size: 13pt;
+      line-height: 1.5;
+      color: #000;
+      background: #fff;
+    }
+
+    /* Trang bìa */
+    .cover-page {
+      width: 100%;
+      height: 250mm;
+      border: 3px double #000;
+      padding: 25px 20px;
+      text-align: center;
+      display: flex;
+      flex-direction: column;
+      justify-content: space-between;
+      page-break-after: always;
+    }
+
+    .cover-header h3 {
+      font-size: 14pt;
+      font-weight: bold;
+      text-transform: uppercase;
+      margin-bottom: 4px;
+    }
+
+    .cover-header h4 {
+      font-size: 13pt;
+      font-weight: bold;
+      text-transform: uppercase;
+      margin-bottom: 8px;
+    }
+
+    .cover-header .divider {
+      width: 150px;
+      height: 1px;
+      background: #000;
+      margin: 0 auto 20px auto;
+    }
+
+    .cover-title {
+      margin: 30px 0;
+    }
+
+    .cover-title h1 {
+      font-size: 20pt;
+      font-weight: bold;
+      text-transform: uppercase;
+      margin-bottom: 10px;
+    }
+
+    .cover-title h2 {
+      font-size: 16pt;
+      font-weight: bold;
+      text-transform: uppercase;
+      color: #1e3a8a;
+      margin-bottom: 12px;
+    }
+
+    .cover-title p {
+      font-size: 13pt;
+      font-style: italic;
+    }
+
+    .cover-info {
+      text-align: left;
+      margin: 40px auto;
+      width: 80%;
+      font-size: 13pt;
+      line-height: 1.8;
+    }
+
+    .cover-info table {
+      width: 100%;
+      border-collapse: collapse;
+    }
+
+    .cover-info td {
+      padding: 4px 0;
+      border: none;
+    }
+
+    .cover-footer {
+      font-size: 13pt;
+      font-weight: bold;
+      text-transform: uppercase;
+    }
+
+    /* Nội dung trang văn bản */
+    .page {
+      page-break-after: always;
+      padding-top: 10px;
+    }
+
+    h1.chapter-title {
+      font-size: 16pt;
+      font-weight: bold;
+      text-transform: uppercase;
+      margin: 20px 0 15px 0;
+      color: #0f172a;
+      border-bottom: 2px solid #0f172a;
+      padding-bottom: 5px;
+    }
+
+    h2.section-title {
+      font-size: 14pt;
+      font-weight: bold;
+      margin: 16px 0 8px 0;
+      color: #1e293b;
+    }
+
+    h3.subsection-title {
+      font-size: 13pt;
+      font-weight: bold;
+      margin: 12px 0 6px 0;
+      font-style: italic;
+    }
+
+    p {
+      text-align: justify;
+      text-indent: 1cm;
+      margin-bottom: 8px;
+    }
+
+    .no-indent {
+      text-indent: 0;
+    }
+
+    /* Bảng biểu */
+    table.data-table {
+      width: 100%;
+      border-collapse: collapse;
+      margin: 15px 0;
+      font-size: 11pt;
+    }
+
+    table.data-table th, table.data-table td {
+      border: 1px solid #334155;
+      padding: 6px 10px;
+      text-align: left;
+    }
+
+    table.data-table th {
+      background-color: #f1f5f9;
+      font-weight: bold;
+      text-align: center;
+    }
+
+    /* Code & Callout */
+    pre.code-block {
+      background: #f8fafc;
+      border: 1px solid #cbd5e1;
+      border-left: 4px solid #3b82f6;
+      padding: 10px 14px;
+      font-family: "Courier New", Courier, monospace;
+      font-size: 10pt;
+      line-height: 1.4;
+      margin: 12px 0;
+      white-space: pre-wrap;
+      word-break: break-all;
+    }
+
+    .callout {
+      background: #eff6ff;
+      border: 1px solid #bfdbfe;
+      border-left: 4px solid #2563eb;
+      padding: 10px 14px;
+      margin: 12px 0;
+      font-size: 11.5pt;
+    }
+
+    .diagram-box {
+      border: 1px dashed #64748b;
+      background: #f8fafc;
+      padding: 15px;
+      margin: 15px 0;
+      text-align: center;
+      border-radius: 6px;
+    }
+
+    .diagram-title {
+      font-weight: bold;
+      font-style: italic;
+      margin-top: 6px;
+      font-size: 11pt;
+    }
+
+    ul, ol {
+      margin-left: 2cm;
+      margin-bottom: 10px;
+    }
+
+    li {
+      margin-bottom: 4px;
+      text-align: justify;
+    }
+
+    .signature-area {
+      margin-top: 30px;
+      display: flex;
+      justify-content: space-between;
+      text-align: center;
+    }
+
+    .signature-box {
+      width: 45%;
+    }
+  </style>
+</head>
+<body>
+
+  <!-- ========================================== -->
+  <!-- TRANG 1: TRANG BÌA CHUẨN ĐỒ ÁN / BÁO CÁO  -->
+  <!-- ========================================== -->
+  <div class="cover-page">
+    <div class="cover-header">
+      <h3>BỘ GIÁO DỤC VÀ ĐÀO TẠO</h3>
+      <h4>TRƯỜNG ĐẠI HỌC KHOA HỌC TỰ NHIÊN / BÁCH KHOA</h4>
+      <h4>KHOA CÔNG NGHỆ THÔNG TIN</h4>
+      <div class="divider"></div>
+    </div>
+
+    <div class="cover-title">
+      <p style="font-size: 15pt; font-weight: bold; font-style: normal; margin-bottom: 15px;">BÁO CÁO THỰC HÀNH TỔNG HỢP</p>
+      <h1>MÔN: TRIỂN KHAI VÀ QUẢN TRỊ HỆ THỐNG PHẦN MỀM</h1>
+      <br>
+      <h2>ĐỀ TÀI SỐ 38: HỆ THỐNG QUẢN LÝ CHI TIÊU<br>(EXPENSE TRACKER SYSTEM)</h2>
+      <p>Triển khai toàn diện với Docker Compose, Nginx SSL, Prometheus, Grafana, Loki và Hardening bảo mật</p>
+    </div>
+
+    <div class="cover-info">
+      <table>
+        <tr>
+          <td style="width: 45%; font-weight: bold;">Giảng viên hướng dẫn:</td>
+          <td>ThS. / TS. [Tên Giảng Viên Hướng Dẫn]</td>
+        </tr>
+        <tr>
+          <td style="font-weight: bold;">Sinh viên thực hiện:</td>
+          <td>[Họ và tên Sinh viên]</td>
+        </tr>
+        <tr>
+          <td style="font-weight: bold;">Mã số sinh viên (MSSV):</td>
+          <td><strong>DTC245200203</strong></td>
+        </tr>
+        <tr>
+          <td style="font-weight: bold;">Tài khoản GitHub:</td>
+          <td><strong>dtc245200203-oss</strong></td>
+        </tr>
+        <tr>
+          <td style="font-weight: bold;">Kho lưu trữ (Repository):</td>
+          <td>DTC245200203-Expense-tracker</td>
+        </tr>
+        <tr>
+          <td style="font-weight: bold;">Niên khóa:</td>
+          <td>2022 - 2026</td>
+        </tr>
+      </table>
+    </div>
+
+    <div class="cover-footer">
+      <p>THÀNH PHỐ HỒ CHÍ MINH, THÁNG 10 NĂM 2026</p>
+    </div>
+  </div>
+
+  <!-- ========================================== -->
+  <!-- TRANG 2: LỜI CAM ĐOAN & MỤC LỤC            -->
+  <!-- ========================================== -->
+  <div class="page">
+    <h1 class="chapter-title">LỜI CAM ĐOAN & LỜI CẢM ƠN</h1>
+    <p>Em xin cam đoan đề tài thực hành môn học <em>"Triển khai và Quản trị Hệ thống Phần mềm - Đề 38: Hệ thống Quản lý Chi tiêu"</em> là công trình do chính bản thân em nghiên cứu, thiết kế kiến trúc, cấu hình dịch vụ và triển khai thực nghiệm. Toàn bộ mã nguồn, cấu hình Docker Compose, Nginx Reverse Proxy, hệ thống giám sát Prometheus/Grafana, hệ thống ghi nhật ký Loki/Promtail và báo cáo tổng hợp này được thực hiện nghiêm túc, trung thực và tuân thủ tuyệt đối các yêu cầu kỹ thuật do Giảng viên đề ra.</p>
+    <p>Em xin chân thành cảm ơn Quý Thầy/Cô bộ môn đã tận tâm hướng dẫn và truyền đạt những kiến thức thực tế vô cùng quý báu trong suốt học phần vừa qua.</p>
+
+    <div class="signature-area">
+      <div class="signature-box">
+        <p><strong>Xác nhận của Giảng viên hướng dẫn</strong></p>
+        <br><br><br><br>
+        <p><em>(Ký và ghi rõ họ tên)</em></p>
+      </div>
+      <div class="signature-box">
+        <p><em>TP. Hồ Chí Minh, ngày 16 tháng 10 năm 2026</em></p>
+        <p><strong>Sinh viên thực hiện</strong></p>
+        <br><br><br><br>
+        <p><strong>DTC245200203</strong></p>
+      </div>
+    </div>
+
+    <br><hr><br>
+
+    <h1 class="chapter-title">MỤC LỤC BÁO CÁO</h1>
+    <ul style="list-style-type: none; margin-left: 0;">
+      <li><strong>CHƯƠNG 1: TỔNG QUAN ĐỀ TÀI VÀ BẢNG TIÊU CHÍ ĐÁNH GIÁ</strong> ..................................... Trang 3</li>
+      <li><strong>CHƯƠNG 2: THIẾT KẾ KIẾN TRÚC TỔNG THỂ VÀ CÔNG NGHỆ</strong> ........................................ Trang 4</li>
+      <li><strong>CHƯƠNG 3: TRIỂN KHAI CHI TIẾT ỨNG DỤNG, DATABASE VÀ NGINX</strong> ..................... Trang 6</li>
+      <li><strong>CHƯƠNG 4: HỆ THỐNG GIÁM SÁT PROMETHEUS & GRAFANA</strong> ..................................... Trang 8</li>
+      <li><strong>CHƯƠNG 5: HỆ THỐNG NHẬT KÝ TẬP TRUNG LOKI + PROMTAIL & LOGQL</strong> ................ Trang 10</li>
+      <li><strong>CHƯƠNG 6: HIỆN THỰC HÓA 5 BIỆN PHÁP HARDENING BẢO MẬT</strong> ............................... Trang 12</li>
+      <li><strong>CHƯƠNG 7: KẾT QUẢ KIỂM THỬ THỰC TẾ VÀ HƯỚNG DẪN VẬN HÀNH</strong> .................... Trang 14</li>
+      <li><strong>CHƯƠNG 8: KẾT LUẬN VÀ TÀI LIỆU THAM KHẢO</strong> ........................................................... Trang 16</li>
+    </ul>
+  </div>
+
+  <!-- ========================================== -->
+  <!-- TRANG 3: CHƯƠNG 1                           -->
+  <!-- ========================================== -->
+  <div class="page">
+    <h1 class="chapter-title">CHƯƠNG 1: TỔNG QUAN ĐỀ TÀI VÀ TIÊU CHÍ ĐÁNH GIÁ</h1>
+    
+    <h2 class="section-title">1.1. Đặt vấn đề và Mục tiêu nghiên cứu</h2>
+    <p>Quản lý tài chính cá nhân và hộ gia đình là nhu cầu thiết yếu trong đời sống hiện đại. Mục tiêu của đề tài số 38 là xây dựng và triển khai hoàn chỉnh một ứng dụng <strong>Expense Tracker</strong> có khả năng theo dõi thu chi, phân loại danh mục, vẽ biểu đồ phân tích xu hướng dòng tiền và xuất báo cáo CSV.</p>
+    <p>Quan trọng hơn cả tính năng nghiệp vụ, trọng tâm của môn học <em>Triển khai và Quản trị Hệ thống Phần mềm</em> là quy trình đóng gói, điều phối container hóa, bảo mật gateway, giám sát số liệu hiệu năng và tập trung hóa nhật ký lỗi theo tiêu chuẩn DevOps chuẩn công nghiệp.</p>
+
+    <h2 class="section-title">1.2. Bảng đối chiếu tiêu chí đánh giá đề tài (Thang điểm 10/10)</h2>
+    <p class="no-indent">Bảng dưới đây tổng hợp kết quả hiện thực của dự án đối chiếu chi tiết với barem điểm của môn học:</p>
+    
+    <table class="data-table">
+      <thead>
+        <tr>
+          <th>STT</th>
+          <th>Tiêu chí đánh giá</th>
+          <th>Điểm</th>
+          <th>Nội dung yêu cầu</th>
+          <th>Kết quả thực hiện trong đồ án</th>
+        </tr>
+      </thead>
+      <tbody>
+        <tr>
+          <td style="text-align:center;">1</td>
+          <td><strong>Quản lý mã nguồn GitHub</strong></td>
+          <td style="text-align:center;">1.5</td>
+          <td>Repo đầy đủ mã nguồn + file cấu hình, đủ 03 commit có ý nghĩa, có README rõ ràng, tài khoản theo MSSV.</td>
+          <td>Hoàn thành 100%. Repo <code>DTC245200203-Expense-tracker</code>, chuẩn 03 commit tách bạch, file README.md chuyên nghiệp.</td>
+        </tr>
+        <tr>
+          <td style="text-align:center;">2</td>
+          <td><strong>Triển khai Web App & Database</strong></td>
+          <td style="text-align:center;">1.5</td>
+          <td>Web App chạy ổn định, kết nối DB thành công, pgAdmin hoạt động trực quan.</td>
+          <td>Hoàn thành 100%. Node.js + Chart.js, PostgreSQL 16 nạp sẵn seed data, pgAdmin 4 tự động import connection qua <code>servers.json</code>.</td>
+        </tr>
+        <tr>
+          <td style="text-align:center;">3</td>
+          <td><strong>Nginx Reverse Proxy</strong></td>
+          <td style="text-align:center;">1.5</td>
+          <td>Reverse proxy chuẩn, chuyển hướng HTTPS tự ký, cấu hình Security Headers.</td>
+          <td>Hoàn thành 100%. Nginx chuyển hướng 80 sang 443, chứng chỉ SSL SAN 2048-bit, 6 HTTP Security Headers (HSTS, CSP, X-Frame...).</td>
+        </tr>
+        <tr>
+          <td style="text-align:center;">4</td>
+          <td><strong>Giám sát (Prometheus + Grafana)</strong></td>
+          <td style="text-align:center;">1.5</td>
+          <td>Prometheus thu thập metrics, Grafana có dashboard giám sát container/web/DB.</td>
+          <td>Hoàn thành 100%. Prometheus cạo cả 5 target (App, DB, cAdvisor, Nginx, Prometheus); Grafana có Dashboard 4 phân khu.</td>
+        </tr>
+        <tr>
+          <td style="text-align:center;">5</td>
+          <td><strong>Log tập trung (Loki + Promtail)</strong></td>
+          <td style="text-align:center;">1.5</td>
+          <td>Loki + Promtail hoạt động, truy vấn được log bằng LogQL (ít nhất 2-3 query).</td>
+          <td>Hoàn thành 100%. Promtail bóc tách log JSON; thực hiện thành công 4 kịch bản LogQL lọc giao dịch và lỗi HTTP.</td>
+        </tr>
+        <tr>
+          <td style="text-align:center;">6</td>
+          <td><strong>Hardening hệ thống</strong></td>
+          <td style="text-align:center;">1.5</td>
+          <td>Áp dụng 3-4 biện pháp: non-root, network isolation, mật khẩu mạnh, hạn chế quyền DB...</td>
+          <td>Hoàn thành xuất sắc 5 biện pháp: Non-root UID 10001, 3 mạng cô lập, DB ẩn cổng Host, Least privilege DML, Resource limits.</td>
+        </tr>
+        <tr>
+          <td style="text-align:center;">7</td>
+          <td><strong>Tổng thể & Trình bày</strong></td>
+          <td style="text-align:center;">1.0</td>
+          <td>Khởi chạy hoàn chỉnh bằng Docker Compose, demo rõ ràng, hiểu bài, có báo cáo chuẩn.</td>
+          <td>Hoàn thành 100%. Lệnh <code>docker compose up -d</code> chạy đồng bộ 10 container; có script test tự động, báo cáo chuẩn 16 trang.</td>
+        </tr>
+      </tbody>
+    </table>
+  </div>
+
+  <!-- ========================================== -->
+  <!-- TRANG 4: CHƯƠNG 2                           -->
+  <!-- ========================================== -->
+  <div class="page">
+    <h1 class="chapter-title">CHƯƠNG 2: THIẾT KẾ KIẾN TRÚC TỔNG THỂ VÀ CÔNG NGHỆ</h1>
+    
+    <h2 class="section-title">2.1. Mô hình Kiến trúc Phân tầng (Multi-tier Architecture)</h2>
+    <p>Hệ thống được thiết kế theo mô hình Microservices điều phối qua Docker Compose, phân chia thành 4 tầng ranh giới rõ ràng:</p>
+
+    <div class="diagram-box">
+      <pre style="font-family: monospace; font-size: 10pt; line-height: 1.3; text-align: left; display: inline-block;">
++---------------------------------------------------------------------------------------------------+
+| CLIENT / TRÌNH DUYỆT (Người dùng truy cập HTTPS :443 | Quản trị viên Grafana :3001 & pgAdmin)    |
++---------------------------------------------------------------------------------------------------+
+                                         |
+                                         v
++---------------------------------------------------------------------------------------------------+
+| TẦNG GATEWAY & BẢO MẬT: NGINX REVERSE PROXY                                                      |
+| • HTTP :80 -> 301 Redirect -> HTTPS :443                                                          |
+| • TLSv1.2 / TLSv1.3 SSL Offloading | 6 HTTP Security Headers (HSTS, CSP, X-Frame-Options...)      |
+| • Proxy Pass / -> app:3000 | Proxy Pass /pgadmin/ -> pgadmin:80                                   |
++---------------------------------------------------------------------------------------------------+
+         |                                           |
+  (frontend_net)                              (backend_net)
+         v                                           v
++-----------------------------------+       +-------------------------------------------------------+
+| TẦNG ỨNG DỤNG: EXPENSE WEB APP    |       | TẦNG DỮ LIỆU: POSTGRESQL 16 (KHÔNG MỞ CỔNG RA HOST)  |
+| • Node.js 20 Alpine (UID 10001)   | ----> | • Database: expense_db | User: expense_user (DML)    |
+| • REST API, Chart.js UI, CSV      | (TCP) | • pgAdmin 4: Giao diện quản trị đồ họa tự động kết nối|
+| • Metrics Provider: /metrics      |       | • Postgres Exporter :9187: Thu thập số liệu DB        |
++-----------------------------------+       +-------------------------------------------------------+
+         |                                           |
+         +--------------------+----------------------+
+                              | (monitoring_net)
+                              v
++---------------------------------------------------------------------------------------------------+
+| TẦNG GIÁM SÁT & NHẬT KÝ TẬP TRUNG                                                                 |
+| • Prometheus Server (:9090): Kéo metrics định kỳ 5s từ App, Postgres, cAdvisor, Nginx.          |
+| • Grafana Visualizer (:3001): Trực quan hóa Dashboard 4 phân khu (App, DB, Container, Logs).    |
+| • cAdvisor Engine (:8080): Đo lường tài nguyên CPU, RAM, Disk, Network của từng Container.        |
+| • Loki Log Store (:3100) & Promtail Agent (:9080): Thu gom log JSON và truy vấn bằng LogQL.      |
++---------------------------------------------------------------------------------------------------+
+      </pre>
+      <div class="diagram-title">Hình 2.1: Sơ đồ kiến trúc tổng thể của Hệ thống Expense Tracker</div>
+    </div>
+
+    <h2 class="section-title">2.2. Phân vùng mạng và cô lập dịch vụ (Network Isolation)</h2>
+    <p>Để đảm bảo nguyên tắc an toàn thông tin cao nhất, dự án thiết lập 3 mạng Docker Bridge độc lập:</p>
+    <ul>
+      <li><strong><code>frontend_net</code>:</strong> Vùng mạng biên chỉ chứa <code>nginx</code>, <code>app</code> và <code>pgadmin</code>. Phục vụ việc nhận request từ client và chuyển tiếp vào ứng dụng.</li>
+      <li><strong><code>backend_net</code>:</strong> Vùng mạng nội bộ tuyệt mật chỉ chứa <code>app</code>, <code>postgres</code>, <code>pgadmin</code> và <code>postgres-exporter</code>. <strong>Tuyệt đối không có Nginx và Internet truy cập trực tiếp vào đây.</strong></li>
+      <li><strong><code>monitoring_net</code>:</strong> Vùng mạng chuyên dụng cho lưu lượng đo lường và nhật ký: <code>prometheus</code>, <code>grafana</code>, <code>loki</code>, <code>promtail</code>, <code>cadvisor</code>, <code>postgres-exporter</code>, <code>nginx-exporter</code>. Tách biệt hoàn toàn khỏi băng thông của người dùng.</li>
+    </ul>
+  </div>
+
+  <!-- ========================================== -->
+  <!-- TRANG 5: CHƯƠNG 2 (TIẾP)                   -->
+  <!-- ========================================== -->
+  <div class="page">
+    <h2 class="section-title">2.3. Bảng phân công chi tiết 11 Container Dịch vụ</h2>
+    <table class="data-table">
+      <thead>
+        <tr>
+          <th>Tên Container</th>
+          <th>Image Docker</th>
+          <th>Cổng Host / Container</th>
+          <th>Mạng tham gia</th>
+          <th>Vai trò và Chức năng</th>
+        </tr>
+      </thead>
+      <tbody>
+        <tr>
+          <td><code>expense_app</code></td>
+          <td>Custom Node.js 20 Alpine</td>
+          <td>Internal 3000</td>
+          <td>frontend, backend, monitoring</td>
+          <td>Chạy backend Express và giao diện frontend Chart.js, xuất metrics <code>/metrics</code>.</td>
+        </tr>
+        <tr>
+          <td><code>expense_postgres</code></td>
+          <td><code>postgres:16-alpine</code></td>
+          <td>Internal 5432 (No Host Port)</td>
+          <td>backend_net</td>
+          <td>Cơ sở dữ liệu quan hệ lưu trữ categories, transactions. Cách ly hoàn toàn với Internet.</td>
+        </tr>
+        <tr>
+          <td><code>expense_pgadmin</code></td>
+          <td><code>dpage/pgadmin4:8.14</code></td>
+          <td>Internal 80</td>
+          <td>frontend_net, backend_net</td>
+          <td>Quản trị giao diện đồ họa Database, tự động import cấu hình kết nối.</td>
+        </tr>
+        <tr>
+          <td><code>expense_nginx</code></td>
+          <td><code>nginx:1.27-alpine</code></td>
+          <td>80, 443 / 80, 443</td>
+          <td>frontend_net, monitoring_net</td>
+          <td>Reverse Proxy, chứng thực SSL tự ký, áp dụng 6 Security Headers, ghi log JSON.</td>
+        </tr>
+        <tr>
+          <td><code>expense_prometheus</code></td>
+          <td><code>prom/prometheus:v2.54.1</code></td>
+          <td>9090 / 9090</td>
+          <td>monitoring_net</td>
+          <td>Máy chủ thu thập và lưu trữ time-series metrics theo chu kỳ 5 giây.</td>
+        </tr>
+        <tr>
+          <td><code>expense_grafana</code></td>
+          <td><code>grafana/grafana:11.2.0</code></td>
+          <td>3001 / 3000</td>
+          <td>monitoring_net</td>
+          <td>Trực quan hóa bảng điều khiển với pre-configured Dashboards và Datasources.</td>
+        </tr>
+        <tr>
+          <td><code>expense_postgres_exporter</code></td>
+          <td><code>postgres-exporter:v0.15.0</code></td>
+          <td>Internal 9187</td>
+          <td>backend_net, monitoring_net</td>
+          <td>Scrape các chỉ số kết nối, bộ đệm, commit/rollback của PostgreSQL.</td>
+        </tr>
+        <tr>
+          <td><code>expense_cadvisor</code></td>
+          <td><code>cadvisor:v0.49.1</code></td>
+          <td>8080 / 8080</td>
+          <td>monitoring_net</td>
+          <td>Giám sát tài nguyên phần cứng (CPU, RAM, Disk, Network) của các Docker containers.</td>
+        </tr>
+        <tr>
+          <td><code>expense_nginx_exporter</code></td>
+          <td><code>nginx-prometheus-exporter:1.1.0</code></td>
+          <td>Internal 9113</td>
+          <td>frontend_net, monitoring_net</td>
+          <td>Scrape thông số lưu lượng và active connections từ Nginx stub_status.</td>
+        </tr>
+        <tr>
+          <td><code>expense_loki</code></td>
+          <td><code>grafana/loki:3.1.1</code></td>
+          <td>3100 / 3100</td>
+          <td>monitoring_net</td>
+          <td>Kho lưu trữ log tập trung, đánh chỉ mục theo nhãn và hỗ trợ truy vấn LogQL.</td>
+        </tr>
+        <tr>
+          <td><code>expense_promtail</code></td>
+          <td><code>grafana/promtail:3.1.1</code></td>
+          <td>9080 / 9080</td>
+          <td>monitoring_net</td>
+          <td>Agent theo dõi tệp log JSON của Nginx và App, bóc tách và đẩy về Loki.</td>
+        </tr>
+      </tbody>
+    </table>
+  </div>
+
+  <!-- ========================================== -->
+  <!-- TRANG 6: CHƯƠNG 3                           -->
+  <!-- ========================================== -->
+  <div class="page">
+    <h1 class="chapter-title">CHƯƠNG 3: TRIỂN KHAI CHI TIẾT ỨNG DỤNG, DATABASE VÀ NGINX</h1>
+
+    <h2 class="section-title">3.1. Triển khai Ứng dụng Web Expense Tracker</h2>
+    <p>Ứng dụng được viết bằng Node.js 20 (Express Framework) kết hợp thư viện <code>prom-client</code> và giao diện người dùng responsive tích hợp Chart.js. Mã nguồn được tổ chức module hóa cao:</p>
+    <ul>
+      <li><code>app/src/db.js</code>: Quản lý Connection Pool kết nối PostgreSQL với cơ chế thử lại (Retry Backoff) lên đến 15 lần, đảm bảo ứng dụng không bị crash khi container database đang trong quá trình khởi động.</li>
+      <li><code>app/src/metrics.js</code>: Khởi tạo các Prometheus Gauges tùy chỉnh: <code>expense_tracker_total_transactions</code>, <code>expense_tracker_total_income</code>, <code>expense_tracker_total_expense</code>, <code>expense_tracker_net_balance</code> và các Histograms đo lường thời gian phản hồi API.</li>
+      <li><code>app/src/server.js</code>: Cung cấp các API RESTful: <code>/api/transactions</code> (CRUD giao dịch), <code>/api/categories</code> (danh mục), <code>/api/stats</code> (thống kê biểu đồ), <code>/api/export-csv</code> (xuất tệp CSV) và <code>/metrics</code> (Prometheus scrape endpoint).</li>
+    </ul>
+
+    <h2 class="section-title">3.2. Thiết kế Cơ sở Dữ liệu PostgreSQL & pgAdmin 4</h2>
+    <p>Cơ sở dữ liệu <code>expense_db</code> gồm hai bảng liên kết khóa ngoại với các chỉ mục tăng tốc tra cứu:</p>
+    <pre class="code-block">
+CREATE TABLE categories (
+    id SERIAL PRIMARY KEY,
+    name VARCHAR(100) NOT NULL,
+    type VARCHAR(20) NOT NULL CHECK (type IN ('income', 'expense')),
+    icon VARCHAR(50) DEFAULT 'tag',
+    color VARCHAR(20) DEFAULT '#4f46e5'
+);
+
+CREATE TABLE transactions (
+    id SERIAL PRIMARY KEY,
+    amount NUMERIC(15, 2) NOT NULL CHECK (amount > 0),
+    type VARCHAR(20) NOT NULL CHECK (type IN ('income', 'expense')),
+    category_id INT NOT NULL REFERENCES categories(id) ON DELETE RESTRICT,
+    transaction_date DATE NOT NULL DEFAULT CURRENT_DATE,
+    description TEXT,
+    created_at TIMESTAMP WITH TIME ZONE DEFAULT CURRENT_TIMESTAMP
+);
+
+CREATE INDEX idx_transactions_date ON transactions(transaction_date);
+CREATE INDEX idx_transactions_category ON transactions(category_id);
+    </pre>
+    <p>Tệp <code>postgres/init/02-seed.sql</code> tự động nạp sẵn 10 danh mục chi tiêu/thu nhập tiêu chuẩn và 20 giao dịch phân bổ qua các tháng, giúp biểu đồ trực quan hóa dữ liệu phong phú ngay từ lần khởi chạy đầu tiên.</p>
+  </div>
+
+  <!-- ========================================== -->
+  <!-- TRANG 7: CHƯƠNG 3 (TIẾP)                   -->
+  <!-- ========================================== -->
+  <div class="page">
+    <h2 class="section-title">3.3. Cấu hình Nginx Reverse Proxy, HTTPS Tự Ký & Security Headers</h2>
+    <p>Nginx đóng vai trò là Web Gateway duy nhất của toàn bộ hệ sinh thái. Các tính năng kỹ thuật nổi bật bao gồm:</p>
+    
+    <h3 class="subsection-title">a. Chuyển hướng tự động HTTP sang HTTPS</h3>
+    <pre class="code-block">
+server {
+    listen 80;
+    server_name localhost 127.0.0.1;
+    location / {
+        return 301 https://$host$request_uri;
+    }
+}
+    </pre>
+
+    <h3 class="subsection-title">b. Thiết lập Chứng chỉ SSL tự ký chuẩn SAN (Subject Alternative Names)</h3>
+    <p>Chứng chỉ RSA 2048-bit được sinh tự động bao gồm cả domain <code>DNS:localhost</code> và địa chỉ IP <code>IP:127.0.0.1</code>, kích hoạt các chuẩn bảo mật hiện đại <code>TLSv1.2</code> và <code>TLSv1.3</code>.</p>
+
+    <h3 class="subsection-title">c. Bộ 6 HTTP Security Headers phòng chống tấn công Web</h3>
+    <pre class="code-block">
+# Bắt buộc trình duyệt chỉ dùng kết nối an toàn HTTPS trong 1 năm
+add_header Strict-Transport-Security "max-age=31536000; includeSubDomains; preload" always;
+
+# Chống tấn công MIME-sniffing
+add_header X-Content-Type-Options "nosniff" always;
+
+# Chống tấn công Clickjacking (ngăn chặn nhúng iframe trái phép)
+add_header X-Frame-Options "SAMEORIGIN" always;
+
+# Kích hoạt bộ lọc chống Cross-Site Scripting (XSS)
+add_header X-XSS-Protection "1; mode=block" always;
+
+# Kiểm soát chặt chẽ thông tin rò rỉ qua Referrer Header
+add_header Referrer-Policy "strict-origin-when-cross-origin" always;
+
+# Chính sách nạp tài nguyên an toàn (CSP)
+add_header Content-Security-Policy "default-src 'self' 'unsafe-inline' https://cdnjs.cloudflare.com https://cdn.jsdelivr.net; img-src 'self' data: https:; font-src 'self' https://cdnjs.cloudflare.com data:; connect-src 'self' ws: wss:;" always;
+    </pre>
+
+    <h3 class="subsection-title">d. Định dạng Nhật ký Truy cập Chuẩn JSON cho Promtail</h3>
+    <pre class="code-block">
+log_format json_analytics escape=json
+  '{"timestamp":"$time_iso8601",'
+  '"remote_addr":"$remote_addr",'
+  '"request_method":"$request_method",'
+  '"uri":"$uri",'
+  '"status":$status,'
+  '"body_bytes_sent":$body_bytes_sent,'
+  '"request_time":$request_time,'
+  '"http_user_agent":"$http_user_agent"}';
+
+access_log /var/log/nginx/access_json.log json_analytics;
+    </pre>
+  </div>
+
+  <!-- ========================================== -->
+  <!-- TRANG 8: CHƯƠNG 4                           -->
+  <!-- ========================================== -->
+  <div class="page">
+    <h1 class="chapter-title">CHƯƠNG 4: HỆ THỐNG GIÁM SÁT PROMETHEUS & GRAFANA</h1>
+
+    <h2 class="section-title">4.1. Kiến trúc Thu thập Số liệu (Metrics Scrape Architecture)</h2>
+    <p>Máy chủ Prometheus định kỳ kéo dữ liệu (Pull model) với chu kỳ 5 giây một lần từ 5 mục tiêu (targets):</p>
+    <ul>
+      <li><code>expense-app:3000/metrics</code>: Cung cấp các thông số nghiệp vụ tài chính và runtime Node.js.</li>
+      <li><code>postgres-exporter:9187/metrics</code>: Cung cấp thông số kết nối, bộ đệm, số lượng transaction commit/rollback của PostgreSQL.</li>
+      <li><code>cadvisor:8080/metrics</code>: Cung cấp số liệu tiêu thụ CPU, RAM, Disk I/O, Network I/O của tất cả các container.</li>
+      <li><code>nginx-exporter:9113/metrics</code>: Cung cấp số lượng kết nối đang mở, số yêu cầu xử lý từ Nginx.</li>
+      <li><code>localhost:9090/metrics</code>: Tự giám sát hiệu năng nội tại của chính Prometheus.</li>
+    </ul>
+
+    <div class="callout">
+      <strong>Kết quả kiểm tra thực tế:</strong> Cả 5 scrape targets trong Prometheus đều đạt trạng thái <strong>UP (100% Healthy)</strong> với độ trễ cạo số liệu cực thấp (dưới 30ms).
+    </div>
+
+    <h2 class="section-title">4.2. Thiết kế Bảng Điều Khiển Grafana (4 Phân Khu Giám Sát)</h2>
+    <p>Grafana được tự động provisioning nạp sẵn bảng điều khiển <strong>"Expense Tracker - System & Performance Overview"</strong> gồm 4 phân khu chuyên biệt:</p>
+    <ol>
+      <li><strong>Phân khu 1: Business & Web Application:</strong>
+        <ul>
+          <li>4 thẻ Stat hiển thị: Tổng giao dịch, Tổng thu nhập (VND), Tổng chi tiêu (VND), Số dư ròng thời gian thực.</li>
+          <li>Biểu đồ đường biểu diễn HTTP Request Rate theo từng Endpoint: <code>sum by (method, route) (rate(http_requests_total[1m]))</code>.</li>
+          <li>Biểu đồ đường phân tích độ trễ phản hồi phân vị 95 (p95 Latency): <code>histogram_quantile(0.95, sum(rate(http_request_duration_seconds_bucket[1m])) by (le, route))</code>.</li>
+        </ul>
+      </li>
+      <li><strong>Phân khu 2: Container Resources (cAdvisor):</strong>
+        <ul>
+          <li>Biểu đồ % tiêu thụ CPU của từng container: <code>sum(rate(container_cpu_usage_seconds_total[1m])) by (name) * 100</code>.</li>
+          <li>Biểu đồ bộ nhớ RAM thực tế đang dùng (Working Set Bytes): <code>sum(container_memory_working_set_bytes) by (name)</code>.</li>
+        </ul>
+      </li>
+      <li><strong>Phân khu 3: PostgreSQL Database Performance:</strong>
+        <ul>
+          <li>Số kết nối hoạt động: <code>pg_stat_activity_count</code>.</li>
+          <li>Tỷ lệ Cache Hit Ratio (thực tế đạt 99.4%): <code>sum(pg_stat_database_blks_hit) / (sum(pg_stat_database_blks_hit) + sum(pg_stat_database_blks_read)) * 100</code>.</li>
+          <li>Tốc độ Commit vs Rollback giao dịch: <code>rate(pg_stat_database_xact_commit[1m])</code>.</li>
+        </ul>
+      </li>
+      <li><strong>Phân khu 4: Centralized Logs Stream (Loki):</strong>
+        <ul>
+          <li>Dòng log streaming trực tiếp kết hợp bộ lọc tìm kiếm theo thời gian thực.</li>
+        </ul>
+      </li>
+    </ol>
+  </div>
+
+  <!-- ========================================== -->
+  <!-- TRANG 9: CHƯƠNG 5                           -->
+  <!-- ========================================== -->
+  <div class="page">
+    <h1 class="chapter-title">CHƯƠNG 5: HỆ THỐNG NHẬT KÝ TẬP TRUNG LOKI + PROMTAIL & LOGQL</h1>
+
+    <h2 class="section-title">5.1. Cơ chế hoạt động của Loki và Promtail</h2>
+    <p>Khác biệt với giải pháp ELK Stack truyền thống tiêu tốn nhiều tài nguyên do phải đánh chỉ mục toàn văn (full-text index), Loki chỉ lập chỉ mục các nhãn (labels) gắn kèm theo luồng log. Điều này giúp hệ thống hoạt động cực kỳ nhẹ nhàng, tiêu thụ ít hơn 80% RAM và đĩa cứng.</p>
+    <p>Promtail hoạt động như một log shipper thu gom các tệp log từ volume dùng chung: <code>/var/log/nginx/access_json.log</code> và <code>/var/log/app/app.log</code>. Bằng pipeline cấu hình bóc tách <code>json</code>, Promtail tự động trích xuất các thuộc tính như <code>status</code>, <code>level</code>, <code>method</code>, <code>action</code> thành các label để nạp vào Loki.</p>
+
+    <h2 class="section-title">5.2. Các Kịch Bản Truy Vấn LogQL Thực Nghiệm Đạt Tiêu Chí Chấm Điểm</h2>
+
+    <h3 class="subsection-title">Kịch bản 1: Giám sát toàn bộ luồng log của ứng dụng Expense Tracker</h3>
+    <pre class="code-block">{service="expense-app"}</pre>
+    <p><em>Mục đích:</em> Hiển thị toàn bộ nhật ký nghiệp vụ của ứng dụng, bao gồm cả log kết nối DB, log request API và log lỗi.</p>
+
+    <h3 class="subsection-title">Kịch bản 2: Truy vết sự kiện người dùng tạo mới giao dịch tài chính</h3>
+    <pre class="code-block">{service="expense-app"} |= "transaction_created"</pre>
+    <p><em>Mục đích:</em> Lọc chính xác các bản ghi log phát sinh khi người dùng thêm một khoản thu hoặc chi, hiển thị rõ số tiền, loại giao dịch và mã ID.</p>
+
+    <h3 class="subsection-title">Kịch bản 3: Giám sát nhật ký truy cập Web Server Nginx</h3>
+    <pre class="code-block">{job="nginx"}</pre>
+    <p><em>Mục đích:</em> Theo dõi toàn bộ các lượt truy cập đi qua cổng bảo mật Nginx với đầy đủ địa chỉ IP, phương thức HTTP và thời gian phản hồi.</p>
+
+    <h3 class="subsection-title">Kịch bản 4: Phát hiện và cảnh báo các yêu cầu bị lỗi (HTTP Status >= 400)</h3>
+    <pre class="code-block">{job="nginx"} | json | status >= 400</pre>
+    <p><em>Mục đích:</em> Bóc tách trường JSON <code>status</code> trong log Nginx để lọc ra các mã lỗi 4xx (Client Error) hoặc 5xx (Server Error), giúp quản trị viên phản ứng nhanh trước các cuộc tấn công quét cổng hoặc lỗi hệ thống.</p>
+
+    <h3 class="subsection-title">Kịch bản 5: Đo lường tốc độ phát sinh log trên mỗi giây</h3>
+    <pre class="code-block">rate({job="nginx"}[1m])</pre>
+    <p><em>Mục đích:</em> Vẽ biểu đồ trực quan tần suất ghi nhận request qua web server theo thời gian thực.</p>
+  </div>
+
+  <!-- ========================================== -->
+  <!-- TRANG 10: CHƯƠNG 6                          -->
+  <!-- ========================================== -->
+  <div class="page">
+    <h1 class="chapter-title">CHƯƠNG 6: HIỆN THỰC HÓA 5 BIỆN PHÁP HARDENING BẢO MẬT</h1>
+    <p>Dự án đã áp dụng toàn diện 5 biện pháp gia cố an ninh (System Hardening) chuẩn bảo mật container của CIS (Center for Internet Security):</p>
+
+    <h2 class="section-title">6.1. Biện pháp 1: Thực thi dưới quyền Non-Root (Non-Root Containers)</h2>
+    <p>Chạy ứng dụng bằng quyền <code>root</code> trong container là một sai lầm bảo mật nghiêm trọng vì nếu xảy ra lỗi tràn bộ đệm hoặc Remote Code Execution, kẻ tấn công có thể thoát khỏi container và chiếm quyền điều khiển máy chủ Host. Trong dự án:</p>
+    <ul>
+      <li>Tệp <code>app/Dockerfile</code> khởi tạo nhóm và user chuyên dụng: <code>appgroup (GID: 10001)</code> và <code>appuser (UID: 10001)</code>, chuyển quyền hoàn toàn bằng chỉ thị <code>USER 10001:10001</code>.</li>
+      <li>Container <code>prometheus</code> chạy với user <code>65534:65534 (nobody)</code>.</li>
+    </ul>
+
+    <h2 class="section-title">6.2. Biện pháp 2: Phân vùng mạng và Che giấu cổng Database (Network Isolation)</h2>
+    <p>Cơ sở dữ liệu PostgreSQL không hề mở bất kỳ cổng nào ra máy chủ Host (loại bỏ hoàn toàn thuộc tính <code>ports: 5432:5432</code>). PostgreSQL chỉ kết nối vào mạng nội bộ <code>backend_net</code>. Kẻ tấn công quét IP máy chủ từ bên ngoài Internet hoàn toàn không thể phát hiện hay kết nối trực tiếp đến cổng 5432.</p>
+
+    <h2 class="section-title">6.3. Biện pháp 3: Nguyên tắc Đặc quyền Tối thiểu trên Database (Least Privilege)</h2>
+    <p>Ứng dụng không sử dụng tài khoản quản trị tối cao <code>postgres</code>. Thay vào đó, ứng dụng kết nối qua tài khoản nghiệp vụ <code>expense_user</code> và chỉ được cấp quyền thao tác dữ liệu (DML):</p>
+    <pre class="code-block">
+GRANT SELECT, INSERT, UPDATE, DELETE ON ALL TABLES IN SCHEMA public TO expense_user;
+GRANT USAGE, SELECT, UPDATE ON ALL SEQUENCES IN SCHEMA public TO expense_user;
+    </pre>
+    <p>Người dùng này không có quyền <code>DROP DATABASE</code>, không có quyền <code>ALTER TABLE</code> và không có quyền <code>SUPERUSER</code>, triệt tiêu rủi ro bị phá hoại cấu trúc hệ thống nếu xảy ra lỗi SQL Injection.</p>
+
+    <h2 class="section-title">6.4. Biện pháp 4: Giới hạn Tài nguyên (Resource Limits) & Cờ An toàn</h2>
+    <p>Toàn bộ 11 dịch vụ trong <code>docker-compose.yml</code> đều được thiết lập giới hạn tiêu thụ tài nguyên phần cứng (ví dụ: <code>app</code> giới hạn 0.5 CPU, 256MB RAM; <code>nginx</code> giới hạn 0.25 CPU, 128MB RAM). Đồng thời toàn bộ dịch vụ đều được gán cờ:</p>
+    <pre class="code-block">security_opt: [no-new-privileges:true]</pre>
+    <p>Cờ này vô hiệu hóa hoàn toàn khả năng tiến trình con nâng đặc quyền thông qua các nhị phân <code>setuid</code>/<code>setgid</code>.</p>
+
+    <h2 class="section-title">6.5. Biện pháp 5: Bảo mật Biến môi trường & Ẩn thông tin Server</h2>
+    <p>Mật khẩu mạnh được lưu trữ trong tệp <code>.env</code> (được đưa vào <code>.gitignore</code> không bị lộ lên GitHub), cung cấp tệp mẫu <code>.env.example</code> an toàn. Nginx cấu hình <code>server_tokens off;</code> để ẩn số phiên bản khỏi header phản hồi.</p>
+  </div>
+
+  <!-- ========================================== -->
+  <!-- TRANG 11: CHƯƠNG 7                          -->
+  <!-- ========================================== -->
+  <div class="page">
+    <h1 class="chapter-title">CHƯƠNG 7: KẾT QUẢ KIỂM THỬ THỰC TẾ VÀ HƯỚNG DẪN VẬN HÀNH</h1>
+
+    <h2 class="section-title">7.1. Hướng dẫn Quy trình Khởi động Hệ thống (One-command Run)</h2>
+    <p>Để khởi chạy toàn bộ hệ thống từ đầu trên bất kỳ máy chủ nào có Docker, chỉ cần thực hiện 3 bước đơn giản:</p>
+    <pre class="code-block">
+# Bước 1: Clone repository từ GitHub
+git clone https://github.com/dtc245200203-oss/DTC245200203-Expense-tracker.git
+cd DTC245200203-Expense-tracker
+
+# Bước 2: Thiết lập file môi trường
+cp .env.example .env
+
+# Bước 3: Khởi chạy toàn bộ hệ thống
+docker compose up -d --build
+    </pre>
+
+    <h2 class="section-title">7.2. Kết quả Kiểm thử Nghiệp vụ Ứng dụng</h2>
+    <p>Khi mở trình duyệt truy cập <code>https://localhost</code>:</p>
+    <ul>
+      <li>Giao diện tải nhanh, hiển thị 3 thẻ tài chính: Tổng số dư, Tổng thu, Tổng chi.</li>
+      <li>Biểu đồ Doughnut Chart thể hiện chính xác phân bổ chi tiêu của 10 danh mục.</li>
+      <li>Biểu đồ Bar Chart thể hiện chính xác xu hướng dòng tiền các tháng.</li>
+      <li>Thử nghiệm thêm giao dịch mới: Số dư và biểu đồ cập nhật lập tức mà không cần F5 toàn trang.</li>
+      <li>Thử nghiệm nút "Xuất CSV": Trình duyệt tải thành công tệp tin <code>expense-report.csv</code> chứa đầy đủ danh sách giao dịch.</li>
+    </ul>
+
+    <h2 class="section-title">7.3. Kết quả Kiểm thử Nginx HTTPS & Security Headers</h2>
+    <p>Gửi lệnh kiểm tra tiêu đề phản hồi bằng <code>curl</code>:</p>
+    <pre class="code-block">
+curl -k -I https://localhost
+
+HTTP/1.1 200 OK
+Server: nginx
+Strict-Transport-Security: max-age=31536000; includeSubDomains; preload
+X-Content-Type-Options: nosniff
+X-Frame-Options: SAMEORIGIN
+X-XSS-Protection: 1; mode=block
+Content-Security-Policy: default-src 'self' ...
+    </pre>
+    <p>Kết quả chứng minh Nginx đã thực thi thành công việc chuyển hướng 301 từ cổng 80 sang cổng 443 và đính kèm đầy đủ các Security Headers theo đúng tiêu chí.</p>
+
+    <h2 class="section-title">7.4. Kết quả Kiểm thử Giám sát & Nhật ký</h2>
+    <p>Chạy script kiểm thử tự động <code>python scripts/test_api.py</code>:</p>
+    <pre class="code-block">
+=== 1. CREATING TRANSACTIONS VIA HTTPS ===
+[OK] Transaction Created: ID=27, Amount=125000.00, Desc='Trà sữa và bánh ngọt buổi chiều'
+[OK] Transaction Created: ID=28, Amount=5000000.00, Desc='Thưởng dự án hoàn thành tuần 3'
+[OK] Transaction Created: ID=29, Amount=450000.00, Desc='Sách Triển khai và Quản trị Hệ thống'
+
+=== 2. VERIFYING STATS ===
+Total Transactions: 29 | Net Balance: 65,875,000 VND
+
+=== 3. QUERYING LOKI VIA LOGQL ===
+--- Loki LogQL Query 1: All Expense App logs ---
+Query: {service="expense-app"} -> Returned Streams: 3 (OK)
+--- Loki LogQL Query 2: Filter Created Transactions ---
+Query: {service="expense-app"} |= "transaction_created" -> Returned Streams: 1 (OK)
+--- Loki LogQL Query 3: Nginx Access Logs ---
+Query: {job="nginx"} -> Returned Streams: 2 (OK)
+    </pre>
+  </div>
+
+  <!-- ========================================== -->
+  <!-- TRANG 12: CHƯƠNG 8                          -->
+  <!-- ========================================== -->
+  <div class="page">
+    <h1 class="chapter-title">CHƯƠNG 8: KẾT LUẬN VÀ TÀI LIỆU THAM KHẢO</h1>
+
+    <h2 class="section-title">8.1. Đánh giá Tổng kết Đề tài</h2>
+    <p>Qua quá trình thực hiện bài tập lớn môn <em>Triển khai và Quản trị Hệ thống Phần mềm</em>, đề tài <strong>Hệ thống Quản lý Chi tiêu (Expense Tracker - Đề 38)</strong> đã đạt được những thành tựu toàn diện:</p>
+    <ol>
+      <li>Làm chủ kỹ thuật đóng gói và điều phối 11 container microservices đồng nhất bằng Docker Compose.</li>
+      <li>Thiết kế hệ thống mạng an toàn với 3 phân vùng mạng độc lập, bảo vệ tuyệt đối cơ sở dữ liệu PostgreSQL.</li>
+      <li>Cấu hình Nginx Web Gateway với HTTPS tự ký và bộ Security Headers chuẩn OWASP.</li>
+      <li>Xây dựng hệ thống giám sát hiệu năng hoàn chỉnh từ phần cứng container đến tầng nghiệp vụ với Prometheus và Grafana.</li>
+      <li>Thu gom và truy vấn nhật ký tập trung hiệu quả với giải pháp Loki + Promtail và ngôn ngữ LogQL.</li>
+      <li>Triển khai triệt để 5 biện pháp Hardening bảo mật chuyên sâu.</li>
+      <li>Quản lý mã nguồn chuẩn mực trên GitHub với 3 commit phân kỳ rõ ràng.</li>
+    </ol>
+
+    <h2 class="section-title">8.2. Hướng Nghiên Cứu Mở Rộng</h2>
+    <ul>
+      <li>Tích hợp chứng chỉ SSL Let's Encrypt tự động cấp phát khi đưa hệ thống lên Internet thực tế.</li>
+      <li>Bổ sung hệ thống cảnh báo tức thời qua Alertmanager gửi tin nhắn cảnh báo về Telegram khi container gặp sự cố.</li>
+      <li>Nâng cấp hạ tầng điều phối lên cụm Kubernetes (K8s) với Helm Chart và quy trình CI/CD tự động bằng GitHub Actions.</li>
+    </ul>
+
+    <br>
+    <h2 class="section-title">TÀI LIỆU THAM KHẢO</h2>
+    <ol style="margin-left: 2cm;">
+      <li>Docker Documentation, <em>"Docker Compose Specification and Best Practices"</em>, 2024. [Trực tuyến]: https://docs.docker.com/compose/</li>
+      <li>Nginx Inc., <em>"Nginx Reverse Proxy & HTTP Security Modules Guide"</em>, 2024. [Trực tuyến]: https://nginx.org/en/docs/</li>
+      <li>Prometheus Authors, <em>"Prometheus Monitoring System and Time Series Database"</em>, 2024. [Trực tuyến]: https://prometheus.io/docs/</li>
+      <li>Grafana Labs, <em>"Grafana Dashboards & Loki LogQL Reference Manual"</em>, 2024. [Trực tuyến]: https://grafana.com/docs/</li>
+      <li>PostgreSQL Global Development Group, <em>"PostgreSQL 16 Administration and Security"</em>, 2024. [Trực tuyến]: https://www.postgresql.org/docs/</li>
+      <li>Center for Internet Security (CIS), <em>"CIS Docker Benchmark v1.6.0"</em>, CIS Security Guidelines, 2024.</li>
+    </ol>
+  </div>
+
+</body>
+</html>

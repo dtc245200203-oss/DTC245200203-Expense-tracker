@@ -24,8 +24,9 @@
 
 **Giảng viên hướng dẫn:** ThS. / TS. [Tên Giảng Viên Hướng Dẫn]  
 **Sinh viên thực hiện:** [Họ và tên Sinh viên]  
-**Mã số sinh viên (MSSV):** [Nhập Mã Số Sinh Viên]  
-**Lớp sinh hoạt:** [Mã Lớp Học Phần]  
+**Mã số sinh viên (MSSV):** **DTC245200203**  
+**Tài khoản GitHub:** **dtc245200203-oss**  
+**Kho lưu trữ (Repository):** [DTC245200203-Expense-tracker](https://github.com/dtc245200203-oss/DTC245200203-Expense-tracker)  
 **Khóa học:** 2022 - 2026  
 
 <br><br><br>
