@@ -3,6 +3,25 @@ let categories = [];
 let categoryChartInstance = null;
 let trendChartInstance = null;
 
+// Vintage Chart Colors & Fonts
+const VINTAGE_PALETTE = [
+  '#872127', // Deep Wine / Burgundy
+  '#1e5932', // Forest Hunter Green
+  '#c5a059', // Antique Gold
+  '#1f3b56', // Slate Navy
+  '#9c4b18', // Terracotta
+  '#5c3d2e', // Leather Brown
+  '#4f5d75', // Muted Charcoal
+  '#845007', // Bronze
+  '#3d5a80', // Vintage Denim
+  '#6b2d5c'  // Royal Plum
+];
+
+if (typeof Chart !== 'undefined') {
+  Chart.defaults.font.family = "'Lora', Georgia, 'Times New Roman', serif";
+  Chart.defaults.color = '#4a3b2c';
+}
+
 // Helpers
 const formatCurrency = (amount) => {
   return new Intl.NumberFormat('vi-VN', { style: 'currency', currency: 'VND' }).format(amount);
@@ -121,23 +140,23 @@ function renderCategoryChart(data) {
       labels: data.map(d => d.name),
       datasets: [{
         data: data.map(d => d.amount),
-        backgroundColor: data.map(d => d.color || '#4f46e5'),
+        backgroundColor: data.map((d, i) => VINTAGE_PALETTE[i % VINTAGE_PALETTE.length]),
         borderWidth: 2,
-        borderColor: '#ffffff'
+        borderColor: '#fcfaf6'
       }]
     },
     options: {
       responsive: true,
       maintainAspectRatio: false,
       plugins: {
-        legend: { position: 'bottom', labels: { boxWidth: 12, padding: 15 } },
+        legend: { position: 'bottom', labels: { boxWidth: 12, padding: 15, font: { family: "'Lora', Georgia, serif", size: 12 } } },
         tooltip: {
           callbacks: {
             label: (ctx) => ` ${ctx.label}: ${formatCurrency(ctx.raw)}`
           }
         }
       },
-      cutout: '65%'
+      cutout: '62%'
     }
   });
 }
@@ -158,16 +177,20 @@ function renderTrendChart(data) {
       labels: labels.length ? labels : ['Hiện tại'],
       datasets: [
         {
-          label: 'Thu nhập',
+          label: 'Nhập Quỹ (Thu nhập)',
           data: incomeData.length ? incomeData : [0],
-          backgroundColor: '#10b981',
-          borderRadius: 4
+          backgroundColor: '#1e5932',
+          borderColor: '#143c22',
+          borderWidth: 1,
+          borderRadius: 2
         },
         {
-          label: 'Chi tiêu',
+          label: 'Xuất Quỹ (Chi tiêu)',
           data: expenseData.length ? expenseData : [0],
-          backgroundColor: '#ef4444',
-          borderRadius: 4
+          backgroundColor: '#872127',
+          borderColor: '#5c1317',
+          borderWidth: 1,
+          borderRadius: 2
         }
       ]
     },
@@ -178,12 +201,17 @@ function renderTrendChart(data) {
         y: {
           beginAtZero: true,
           ticks: {
+            font: { family: "'Courier Prime', monospace" },
             callback: (val) => val >= 1000000 ? `${val / 1000000}M` : `${val / 1000}k`
-          }
+          },
+          grid: { color: '#e6decb' }
+        },
+        x: {
+          grid: { display: false }
         }
       },
       plugins: {
-        legend: { position: 'bottom', labels: { boxWidth: 12, padding: 15 } },
+        legend: { position: 'bottom', labels: { boxWidth: 12, padding: 15, font: { family: "'Lora', Georgia, serif", size: 12 } } },
         tooltip: {
           callbacks: {
             label: (ctx) => ` ${ctx.dataset.label}: ${formatCurrency(ctx.raw)}`
@@ -206,37 +234,37 @@ async function loadTransactions() {
     const transactions = await res.json();
 
     if (transactions.length === 0) {
-      transactionsBody.innerHTML = `<tr><td colspan="6" class="text-center text-muted" style="padding: 24px;">Không tìm thấy giao dịch nào</td></tr>`;
+      transactionsBody.innerHTML = `<tr><td colspan="6" class="text-center text-vintage-muted" style="padding: 24px;">Không tìm thấy chứng từ nào trong sổ cái</td></tr>`;
       return;
     }
 
     transactionsBody.innerHTML = transactions.map(t => {
       const isIncome = t.type === 'income';
       const typeBadge = isIncome 
-        ? `<span class="badge" style="background:#ecfdf5; color:#059669;"><i class="fa-solid fa-arrow-up"></i> Thu</span>`
-        : `<span class="badge" style="background:#fef2f2; color:#dc2626;"><i class="fa-solid fa-arrow-down"></i> Chi</span>`;
+        ? `<span class="badge-tag" style="background:#edf5ef; color:#1e5932; border: 1px solid #9ec2a8;"><i class="fa-solid fa-circle-plus"></i> THU</span>`
+        : `<span class="badge-tag" style="background:#f9ebeb; color:#872127; border: 1px solid #d49a9d;"><i class="fa-solid fa-circle-minus"></i> CHI</span>`;
       
       const categoryBadge = `
-        <span class="category-badge" style="background: ${t.category_color}15; color: ${t.category_color};">
-          <i class="fa-solid fa-${t.category_icon || 'tag'}"></i> ${t.category_name}
+        <span class="category-badge" style="background: #f7f2e6; color: #2a1c12; border: 1px solid #dcd2be;">
+          <i class="fa-solid fa-${t.category_icon || 'tag'}" style="color: #8c7355;"></i> ${t.category_name}
         </span>
       `;
 
       const amountFormatted = isIncome 
         ? `+${formatCurrency(t.amount)}` 
         : `-${formatCurrency(t.amount)}`;
-      const amountClass = isIncome ? 'text-green font-bold' : 'text-red font-bold';
+      const amountClass = isIncome ? 'text-green font-mono' : 'text-red font-mono';
 
       return `
         <tr>
-          <td>${formatDate(t.transaction_date)}</td>
+          <td class="font-mono" style="font-size: 13px; color: #5f5548;">${formatDate(t.transaction_date)}</td>
           <td>${typeBadge}</td>
           <td>${categoryBadge}</td>
-          <td>${t.description || '<span class="text-muted">(Không có mô tả)</span>'}</td>
-          <td class="${amountClass}">${amountFormatted}</td>
+          <td style="font-style: italic;">${t.description || '<span class="text-vintage-muted">(Không ghi chú)</span>'}</td>
+          <td class="${amountClass}" style="text-align: right; font-size: 14px; font-weight: 700;">${amountFormatted}</td>
           <td class="text-center">
-            <button class="action-btn delete" onclick="deleteTransaction(${t.id})" title="Xóa giao dịch">
-              <i class="fa-solid fa-trash-can"></i>
+            <button class="action-btn delete" onclick="deleteTransaction(${t.id})" title="Hủy chứng từ">
+              <i class="fa-regular fa-trash-can"></i>
             </button>
           </td>
         </tr>
@@ -244,7 +272,6 @@ async function loadTransactions() {
     }).join('');
   } catch (err) {
     console.error('Failed to load transactions', err);
-    transactionsBody.innerHTML = `<tr><td colspan="6" class="text-center text-red">Lỗi tải dữ liệu giao dịch</td></tr>`;
   }
 }
 
