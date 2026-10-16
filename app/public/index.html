@@ -1,0 +1,212 @@
+<!DOCTYPE html>
+<html lang="vi">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Hệ thống Quản lý Chi tiêu - Expense Tracker</title>
+  <!-- Font Awesome -->
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css">
+  <!-- Chart.js -->
+  <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+  <!-- Custom CSS -->
+  <link rel="stylesheet" href="/css/style.css">
+</head>
+<body>
+  <!-- Navigation Header -->
+  <header class="navbar">
+    <div class="nav-container">
+      <div class="brand">
+        <i class="fa-solid fa-wallet brand-icon"></i>
+        <div>
+          <span class="brand-title">ExpenseTracker</span>
+          <span class="badge badge-primary">Đề tài 38</span>
+        </div>
+      </div>
+      <div class="nav-links">
+        <a href="#dashboard" class="nav-item active"><i class="fa-solid fa-chart-pie"></i> Bảng điều khiển</a>
+        <a href="#transactions" class="nav-item"><i class="fa-solid fa-receipt"></i> Giao dịch</a>
+        <a href="/pgadmin" target="_blank" class="nav-item"><i class="fa-solid fa-database"></i> pgAdmin</a>
+        <a href="https://localhost:3000" id="grafanaLink" target="_blank" class="nav-item"><i class="fa-solid fa-chart-line"></i> Grafana</a>
+        <button id="btnOpenModal" class="btn btn-primary"><i class="fa-solid fa-plus"></i> Thêm giao dịch</button>
+      </div>
+    </div>
+  </header>
+
+  <main class="container">
+    <!-- Top Summary Cards -->
+    <section class="summary-grid">
+      <div class="card stat-card border-blue">
+        <div class="stat-info">
+          <p class="stat-label">Tổng Số Dư (Net Balance)</p>
+          <h2 class="stat-value" id="netBalance">0 ₫</h2>
+          <span class="stat-sub" id="transactionCount"><i class="fa-solid fa-arrow-trend-up"></i> 0 giao dịch</span>
+        </div>
+        <div class="stat-icon bg-blue"><i class="fa-solid fa-scale-balanced"></i></div>
+      </div>
+
+      <div class="card stat-card border-green">
+        <div class="stat-info">
+          <p class="stat-label">Tổng Thu Nhập (Income)</p>
+          <h2 class="stat-value text-green" id="totalIncome">0 ₫</h2>
+          <span class="stat-sub text-green"><i class="fa-solid fa-circle-arrow-down"></i> Dòng tiền vào</span>
+        </div>
+        <div class="stat-icon bg-green"><i class="fa-solid fa-money-bill-trend-up"></i></div>
+      </div>
+
+      <div class="card stat-card border-red">
+        <div class="stat-info">
+          <p class="stat-label">Tổng Chi Tiêu (Expense)</p>
+          <h2 class="stat-value text-red" id="totalExpense">0 ₫</h2>
+          <span class="stat-sub text-red"><i class="fa-solid fa-circle-arrow-up"></i> Dòng tiền ra</span>
+        </div>
+        <div class="stat-icon bg-red"><i class="fa-solid fa-credit-card"></i></div>
+      </div>
+    </section>
+
+    <!-- Analytics Charts Section -->
+    <section class="charts-grid">
+      <div class="card chart-card">
+        <div class="card-header">
+          <h3><i class="fa-solid fa-chart-pie"></i> Phân Bổ Chi Tiêu Theo Danh Mục</h3>
+        </div>
+        <div class="chart-wrapper">
+          <canvas id="categoryChart"></canvas>
+        </div>
+      </div>
+
+      <div class="card chart-card">
+        <div class="card-header">
+          <h3><i class="fa-solid fa-chart-column"></i> Xu Hướng Thu Chi Theo Tháng</h3>
+        </div>
+        <div class="chart-wrapper">
+          <canvas id="trendChart"></canvas>
+        </div>
+      </div>
+    </section>
+
+    <!-- Transactions List & Filter Section -->
+    <section class="card" id="transactions">
+      <div class="card-header flex-between">
+        <div class="table-title">
+          <h3><i class="fa-solid fa-list-check"></i> Lịch Sử Giao Dịch</h3>
+          <p class="text-muted">Theo dõi và quản lý mọi khoản thu chi chi tiết</p>
+        </div>
+        <div class="table-actions">
+          <a href="/api/export-csv" class="btn btn-outline"><i class="fa-solid fa-file-csv"></i> Xuất CSV</a>
+          <button id="btnRefresh" class="btn btn-outline"><i class="fa-solid fa-rotate"></i> Làm mới</button>
+        </div>
+      </div>
+
+      <!-- Filters Toolbar -->
+      <div class="filter-toolbar">
+        <div class="filter-group">
+          <label>Loại:</label>
+          <select id="filterType" class="input-select">
+            <option value="">Tất cả</option>
+            <option value="income">Thu nhập (+)</option>
+            <option value="expense">Chi tiêu (-)</option>
+          </select>
+        </div>
+
+        <div class="filter-group">
+          <label>Danh mục:</label>
+          <select id="filterCategory" class="input-select">
+            <option value="">Tất cả danh mục</option>
+          </select>
+        </div>
+
+        <div class="filter-group">
+          <label>Tìm kiếm:</label>
+          <input type="text" id="filterSearch" class="input-text" placeholder="Tìm kiếm mô tả...">
+        </div>
+      </div>
+
+      <!-- Table -->
+      <div class="table-responsive">
+        <table class="data-table">
+          <thead>
+            <tr>
+              <th>Ngày</th>
+              <th>Loại</th>
+              <th>Danh mục</th>
+              <th>Mô tả</th>
+              <th>Số tiền</th>
+              <th class="text-center">Thao tác</th>
+            </tr>
+          </thead>
+          <tbody id="transactionsBody">
+            <tr><td colspan="6" class="text-center">Đang tải dữ liệu...</td></tr>
+          </tbody>
+        </table>
+      </div>
+    </section>
+  </main>
+
+  <!-- Add Transaction Modal -->
+  <div class="modal" id="transactionModal">
+    <div class="modal-backdrop" id="modalBackdrop"></div>
+    <div class="modal-content card">
+      <div class="modal-header flex-between">
+        <h3 id="modalTitle"><i class="fa-solid fa-plus-circle"></i> Thêm Giao Dịch Mới</h3>
+        <button class="btn-close" id="btnCloseModal">&times;</button>
+      </div>
+      <form id="transactionForm">
+        <div class="form-group">
+          <label>Loại giao dịch <span class="required">*</span></label>
+          <div class="radio-group">
+            <label class="radio-label">
+              <input type="radio" name="type" value="expense" checked> 
+              <span class="pill pill-expense"><i class="fa-solid fa-arrow-trend-down"></i> Chi tiêu</span>
+            </label>
+            <label class="radio-label">
+              <input type="radio" name="type" value="income"> 
+              <span class="pill pill-income"><i class="fa-solid fa-arrow-trend-up"></i> Thu nhập</span>
+            </label>
+          </div>
+        </div>
+
+        <div class="form-group">
+          <label for="amount">Số tiền (VNĐ) <span class="required">*</span></label>
+          <input type="number" id="amount" name="amount" class="input-text" placeholder="Ví dụ: 150000" min="1000" required>
+        </div>
+
+        <div class="form-group">
+          <label for="categoryId">Danh mục <span class="required">*</span></label>
+          <select id="categoryId" name="category_id" class="input-select" required>
+            <option value="">-- Chọn danh mục --</option>
+          </select>
+        </div>
+
+        <div class="form-group">
+          <label for="transactionDate">Ngày giao dịch <span class="required">*</span></label>
+          <input type="date" id="transactionDate" name="transaction_date" class="input-text" required>
+        </div>
+
+        <div class="form-group">
+          <label for="description">Mô tả / Ghi chú</label>
+          <textarea id="description" name="description" class="input-textarea" rows="2" placeholder="Ví dụ: Ăn trưa đồng nghiệp..."></textarea>
+        </div>
+
+        <div class="modal-footer flex-end">
+          <button type="button" class="btn btn-outline" id="btnCancelModal">Hủy bỏ</button>
+          <button type="submit" class="btn btn-primary"><i class="fa-solid fa-save"></i> Lưu giao dịch</button>
+        </div>
+      </form>
+    </div>
+  </div>
+
+  <!-- Footer -->
+  <footer class="footer">
+    <div class="container flex-between">
+      <p>&copy; 2026 Expense Tracker System - Đề 38: Môn Triển khai và Quản trị Hệ thống Phần mềm</p>
+      <div class="footer-badges">
+        <span class="status-badge"><i class="fa-solid fa-shield-halved"></i> Nginx SSL HSTS</span>
+        <span class="status-badge"><i class="fa-solid fa-gauge-high"></i> Prometheus & Grafana</span>
+        <span class="status-badge"><i class="fa-solid fa-scroll"></i> Loki & Promtail</span>
+      </div>
+    </div>
+  </footer>
+
+  <script src="/js/app.js"></script>
+</body>
+</html>

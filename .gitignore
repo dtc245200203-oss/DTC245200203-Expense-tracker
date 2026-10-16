@@ -1,0 +1,25 @@
+# Environment
+.env
+!.env.example
+
+# Node.js
+node_modules/
+npm-debug.log*
+yarn-debug.log*
+yarn-error.log*
+
+# Database & Volume persistence data
+pgdata/
+grafanadata/
+lokidata/
+promdata/
+
+# OS and IDE files
+.DS_Store
+Thumbs.db
+.vscode/
+.idea/
+
+# Logs
+*.log
+logs/

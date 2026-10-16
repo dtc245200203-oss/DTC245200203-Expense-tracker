@@ -1,0 +1,16 @@
+{
+  "name": "expense-tracker-app",
+  "version": "1.0.0",
+  "description": "Expense Tracker Web Application with PostgreSQL, Prometheus metrics, and JSON logging",
+  "main": "src/server.js",
+  "scripts": {
+    "start": "node src/server.js"
+  },
+  "dependencies": {
+    "express": "^4.21.2",
+    "pg": "^8.13.1",
+    "prom-client": "^15.1.3",
+    "dotenv": "^16.4.7",
+    "morgan": "^1.10.0"
+  }
+}
