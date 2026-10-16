@@ -1,0 +1,57 @@
+server:
+  http_listen_port: 9080
+  grpc_listen_port: 0
+
+positions:
+  filename: /tmp/positions.yaml
+
+clients:
+  - url: http://loki:3100/loki/api/v1/push
+
+scrape_configs:
+  # 1. Scrape Nginx Structured JSON Access Logs
+  - job_name: nginx
+    static_configs:
+      - targets:
+          - localhost
+        labels:
+          job: nginx
+          service: nginx
+          __path__: /var/log/nginx/access_json.log
+    pipeline_stages:
+      - json:
+          expressions:
+            timestamp: timestamp
+            remote_addr: remote_addr
+            request_method: request_method
+            uri: uri
+            status: status
+            request_time: request_time
+      - labels:
+          request_method:
+          status:
+
+  # 2. Scrape Expense App Structured JSON Logs
+  - job_name: expense-app
+    static_configs:
+      - targets:
+          - localhost
+        labels:
+          job: app
+          service: expense-app
+          __path__: /var/log/app/*.log
+    pipeline_stages:
+      - json:
+          expressions:
+            timestamp: timestamp
+            level: level
+            service: service
+            method: method
+            path: path
+            status: status
+            duration_ms: duration_ms
+            action: action
+      - labels:
+          level:
+          status:
+          action:

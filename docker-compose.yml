@@ -1,0 +1,328 @@
+services:
+  # ============================================================================
+  # 1. EXPENSE TRACKER NODE.JS APPLICATION
+  # ============================================================================
+  app:
+    build:
+      context: ./app
+      dockerfile: Dockerfile
+    container_name: expense_app
+    restart: unless-stopped
+    environment:
+      NODE_ENV: ${NODE_ENV:-production}
+      PORT: ${APP_PORT:-3000}
+      DB_HOST: postgres
+      DB_PORT: ${POSTGRES_PORT:-5432}
+      DB_NAME: ${POSTGRES_DB:-expense_db}
+      DB_USER: ${POSTGRES_USER:-expense_user}
+      DB_PASSWORD: ${POSTGRES_PASSWORD:-ExpenseSecurePass2026!#$DB}
+    networks:
+      - frontend_net
+      - backend_net
+      - monitoring_net
+    volumes:
+      - app_logs:/var/log/app
+    depends_on:
+      postgres:
+        condition: service_healthy
+    security_opt:
+      - no-new-privileges:true
+    deploy:
+      resources:
+        limits:
+          cpus: '0.50'
+          memory: 256M
+
+  # ============================================================================
+  # 2. POSTGRESQL DATABASE (HARDENED - NO PUBLIC PORTS)
+  # ============================================================================
+  postgres:
+    image: postgres:16-alpine
+    container_name: expense_postgres
+    restart: unless-stopped
+    environment:
+      POSTGRES_DB: ${POSTGRES_DB:-expense_db}
+      POSTGRES_USER: ${POSTGRES_USER:-expense_user}
+      POSTGRES_PASSWORD: ${POSTGRES_PASSWORD:-ExpenseSecurePass2026!#$DB}
+    volumes:
+      - postgres_data:/var/lib/postgresql/data
+      - ./postgres/init:/docker-entrypoint-initdb.d:ro
+    networks:
+      - backend_net
+    healthcheck:
+      test: ["CMD-SHELL", "pg_isready -U ${POSTGRES_USER:-expense_user} -d ${POSTGRES_DB:-expense_db}"]
+      interval: 10s
+      timeout: 5s
+      retries: 5
+      start_period: 10s
+    security_opt:
+      - no-new-privileges:true
+    deploy:
+      resources:
+        limits:
+          cpus: '0.50'
+          memory: 512M
+
+  # ============================================================================
+  # 3. PGADMIN 4 DATABASE MANAGEMENT UI
+  # ============================================================================
+  pgadmin:
+    image: dpage/pgadmin4:8.14
+    container_name: expense_pgadmin
+    restart: unless-stopped
+    environment:
+      PGADMIN_DEFAULT_EMAIL: ${PGADMIN_DEFAULT_EMAIL:-admin@expensetracker.com}
+      PGADMIN_DEFAULT_PASSWORD: ${PGADMIN_DEFAULT_PASSWORD:-PgAdminSecurePass2026!}
+      PGADMIN_CONFIG_SERVER_MODE: 'False'
+      PGADMIN_CONFIG_UPGRADE_CHECK_ENABLED: 'False'
+    volumes:
+      - ./pgadmin/servers.json:/pgadmin4/servers.json:ro
+      - pgadmin_data:/var/lib/pgadmin
+    networks:
+      - backend_net
+      - frontend_net
+    depends_on:
+      postgres:
+        condition: service_healthy
+    security_opt:
+      - no-new-privileges:true
+    deploy:
+      resources:
+        limits:
+          cpus: '0.50'
+          memory: 384M
+
+  # ============================================================================
+  # 4. NGINX REVERSE PROXY & SSL GATEWAY
+  # ============================================================================
+  nginx:
+    image: nginx:1.27-alpine
+    container_name: expense_nginx
+    restart: unless-stopped
+    ports:
+      - "${NGINX_HTTP_PORT:-80}:80"
+      - "${NGINX_HTTPS_PORT:-443}:443"
+    volumes:
+      - ./nginx/nginx.conf:/etc/nginx/nginx.conf:ro
+      - ./nginx/conf.d:/etc/nginx/conf.d:ro
+      - ./nginx/certs:/etc/nginx/certs:ro
+      - nginx_logs:/var/log/nginx
+    networks:
+      - frontend_net
+      - monitoring_net
+    depends_on:
+      app:
+        condition: service_healthy
+      pgadmin:
+        condition: service_started
+    security_opt:
+      - no-new-privileges:true
+    deploy:
+      resources:
+        limits:
+          cpus: '0.25'
+          memory: 128M
+
+  # ============================================================================
+  # 4b. NGINX PROMETHEUS EXPORTER
+  # ============================================================================
+  nginx-exporter:
+    image: nginx/nginx-prometheus-exporter:1.1.0
+    container_name: expense_nginx_exporter
+    restart: unless-stopped
+    command:
+      - -nginx.scrape-uri=http://nginx:80/stub_status
+    networks:
+      - frontend_net
+      - monitoring_net
+    depends_on:
+      - nginx
+    security_opt:
+      - no-new-privileges:true
+    deploy:
+      resources:
+        limits:
+          cpus: '0.15'
+          memory: 64M
+
+  # ============================================================================
+  # 5. PROMETHEUS MONITORING ENGINE
+  # ============================================================================
+  prometheus:
+    image: prom/prometheus:v2.54.1
+    container_name: expense_prometheus
+    restart: unless-stopped
+    user: "65534:65534"
+    ports:
+      - "${PROMETHEUS_PORT:-9090}:9090"
+    volumes:
+      - ./prometheus/prometheus.yml:/etc/prometheus/prometheus.yml:ro
+      - prometheus_data:/prometheus
+    command:
+      - '--config.file=/etc/prometheus/prometheus.yml'
+      - '--storage.tsdb.path=/prometheus'
+      - '--web.console.libraries=/usr/share/prometheus/console_libraries'
+      - '--web.console.templates=/usr/share/prometheus/consoles'
+      - '--storage.tsdb.retention.time=15d'
+    networks:
+      - monitoring_net
+    security_opt:
+      - no-new-privileges:true
+    deploy:
+      resources:
+        limits:
+          cpus: '0.50'
+          memory: 512M
+
+  # ============================================================================
+  # 6. GRAFANA ANALYTICS & DASHBOARD
+  # ============================================================================
+  grafana:
+    image: grafana/grafana:11.2.0
+    container_name: expense_grafana
+    restart: unless-stopped
+    ports:
+      - "${GRAFANA_PORT:-3001}:3000"
+    environment:
+      GF_SECURITY_ADMIN_USER: ${GRAFANA_ADMIN_USER:-admin}
+      GF_SECURITY_ADMIN_PASSWORD: ${GRAFANA_ADMIN_PASSWORD:-GrafanaAdminSecure2026!}
+      GF_USERS_ALLOW_SIGN_UP: 'false'
+      GF_SERVER_SERVE_FROM_SUB_PATH: 'false'
+    volumes:
+      - ./grafana/provisioning:/etc/grafana/provisioning:ro
+      - ./grafana/dashboards:/etc/grafana/dashboards:ro
+      - grafana_data:/var/lib/grafana
+    networks:
+      - monitoring_net
+    depends_on:
+      - prometheus
+      - loki
+    security_opt:
+      - no-new-privileges:true
+    deploy:
+      resources:
+        limits:
+          cpus: '0.50'
+          memory: 384M
+
+  # ============================================================================
+  # 7. POSTGRES EXPORTER (METRICS)
+  # ============================================================================
+  postgres-exporter:
+    image: prometheuscommunity/postgres-exporter:v0.15.0
+    container_name: expense_postgres_exporter
+    restart: unless-stopped
+    environment:
+      DATA_SOURCE_NAME: "postgresql://${POSTGRES_USER:-expense_user}:${POSTGRES_PASSWORD:-ExpenseSecurePass2026!#$DB}@postgres:5432/${POSTGRES_DB:-expense_db}?sslmode=disable"
+    networks:
+      - backend_net
+      - monitoring_net
+    depends_on:
+      postgres:
+        condition: service_healthy
+    security_opt:
+      - no-new-privileges:true
+    deploy:
+      resources:
+        limits:
+          cpus: '0.20'
+          memory: 64M
+
+  # ============================================================================
+  # 8. CADVISOR (CONTAINER METRICS)
+  # ============================================================================
+  cadvisor:
+    image: gcr.io/cadvisor/cadvisor:v0.49.1
+    container_name: expense_cadvisor
+    restart: unless-stopped
+    ports:
+      - "${CADVISOR_PORT:-8080}:8080"
+    volumes:
+      - /:/rootfs:ro
+      - /var/run:/var/run:ro
+      - /sys:/sys:ro
+      - /var/lib/docker/:/var/lib/docker:ro
+    networks:
+      - monitoring_net
+    security_opt:
+      - no-new-privileges:true
+    deploy:
+      resources:
+        limits:
+          cpus: '0.30'
+          memory: 256M
+
+  # ============================================================================
+  # 9. LOKI CENTRALIZED LOGGING
+  # ============================================================================
+  loki:
+    image: grafana/loki:3.1.1
+    container_name: expense_loki
+    restart: unless-stopped
+    ports:
+      - "${LOKI_PORT:-3100}:3100"
+    volumes:
+      - ./loki/loki-config.yaml:/etc/loki/local-config.yaml:ro
+      - loki_data:/loki
+    command: -config.file=/etc/loki/local-config.yaml
+    networks:
+      - monitoring_net
+    security_opt:
+      - no-new-privileges:true
+    deploy:
+      resources:
+        limits:
+          cpus: '0.50'
+          memory: 384M
+
+  # ============================================================================
+  # 10. PROMTAIL LOG AGENT
+  # ============================================================================
+  promtail:
+    image: grafana/promtail:3.1.1
+    container_name: expense_promtail
+    restart: unless-stopped
+    ports:
+      - "${PROMTAIL_PORT:-9080}:9080"
+    volumes:
+      - ./promtail/promtail-config.yaml:/etc/promtail/config.yml:ro
+      - nginx_logs:/var/log/nginx:ro
+      - app_logs:/var/log/app:ro
+    command: -config.file=/etc/promtail/config.yml
+    networks:
+      - monitoring_net
+    depends_on:
+      - loki
+    security_opt:
+      - no-new-privileges:true
+    deploy:
+      resources:
+        limits:
+          cpus: '0.25'
+          memory: 128M
+
+# ==============================================================================
+# NETWORKS (NETWORK SEGMENTATION & ISOLATION)
+# ==============================================================================
+networks:
+  frontend_net:
+    driver: bridge
+    internal: false
+  backend_net:
+    driver: bridge
+    internal: false
+  monitoring_net:
+    driver: bridge
+    internal: false
+
+# ==============================================================================
+# PERSISTENT VOLUMES
+# ==============================================================================
+volumes:
+  postgres_data:
+  pgadmin_data:
+  nginx_logs:
+  app_logs:
+  prometheus_data:
+  grafana_data:
+  loki_data:
