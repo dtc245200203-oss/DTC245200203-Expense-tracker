@@ -7,16 +7,16 @@
   <!-- Google Font: Inter -->
   <link rel="preconnect" href="https://fonts.googleapis.com">
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&display=swap" rel="stylesheet">
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet">
   <!-- Font Awesome -->
   <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css">
   <!-- Chart.js -->
   <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
-  <!-- Monochrome Black & White CSS -->
+  <!-- Square Minimal CSS -->
   <link rel="stylesheet" href="/css/style.css">
 </head>
-<body class="theme-monochrome">
-  <!-- Black & White Minimalist Header -->
+<body>
+  <!-- Square Flat Navbar -->
   <header class="navbar">
     <div class="nav-container">
       <div class="brand">
@@ -25,7 +25,7 @@
         </div>
         <div class="brand-text">
           <h1 class="brand-title">Expense Tracker</h1>
-          <span class="brand-subtitle">Quản lý thu chi &bull; Đen & Trắng</span>
+          <span class="brand-subtitle">Quản lý thu chi cá nhân</span>
         </div>
         <span class="badge-student">ĐỀ TÀI 38 &bull; DTC245200203</span>
       </div>
@@ -46,20 +46,20 @@
     <div class="page-header">
       <div>
         <h2 class="page-title">Bảng điều khiển tài chính</h2>
-        <p class="page-desc">Theo dõi dòng tiền cá nhân với giao diện đen trắng tối giản, trực quan và tập trung.</p>
+        <p class="page-desc">Theo dõi thu chi với giao diện viền phẳng vuông vắn, màu sắc đơn giản và dễ nhìn.</p>
       </div>
       <div class="page-actions">
-        <button id="btnRefresh" class="btn btn-secondary"><i class="fa-solid fa-rotate-right"></i> Làm mới dữ liệu</button>
+        <button id="btnRefresh" class="btn btn-secondary"><i class="fa-solid fa-rotate-right"></i> Làm mới</button>
       </div>
     </div>
 
-    <!-- 3 Summary Stat Cards -->
+    <!-- 3 Summary Stat Cards (Square Borders) -->
     <section class="summary-grid" id="dashboard">
       <!-- Balance Card -->
       <div class="card stat-card card-balance">
         <div class="stat-body">
           <p class="stat-label">SỐ DƯ HIỆN TẠI</p>
-          <h3 class="stat-value" id="netBalance">0 ₫</h3>
+          <h3 class="stat-value text-balance" id="netBalance">0 ₫</h3>
           <p class="stat-meta" id="transactionCount"><i class="fa-regular fa-folder-open"></i> 0 giao dịch</p>
         </div>
         <div class="stat-icon-wrapper icon-balance">
@@ -71,8 +71,8 @@
       <div class="card stat-card card-income">
         <div class="stat-body">
           <p class="stat-label">TỔNG THU NHẬP</p>
-          <h3 class="stat-value stat-income-text" id="totalIncome">0 ₫</h3>
-          <p class="stat-meta"><i class="fa-solid fa-arrow-trend-up"></i> Khoản tiền thu vào (+)</p>
+          <h3 class="stat-value text-income" id="totalIncome">0 ₫</h3>
+          <p class="stat-meta text-income"><i class="fa-solid fa-arrow-trend-up"></i> Khoản tiền thu vào (+)</p>
         </div>
         <div class="stat-icon-wrapper icon-income">
           <i class="fa-solid fa-arrow-down-long"></i>
@@ -83,8 +83,8 @@
       <div class="card stat-card card-expense">
         <div class="stat-body">
           <p class="stat-label">TỔNG CHI TIÊU</p>
-          <h3 class="stat-value stat-expense-text" id="totalExpense">0 ₫</h3>
-          <p class="stat-meta"><i class="fa-solid fa-arrow-trend-down"></i> Khoản tiền chi ra (-)</p>
+          <h3 class="stat-value text-expense" id="totalExpense">0 ₫</h3>
+          <p class="stat-meta text-expense"><i class="fa-solid fa-arrow-trend-down"></i> Khoản tiền chi ra (-)</p>
         </div>
         <div class="stat-icon-wrapper icon-expense">
           <i class="fa-solid fa-arrow-up-long"></i>
@@ -99,7 +99,7 @@
         <div class="card-header">
           <div class="card-title-group">
             <h3 class="card-title"><i class="fa-solid fa-chart-pie"></i> Cơ cấu chi phí theo danh mục</h3>
-            <p class="card-subtitle">Phân bổ tỷ trọng các nhóm chi tiêu</p>
+            <p class="card-subtitle">Tỷ lệ các nhóm chi tiêu phát sinh</p>
           </div>
         </div>
         <div class="chart-wrapper">
@@ -111,8 +111,8 @@
       <div class="card chart-card">
         <div class="card-header">
           <div class="card-title-group">
-            <h3 class="card-title"><i class="fa-solid fa-chart-column"></i> So sánh thu chi theo tháng</h3>
-            <p class="card-subtitle">Đối chiếu giữa tổng thu và tổng chi</p>
+            <h3 class="card-title"><i class="fa-solid fa-chart-column"></i> Xu hướng thu chi theo tháng</h3>
+            <p class="card-subtitle">So sánh tổng thu và tổng chi</p>
           </div>
         </div>
         <div class="chart-wrapper">
@@ -125,8 +125,8 @@
     <section class="card table-card" id="transactions">
       <div class="card-header table-card-header">
         <div class="card-title-group">
-          <h3 class="card-title"><i class="fa-solid fa-clock-rotate-left"></i> Sổ cái giao dịch</h3>
-          <p class="card-subtitle">Lịch sử thu chi chi tiết theo thời gian</p>
+          <h3 class="card-title"><i class="fa-solid fa-clock-rotate-left"></i> Danh sách giao dịch</h3>
+          <p class="card-subtitle">Lịch sử thu chi được ghi nhận theo thời gian</p>
         </div>
         <div class="table-actions">
           <a href="/api/export-csv" class="btn btn-secondary"><i class="fa-solid fa-file-arrow-down"></i> Xuất file CSV</a>
@@ -160,15 +160,15 @@
         </div>
       </div>
 
-      <!-- Black & White Data Table -->
+      <!-- Square Data Table -->
       <div class="table-container">
         <table class="data-table">
           <thead>
             <tr>
-              <th style="width: 130px;">Ngày ghi</th>
-              <th style="width: 110px;">Phân loại</th>
+              <th style="width: 130px;">Ngày</th>
+              <th style="width: 100px;">Loại</th>
               <th style="width: 190px;">Danh mục</th>
-              <th>Nội dung diễn giải</th>
+              <th>Nội dung ghi chú</th>
               <th style="width: 170px; text-align: right;">Số tiền</th>
               <th style="width: 80px; text-align: center;">Thao tác</th>
             </tr>
@@ -181,20 +181,20 @@
     </section>
   </main>
 
-  <!-- Black & White Modal Dialog -->
+  <!-- Square Modal Dialog -->
   <div class="modal" id="transactionModal">
     <div class="modal-backdrop" id="modalBackdrop"></div>
     <div class="modal-dialog">
       <div class="modal-header">
         <div>
-          <h3 class="modal-title" id="modalTitle">Ghi nhận giao dịch mới</h3>
-          <p class="modal-subtitle">Nhập thông tin khoản thu hoặc chi của bạn</p>
+          <h3 class="modal-title" id="modalTitle">Thêm giao dịch mới</h3>
+          <p class="modal-subtitle">Nhập thông tin khoản thu hoặc chi</p>
         </div>
         <button class="btn-close" id="btnCloseModal" title="Đóng">&times;</button>
       </div>
 
       <form id="transactionForm">
-        <!-- Segmented Control for Income / Expense -->
+        <!-- Segmented Control for Income / Expense (Square tabs) -->
         <div class="form-group">
           <label class="form-label">Loại giao dịch <span class="required">*</span></label>
           <div class="segmented-control">
@@ -224,7 +224,7 @@
 
         <!-- Category Dropdown -->
         <div class="form-group">
-          <label for="categoryId" class="form-label">Danh mục hạch toán <span class="required">*</span></label>
+          <label for="categoryId" class="form-label">Danh mục <span class="required">*</span></label>
           <select id="categoryId" name="category_id" class="form-select form-input-lg" required>
             <option value="">-- Chọn danh mục --</option>
           </select>
@@ -239,19 +239,19 @@
         <!-- Description Input -->
         <div class="form-group">
           <label for="description" class="form-label">Ghi chú diễn giải</label>
-          <textarea id="description" name="description" class="form-textarea" rows="2" placeholder="Ví dụ: Tiền điện nước, xăng xe, lương tháng..."></textarea>
+          <textarea id="description" name="description" class="form-textarea" rows="2" placeholder="Ví dụ: Tiền cơm trưa, mua sách, tiền điện nước..."></textarea>
         </div>
 
         <!-- Modal Actions -->
         <div class="modal-footer">
           <button type="button" class="btn btn-secondary" id="btnCancelModal">Hủy bỏ</button>
-          <button type="submit" class="btn btn-primary"><i class="fa-solid fa-check"></i> Lưu vào sổ</button>
+          <button type="submit" class="btn btn-primary"><i class="fa-solid fa-check"></i> Lưu giao dịch</button>
         </div>
       </form>
     </div>
   </div>
 
-  <!-- Minimalist Black & White Footer -->
+  <!-- Square Minimal Footer -->
   <footer class="footer">
     <div class="container footer-content">
       <div class="footer-left">
@@ -259,7 +259,7 @@
         <p class="footer-muted">Môn học: Triển khai và Quản trị Hệ thống Phần mềm &bull; Sinh viên: DTC245200203</p>
       </div>
       <div class="footer-badges">
-        <span class="status-pill"><i class="fa-solid fa-shield-halved"></i> Nginx HTTPS</span>
+        <span class="status-pill"><i class="fa-solid fa-shield-halved"></i> HTTPS TLS</span>
         <span class="status-pill"><i class="fa-solid fa-database"></i> PostgreSQL 16</span>
         <span class="status-pill"><i class="fa-solid fa-chart-line"></i> Prometheus & Grafana</span>
         <span class="status-pill"><i class="fa-solid fa-scroll"></i> Loki & Promtail</span>

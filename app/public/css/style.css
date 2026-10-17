@@ -1,49 +1,52 @@
 :root {
   /* ==========================================================================
-     Black & White / Monochrome Design Tokens
+     Simple, Clean & Square Design System
      ========================================================================== */
-  --bg-body: #f8f8f9;
+  --bg-body: #f8fafc;
   --bg-surface: #ffffff;
-  --bg-subtle: #f4f4f5;
-  --bg-hover: #ececee;
-  --bg-active: #09090b;
+  --bg-subtle: #f1f5f9;
+  --bg-hover: #e2e8f0;
 
-  --text-main: #09090b;
-  --text-secondary: #3f3f46;
-  --text-muted: #71717a;
-  --text-inverse: #ffffff;
+  --text-main: #0f172a;
+  --text-secondary: #475569;
+  --text-muted: #94a3b8;
 
-  --border-light: #e4e4e7;
-  --border-medium: #a1a1aa;
-  --border-dark: #18181b;
-  --border-stark: #000000;
+  --border-color: #cbd5e1;
+  --border-light: #e2e8f0;
+  --border-dark: #64748b;
 
-  --primary: #000000;
-  --primary-hover: #27272a;
-  --primary-contrast: #ffffff;
+  /* Simple Accents */
+  --primary: #2563eb;
+  --primary-hover: #1d4ed8;
+  --primary-light: #eff6ff;
+  --primary-border: #bfdbfe;
 
-  --radius-sm: 4px;
-  --radius-md: 8px;
-  --radius-lg: 12px;
-  --radius-pill: 9999px;
+  --income-color: #16a34a;
+  --income-bg: #f0fdf4;
+  --income-border: #bbf7d0;
 
-  --shadow-sm: 0 1px 2px 0 rgba(0, 0, 0, 0.05);
-  --shadow-md: 0 4px 6px -1px rgba(0, 0, 0, 0.08), 0 2px 4px -2px rgba(0, 0, 0, 0.06);
-  --shadow-lg: 0 12px 24px -4px rgba(0, 0, 0, 0.12), 0 4px 8px -2px rgba(0, 0, 0, 0.08);
+  --expense-color: #dc2626;
+  --expense-bg: #fef2f2;
+  --expense-border: #fecaca;
+
+  --balance-color: #2563eb;
+  --balance-bg: #eff6ff;
+  --balance-border: #bfdbfe;
 
   --font-sans: 'Inter', -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
 }
 
 /* ==========================================================================
-   Base & Reset
+   Base & Reset: REMOVE ALL ROUNDED CORNERS (SQUARE BORDERS)
    ========================================================================== */
-* {
+*, *::before, *::after {
   box-sizing: border-box;
   margin: 0;
   padding: 0;
+  border-radius: 0 !important; /* Strict square corners for every element */
 }
 
-body.theme-monochrome {
+body {
   background-color: var(--bg-body);
   color: var(--text-main);
   font-family: var(--font-sans);
@@ -69,15 +72,15 @@ a {
 }
 
 /* ==========================================================================
-   Header & Navbar (Stark Monochrome)
+   Navbar (Clean, Flat, Square)
    ========================================================================== */
 .navbar {
   background: var(--bg-surface);
-  border-bottom: 2px solid var(--border-stark);
+  border-bottom: 1px solid var(--border-color);
   position: sticky;
   top: 0;
   z-index: 50;
-  box-shadow: var(--shadow-sm);
+  box-shadow: 0 1px 3px rgba(0, 0, 0, 0.04);
 }
 
 .nav-container {
@@ -96,16 +99,14 @@ a {
 }
 
 .brand-icon {
-  width: 38px;
-  height: 38px;
-  background: var(--border-stark);
-  color: var(--text-inverse);
-  border-radius: var(--radius-md);
+  width: 36px;
+  height: 36px;
+  background: var(--primary);
+  color: #ffffff;
   display: flex;
   align-items: center;
   justify-content: center;
-  font-size: 18px;
-  box-shadow: 0 2px 4px rgba(0, 0, 0, 0.2);
+  font-size: 17px;
 }
 
 .brand-text {
@@ -115,35 +116,30 @@ a {
 
 .brand-title {
   font-size: 16px;
-  font-weight: 800;
+  font-weight: 700;
   color: var(--text-main);
   line-height: 1.2;
-  letter-spacing: -0.01em;
 }
 
 .brand-subtitle {
-  font-size: 11.5px;
+  font-size: 12px;
   color: var(--text-muted);
-  text-transform: uppercase;
-  letter-spacing: 0.05em;
-  font-weight: 600;
 }
 
 .badge-student {
   font-size: 11px;
-  font-weight: 700;
+  font-weight: 600;
   background: var(--bg-subtle);
-  color: var(--text-main);
+  color: var(--text-secondary);
   padding: 3px 8px;
-  border-radius: var(--radius-sm);
-  border: 1px solid var(--border-dark);
+  border: 1px solid var(--border-color);
   margin-left: 6px;
 }
 
 .nav-links {
   display: flex;
   align-items: center;
-  gap: 8px;
+  gap: 6px;
 }
 
 .nav-item {
@@ -151,12 +147,11 @@ a {
   font-weight: 500;
   color: var(--text-secondary);
   padding: 8px 14px;
-  border-radius: var(--radius-md);
+  border: 1px solid transparent;
   display: flex;
   align-items: center;
   gap: 6px;
   transition: all 0.15s ease;
-  border: 1px solid transparent;
 }
 
 .nav-item:hover {
@@ -166,14 +161,14 @@ a {
 }
 
 .nav-item.active {
-  background: var(--border-stark);
-  color: var(--text-inverse);
+  background: var(--primary-light);
+  color: var(--primary);
   font-weight: 600;
-  border-color: var(--border-stark);
+  border-color: var(--primary-border);
 }
 
 /* ==========================================================================
-   Buttons (High-Contrast Black & White)
+   Buttons (Flat & Square)
    ========================================================================== */
 .btn {
   display: inline-flex;
@@ -184,8 +179,7 @@ a {
   font-size: 13.5px;
   font-weight: 600;
   padding: 8px 16px;
-  border-radius: var(--radius-md);
-  border: 1.5px solid transparent;
+  border: 1px solid transparent;
   cursor: pointer;
   transition: all 0.15s ease;
   line-height: 1.2;
@@ -193,25 +187,25 @@ a {
 
 .btn-primary {
   background: var(--primary);
-  color: var(--primary-contrast);
+  color: #ffffff;
   border-color: var(--primary);
 }
 
 .btn-primary:hover {
   background: var(--primary-hover);
   border-color: var(--primary-hover);
-  transform: translateY(-1px);
 }
 
 .btn-secondary {
   background: var(--bg-surface);
-  color: var(--text-main);
-  border-color: var(--border-dark);
+  color: var(--text-secondary);
+  border-color: var(--border-color);
 }
 
 .btn-secondary:hover {
-  background: var(--border-stark);
-  color: var(--text-inverse);
+  background: var(--bg-subtle);
+  color: var(--text-main);
+  border-color: var(--border-dark);
 }
 
 /* ==========================================================================
@@ -226,9 +220,9 @@ a {
 
 .page-title {
   font-size: 22px;
-  font-weight: 800;
+  font-weight: 700;
   color: var(--text-main);
-  letter-spacing: -0.02em;
+  letter-spacing: -0.01em;
 }
 
 .page-desc {
@@ -238,32 +232,31 @@ a {
 }
 
 /* ==========================================================================
-   Cards (Monochrome Crisp Cards)
+   Cards (Square, Clean, Subtle Shadow)
    ========================================================================== */
 .card {
   background: var(--bg-surface);
-  border: 1px solid var(--border-dark);
-  border-radius: var(--radius-lg);
-  box-shadow: var(--shadow-sm);
-  transition: all 0.2s ease;
+  border: 1px solid var(--border-color);
+  box-shadow: 0 1px 2px rgba(0, 0, 0, 0.04);
+  transition: border-color 0.15s ease, box-shadow 0.15s ease;
 }
 
 .card:hover {
-  box-shadow: var(--shadow-md);
+  border-color: #94a3b8;
 }
 
 /* ==========================================================================
-   Summary Stat Cards (3 Columns)
+   Stat Cards (3 Column Grid)
    ========================================================================== */
 .summary-grid {
   display: grid;
   grid-template-columns: repeat(3, 1fr);
-  gap: 20px;
+  gap: 18px;
   margin-bottom: 24px;
 }
 
 .stat-card {
-  padding: 22px 20px;
+  padding: 20px;
   display: flex;
   justify-content: space-between;
   align-items: center;
@@ -275,28 +268,29 @@ a {
 }
 
 .stat-label {
-  font-size: 11.5px;
-  font-weight: 700;
-  color: var(--text-muted);
-  text-transform: uppercase;
-  letter-spacing: 0.06em;
+  font-size: 12px;
+  font-weight: 600;
+  color: var(--text-secondary);
+  letter-spacing: 0.03em;
   margin-bottom: 6px;
 }
 
 .stat-value {
   font-size: 26px;
-  font-weight: 800;
-  color: var(--text-main);
-  letter-spacing: -0.02em;
+  font-weight: 700;
   line-height: 1.2;
 }
 
-.stat-income-text {
-  color: var(--text-main);
+.text-balance {
+  color: var(--balance-color);
 }
 
-.stat-expense-text {
-  color: var(--text-secondary);
+.text-income {
+  color: var(--income-color);
+}
+
+.text-expense {
+  color: var(--expense-color);
 }
 
 .stat-meta {
@@ -306,36 +300,35 @@ a {
   display: flex;
   align-items: center;
   gap: 6px;
-  font-weight: 500;
 }
 
 .stat-icon-wrapper {
-  width: 48px;
-  height: 48px;
-  border-radius: var(--radius-md);
+  width: 46px;
+  height: 46px;
   display: flex;
   align-items: center;
   justify-content: center;
   font-size: 20px;
   flex-shrink: 0;
+  border: 1px solid transparent;
 }
 
-/* Monochrome Stat Icons */
-.card-balance .stat-icon-wrapper {
-  background: var(--border-stark);
-  color: var(--text-inverse);
+.icon-balance {
+  background: var(--balance-bg);
+  color: var(--balance-color);
+  border-color: var(--balance-border);
 }
 
-.card-income .stat-icon-wrapper {
-  background: var(--bg-subtle);
-  color: var(--text-main);
-  border: 1.5px solid var(--border-dark);
+.icon-income {
+  background: var(--income-bg);
+  color: var(--income-color);
+  border-color: var(--income-border);
 }
 
-.card-expense .stat-icon-wrapper {
-  background: var(--bg-surface);
-  color: var(--text-main);
-  border: 1.5px dashed var(--border-dark);
+.icon-expense {
+  background: var(--expense-bg);
+  color: var(--expense-color);
+  border-color: var(--expense-border);
 }
 
 /* ==========================================================================
@@ -344,7 +337,7 @@ a {
 .charts-grid {
   display: grid;
   grid-template-columns: 1fr 1fr;
-  gap: 20px;
+  gap: 18px;
   margin-bottom: 24px;
 }
 
@@ -363,7 +356,7 @@ a {
 
 .card-title {
   font-size: 15px;
-  font-weight: 700;
+  font-weight: 600;
   color: var(--text-main);
   display: flex;
   align-items: center;
@@ -383,21 +376,21 @@ a {
 }
 
 /* ==========================================================================
-   Transactions Section & Table (Monochrome High Contrast)
+   Transactions Section & Table (Clean & Square)
    ========================================================================== */
 .table-card {
   overflow: hidden;
 }
 
 .table-card-header {
-  padding: 20px 20px 16px 20px;
-  border-bottom: 1px solid var(--border-dark);
+  padding: 18px 20px;
+  border-bottom: 1px solid var(--border-light);
 }
 
 .toolbar {
-  padding: 14px 20px;
+  padding: 12px 20px;
   background: var(--bg-subtle);
-  border-bottom: 1px solid var(--border-dark);
+  border-bottom: 1px solid var(--border-color);
   display: flex;
   flex-wrap: wrap;
   gap: 16px;
@@ -412,10 +405,8 @@ a {
 
 .toolbar-label {
   font-size: 12.5px;
-  font-weight: 700;
-  color: var(--text-main);
-  text-transform: uppercase;
-  letter-spacing: 0.03em;
+  font-weight: 600;
+  color: var(--text-secondary);
 }
 
 .toolbar-search {
@@ -439,14 +430,13 @@ a {
 
 .form-select, .form-input {
   background: #ffffff;
-  border: 1.5px solid var(--border-dark);
-  border-radius: var(--radius-sm);
+  border: 1px solid var(--border-color);
   padding: 7px 12px;
   font-family: var(--font-sans);
   font-size: 13px;
   color: var(--text-main);
   outline: none;
-  transition: all 0.15s ease;
+  transition: border-color 0.15s ease;
 }
 
 .search-input-wrapper .form-input {
@@ -455,8 +445,8 @@ a {
 }
 
 .form-select:focus, .form-input:focus, .form-textarea:focus {
-  border-color: var(--border-stark);
-  box-shadow: 0 0 0 2px rgba(0, 0, 0, 0.15);
+  border-color: var(--primary);
+  box-shadow: 0 0 0 1px var(--primary);
 }
 
 /* Table Container & Layout */
@@ -471,14 +461,14 @@ a {
 }
 
 .data-table thead th {
-  background: #f4f4f5;
-  color: var(--text-main);
+  background: var(--bg-subtle);
+  color: var(--text-secondary);
   font-size: 12px;
-  font-weight: 800;
+  font-weight: 600;
   text-transform: uppercase;
-  letter-spacing: 0.05em;
+  letter-spacing: 0.03em;
   padding: 12px 18px;
-  border-bottom: 2px solid var(--border-stark);
+  border-bottom: 1px solid var(--border-color);
 }
 
 .data-table tbody tr {
@@ -491,7 +481,7 @@ a {
 }
 
 .data-table td {
-  padding: 13px 18px;
+  padding: 12px 18px;
   font-size: 13.5px;
   color: var(--text-main);
   vertical-align: middle;
@@ -504,30 +494,27 @@ a {
   font-style: italic;
 }
 
-/* Badges & Tags (Pure Black & White) */
+/* Square Badges & Tags */
 .type-badge {
   display: inline-flex;
   align-items: center;
   gap: 5px;
-  padding: 3px 10px;
-  border-radius: var(--radius-pill);
+  padding: 3px 8px;
   font-size: 11.5px;
-  font-weight: 700;
-  letter-spacing: 0.02em;
+  font-weight: 600;
+  border: 1px solid transparent;
 }
 
-/* Thu: Solid Black */
 .type-income {
-  background: var(--border-stark);
-  color: var(--text-inverse);
-  border: 1px solid var(--border-stark);
+  background: var(--income-bg);
+  color: var(--income-color);
+  border-color: var(--income-border);
 }
 
-/* Chi: White with Sharp Black Border */
 .type-expense {
-  background: var(--bg-surface);
-  color: var(--text-main);
-  border: 1.5px solid var(--border-stark);
+  background: var(--expense-bg);
+  color: var(--expense-color);
+  border-color: var(--expense-border);
 }
 
 .category-tag {
@@ -535,36 +522,32 @@ a {
   align-items: center;
   gap: 6px;
   background: var(--bg-subtle);
-  color: var(--text-main);
-  padding: 3px 10px;
-  border-radius: var(--radius-sm);
-  border: 1px solid var(--border-light);
+  color: var(--text-secondary);
+  padding: 3px 8px;
+  border: 1px solid var(--border-color);
   font-size: 12px;
-  font-weight: 600;
+  font-weight: 500;
 }
 
 .amount-display {
-  font-weight: 700;
+  font-weight: 600;
   font-feature-settings: 'tnum';
 }
 
 .amount-income {
-  color: var(--text-main);
-  font-weight: 800;
+  color: var(--income-color);
 }
 
 .amount-expense {
-  color: var(--text-secondary);
-  font-weight: 700;
+  color: var(--expense-color);
 }
 
 .action-btn-delete {
   background: transparent;
   border: 1px solid transparent;
   color: var(--text-muted);
-  width: 32px;
-  height: 32px;
-  border-radius: var(--radius-sm);
+  width: 30px;
+  height: 30px;
   cursor: pointer;
   display: inline-flex;
   align-items: center;
@@ -573,13 +556,13 @@ a {
 }
 
 .action-btn-delete:hover {
-  background: var(--border-stark);
-  color: var(--text-inverse);
-  border-color: var(--border-stark);
+  background: var(--expense-bg);
+  border-color: var(--expense-border);
+  color: var(--expense-color);
 }
 
 /* ==========================================================================
-   Monochrome Modal Dialog
+   Square Modal Dialog
    ========================================================================== */
 .modal {
   display: none;
@@ -604,52 +587,37 @@ a {
   left: 0;
   width: 100%;
   height: 100%;
-  background: rgba(0, 0, 0, 0.7);
-  backdrop-filter: blur(2px);
+  background: rgba(15, 23, 42, 0.45);
 }
 
 .modal-dialog {
   position: relative;
   background: var(--bg-surface);
-  border: 2px solid var(--border-stark);
-  border-radius: var(--radius-lg);
-  box-shadow: var(--shadow-lg);
+  border: 1px solid var(--border-color);
+  box-shadow: 0 10px 25px rgba(0, 0, 0, 0.1);
   width: 100%;
   max-width: 500px;
   z-index: 101;
   overflow: hidden;
-  animation: modalIn 0.2s cubic-bezier(0.16, 1, 0.3, 1);
-}
-
-@keyframes modalIn {
-  from {
-    opacity: 0;
-    transform: scale(0.96) translateY(-10px);
-  }
-  to {
-    opacity: 1;
-    transform: scale(1) translateY(0);
-  }
 }
 
 .modal-header {
-  padding: 20px 24px;
-  border-bottom: 2px solid var(--border-stark);
+  padding: 18px 22px;
+  border-bottom: 1px solid var(--border-light);
   display: flex;
   justify-content: space-between;
   align-items: flex-start;
-  background: var(--bg-subtle);
+  background: #fafbfc;
 }
 
 .modal-title {
-  font-size: 17px;
-  font-weight: 800;
+  font-size: 16px;
+  font-weight: 700;
   color: var(--text-main);
-  letter-spacing: -0.01em;
 }
 
 .modal-subtitle {
-  font-size: 13px;
+  font-size: 12.5px;
   color: var(--text-muted);
   margin-top: 2px;
 }
@@ -657,12 +625,11 @@ a {
 .btn-close {
   background: transparent;
   border: 1px solid transparent;
-  font-size: 22px;
-  color: var(--text-main);
+  font-size: 20px;
+  color: var(--text-muted);
   cursor: pointer;
-  width: 32px;
-  height: 32px;
-  border-radius: var(--radius-sm);
+  width: 28px;
+  height: 28px;
   display: flex;
   align-items: center;
   justify-content: center;
@@ -671,12 +638,12 @@ a {
 }
 
 .btn-close:hover {
-  background: var(--border-stark);
-  color: var(--text-inverse);
+  background: var(--bg-hover);
+  color: var(--text-main);
 }
 
 #transactionForm {
-  padding: 22px 24px;
+  padding: 20px 22px;
 }
 
 .form-group {
@@ -686,24 +653,23 @@ a {
 .form-label {
   display: block;
   font-size: 13px;
-  font-weight: 700;
-  color: var(--text-main);
+  font-weight: 600;
+  color: var(--text-secondary);
   margin-bottom: 6px;
 }
 
 .required {
-  color: var(--text-main);
+  color: var(--expense-color);
 }
 
-/* Segmented Control for Thu/Chi (Monochrome) */
+/* Segmented Control (Square Tabs) */
 .segmented-control {
   display: grid;
   grid-template-columns: 1fr 1fr;
   background: var(--bg-subtle);
-  padding: 4px;
-  border-radius: var(--radius-sm);
-  border: 1.5px solid var(--border-dark);
-  gap: 4px;
+  border: 1px solid var(--border-color);
+  padding: 3px;
+  gap: 3px;
 }
 
 .segmented-option input {
@@ -717,24 +683,29 @@ a {
   gap: 8px;
   padding: 8px 12px;
   font-size: 13px;
-  font-weight: 700;
-  border-radius: var(--radius-sm);
+  font-weight: 600;
   color: var(--text-secondary);
   cursor: pointer;
+  border: 1px solid transparent;
   transition: all 0.15s ease;
 }
 
-/* Checked states */
-.segmented-option input:checked + .segmented-pill {
-  background: var(--border-stark);
-  color: var(--text-inverse);
-  box-shadow: var(--shadow-sm);
+.segmented-option input:checked + .segmented-pill.pill-expense {
+  background: var(--bg-surface);
+  color: var(--expense-color);
+  border-color: var(--expense-border);
+}
+
+.segmented-option input:checked + .segmented-pill.pill-income {
+  background: var(--bg-surface);
+  color: var(--income-color);
+  border-color: var(--income-border);
 }
 
 .form-input-lg {
   width: 100%;
   font-size: 14px;
-  padding: 9px 12px;
+  padding: 8px 12px;
 }
 
 .input-currency-wrapper {
@@ -750,17 +721,16 @@ a {
   right: 12px;
   top: 50%;
   transform: translateY(-50%);
-  color: var(--text-main);
-  font-weight: 700;
+  color: var(--text-muted);
+  font-weight: 600;
   font-size: 14px;
 }
 
 .form-textarea {
   width: 100%;
   background: #ffffff;
-  border: 1.5px solid var(--border-dark);
-  border-radius: var(--radius-sm);
-  padding: 9px 12px;
+  border: 1px solid var(--border-color);
+  padding: 8px 12px;
   font-family: var(--font-sans);
   font-size: 13px;
   color: var(--text-main);
@@ -769,18 +739,18 @@ a {
 }
 
 .modal-footer {
-  margin-top: 24px;
+  margin-top: 22px;
   display: flex;
   justify-content: flex-end;
   gap: 10px;
 }
 
 /* ==========================================================================
-   Footer (Monochrome)
+   Footer (Square Minimal)
    ========================================================================== */
 .footer {
   background: var(--bg-surface);
-  border-top: 2px solid var(--border-stark);
+  border-top: 1px solid var(--border-color);
   margin-top: auto;
 }
 
@@ -809,19 +779,18 @@ a {
 
 .status-pill {
   font-size: 11.5px;
-  font-weight: 600;
+  font-weight: 500;
   background: var(--bg-subtle);
-  border: 1px solid var(--border-dark);
-  color: var(--text-main);
-  padding: 4px 10px;
-  border-radius: var(--radius-sm);
+  border: 1px solid var(--border-color);
+  color: var(--text-secondary);
+  padding: 4px 8px;
   display: inline-flex;
   align-items: center;
   gap: 5px;
 }
 
 /* ==========================================================================
-   Responsive Adaptations
+   Responsive
    ========================================================================== */
 @media (max-width: 900px) {
   .summary-grid {

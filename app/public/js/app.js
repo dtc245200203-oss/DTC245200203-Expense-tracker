@@ -3,32 +3,28 @@ let categories = [];
 let categoryChartInstance = null;
 let trendChartInstance = null;
 
-// Monochrome Black & White Palette
-const MONO_PALETTE = [
-  '#09090b', // Stark Black
-  '#27272a', // Charcoal
-  '#3f3f46', // Dark Zinc
-  '#52525b', // Slate Charcoal
-  '#71717a', // Medium Zinc
-  '#a1a1aa', // Neutral Gray
-  '#d4d4d8', // Light Gray
-  '#e4e4e7', // Cool White-Gray
-  '#18181b', // Deep Night
-  '#808080'  // Medium Neutral
+// Simple & Clean Color Palette
+const SIMPLE_PALETTE = [
+  '#2563eb', // Royal Blue
+  '#16a34a', // Emerald Green
+  '#f59e0b', // Amber
+  '#dc2626', // Red
+  '#8b5cf6', // Violet
+  '#06b6d4', // Cyan
+  '#ea580c', // Orange
+  '#64748b', // Slate
+  '#4f46e5', // Indigo
+  '#14b8a6'  // Teal
 ];
 
 if (typeof Chart !== 'undefined') {
   Chart.defaults.font.family = "'Inter', -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif";
-  Chart.defaults.color = '#09090b';
-  Chart.defaults.plugins.tooltip.padding = 10;
-  Chart.defaults.plugins.tooltip.cornerRadius = 6;
-  Chart.defaults.plugins.tooltip.backgroundColor = '#09090b';
-  Chart.defaults.plugins.tooltip.titleColor = '#ffffff';
-  Chart.defaults.plugins.tooltip.bodyColor = '#ffffff';
-  Chart.defaults.plugins.tooltip.borderColor = '#27272a';
-  Chart.defaults.plugins.tooltip.borderWidth = 1;
-  Chart.defaults.plugins.tooltip.titleFont = { size: 13, weight: '700' };
-  Chart.defaults.plugins.tooltip.bodyFont = { size: 12.5 };
+  Chart.defaults.color = '#475569';
+  Chart.defaults.plugins.tooltip.cornerRadius = 0; // Square tooltip
+  Chart.defaults.plugins.tooltip.padding = 8;
+  Chart.defaults.plugins.tooltip.backgroundColor = '#0f172a';
+  Chart.defaults.plugins.tooltip.titleFont = { size: 12, weight: '600' };
+  Chart.defaults.plugins.tooltip.bodyFont = { size: 12 };
 }
 
 // Helpers
@@ -136,7 +132,7 @@ function renderCategoryChart(data) {
       type: 'doughnut',
       data: {
         labels: ['Chưa có dữ liệu'],
-        datasets: [{ data: [1], backgroundColor: ['#e4e4e7'] }]
+        datasets: [{ data: [1], backgroundColor: ['#e2e8f0'] }]
       },
       options: { 
         responsive: true, 
@@ -153,7 +149,7 @@ function renderCategoryChart(data) {
       labels: data.map(d => d.name),
       datasets: [{
         data: data.map(d => d.amount),
-        backgroundColor: data.map((d, i) => MONO_PALETTE[i % MONO_PALETTE.length]),
+        backgroundColor: data.map((d, i) => SIMPLE_PALETTE[i % SIMPLE_PALETTE.length]),
         borderWidth: 2,
         borderColor: '#ffffff'
       }]
@@ -168,10 +164,9 @@ function renderCategoryChart(data) {
             boxWidth: 10, 
             boxHeight: 10,
             usePointStyle: true,
-            pointStyle: 'rectRot',
+            pointStyle: 'rect', // Square legend marker
             padding: 14, 
-            color: '#09090b',
-            font: { size: 12, weight: '600' } 
+            font: { size: 12, weight: '500' } 
           } 
         },
         tooltip: {
@@ -180,7 +175,7 @@ function renderCategoryChart(data) {
           }
         }
       },
-      cutout: '68%'
+      cutout: '66%'
     }
   });
 }
@@ -201,22 +196,22 @@ function renderTrendChart(data) {
       labels: labels.length ? labels : ['Hiện tại'],
       datasets: [
         {
-          label: 'Tổng thu (+)',
+          label: 'Thu nhập',
           data: incomeData.length ? incomeData : [0],
-          backgroundColor: '#09090b',
-          borderColor: '#09090b',
-          borderWidth: 1.5,
-          borderRadius: 4,
-          maxBarThickness: 36
+          backgroundColor: '#16a34a', // Emerald Green
+          borderColor: '#15803d',
+          borderWidth: 1,
+          borderRadius: 0, // Strict square bars
+          maxBarThickness: 34
         },
         {
-          label: 'Tổng chi (-)',
+          label: 'Chi tiêu',
           data: expenseData.length ? expenseData : [0],
-          backgroundColor: '#a1a1aa',
-          borderColor: '#09090b',
-          borderWidth: 1.5,
-          borderRadius: 4,
-          maxBarThickness: 36
+          backgroundColor: '#dc2626', // Clean Red
+          borderColor: '#b91c1c',
+          borderWidth: 1,
+          borderRadius: 0, // Strict square bars
+          maxBarThickness: 34
         }
       ]
     },
@@ -227,30 +222,29 @@ function renderTrendChart(data) {
         y: {
           beginAtZero: true,
           ticks: {
-            font: { size: 11, weight: '600' },
-            color: '#09090b',
+            font: { size: 11 },
+            color: '#64748b',
             callback: (val) => val >= 1000000 ? `${val / 1000000}M` : `${val / 1000}k`
           },
-          grid: { color: '#e4e4e7' },
-          border: { color: '#09090b', width: 1.5 }
+          grid: { color: '#e2e8f0' },
+          border: { display: false }
         },
         x: {
           grid: { display: false },
-          border: { color: '#09090b', width: 1.5 },
-          ticks: { font: { size: 11, weight: '600' }, color: '#09090b' }
+          border: { display: false },
+          ticks: { font: { size: 11 }, color: '#64748b' }
         }
       },
       plugins: {
         legend: { 
           position: 'bottom', 
           labels: { 
-            boxWidth: 12, 
-            boxHeight: 12,
+            boxWidth: 10, 
+            boxHeight: 10,
             usePointStyle: true,
-            pointStyle: 'rect',
+            pointStyle: 'rect', // Square legend marker
             padding: 14, 
-            color: '#09090b',
-            font: { size: 12, weight: '600' } 
+            font: { size: 12, weight: '500' } 
           } 
         },
         tooltip: {
@@ -278,8 +272,8 @@ async function loadTransactions() {
       transactionsBody.innerHTML = `
         <tr>
           <td colspan="6" class="table-empty">
-            <i class="fa-regular fa-folder-open" style="font-size: 26px; display: block; margin-bottom: 8px; opacity: 0.4;"></i>
-            Không có giao dịch nào phù hợp với bộ lọc
+            <i class="fa-regular fa-folder-open" style="font-size: 24px; display: block; margin-bottom: 6px; opacity: 0.5;"></i>
+            Không có giao dịch nào phù hợp
           </td>
         </tr>
       `;
@@ -289,8 +283,8 @@ async function loadTransactions() {
     transactionsBody.innerHTML = transactions.map(t => {
       const isIncome = t.type === 'income';
       const typeBadge = isIncome 
-        ? `<span class="type-badge type-income"><i class="fa-solid fa-plus"></i> THU</span>`
-        : `<span class="type-badge type-expense"><i class="fa-solid fa-minus"></i> CHI</span>`;
+        ? `<span class="type-badge type-income"><i class="fa-solid fa-plus"></i> Thu</span>`
+        : `<span class="type-badge type-expense"><i class="fa-solid fa-minus"></i> Chi</span>`;
       
       const categoryBadge = `
         <span class="category-tag">
@@ -305,10 +299,10 @@ async function loadTransactions() {
 
       return `
         <tr>
-          <td style="color: var(--text-secondary); font-size: 13px; font-weight: 500;">${formatDate(t.transaction_date)}</td>
+          <td style="color: var(--text-secondary); font-size: 13px;">${formatDate(t.transaction_date)}</td>
           <td>${typeBadge}</td>
           <td>${categoryBadge}</td>
-          <td style="font-weight: 500;">${t.description || '<span style="color: var(--text-muted); font-style: italic;">Chưa có ghi chú</span>'}</td>
+          <td>${t.description || '<span style="color: var(--text-muted); font-style: italic;">Chưa có ghi chú</span>'}</td>
           <td class="${amountClass}" style="text-align: right; font-size: 14px;">${amountFormatted}</td>
           <td style="text-align: center;">
             <button class="action-btn-delete" onclick="deleteTransaction(${t.id})" title="Xóa giao dịch">
