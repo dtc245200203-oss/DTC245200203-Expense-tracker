@@ -1,43 +1,35 @@
 :root {
-  /* Neutral Color Palette */
-  --bg-body: #f8fafc;
+  /* ==========================================================================
+     Black & White / Monochrome Design Tokens
+     ========================================================================== */
+  --bg-body: #f8f8f9;
   --bg-surface: #ffffff;
-  --text-main: #0f172a;
-  --text-secondary: #475569;
-  --text-muted: #94a3b8;
-  --border-color: #e2e8f0;
-  --border-light: #f1f5f9;
+  --bg-subtle: #f4f4f5;
+  --bg-hover: #ececee;
+  --bg-active: #09090b;
 
-  /* Primary Brand Accent */
-  --primary: #2563eb;
-  --primary-hover: #1d4ed8;
-  --primary-light: #eff6ff;
-  --primary-border: #bfdbfe;
+  --text-main: #09090b;
+  --text-secondary: #3f3f46;
+  --text-muted: #71717a;
+  --text-inverse: #ffffff;
 
-  /* Balance Indicator */
-  --balance-color: #4f46e5;
-  --balance-bg: #eef2ff;
-  --balance-border: #c7d2fe;
+  --border-light: #e4e4e7;
+  --border-medium: #a1a1aa;
+  --border-dark: #18181b;
+  --border-stark: #000000;
 
-  /* Income Indicator */
-  --income-color: #059669;
-  --income-bg: #ecfdf5;
-  --income-border: #a7f3d0;
+  --primary: #000000;
+  --primary-hover: #27272a;
+  --primary-contrast: #ffffff;
 
-  /* Expense Indicator */
-  --expense-color: #dc2626;
-  --expense-bg: #fef2f2;
-  --expense-border: #fecaca;
-
-  /* Geometry & Shadows */
-  --radius-sm: 6px;
-  --radius-md: 10px;
-  --radius-lg: 14px;
+  --radius-sm: 4px;
+  --radius-md: 8px;
+  --radius-lg: 12px;
   --radius-pill: 9999px;
 
-  --shadow-sm: 0 1px 2px 0 rgb(0 0 0 / 0.05);
-  --shadow-md: 0 4px 6px -1px rgb(0 0 0 / 0.07), 0 2px 4px -2px rgb(0 0 0 / 0.07);
-  --shadow-lg: 0 12px 24px -4px rgb(0 0 0 / 0.1), 0 4px 6px -2px rgb(0 0 0 / 0.05);
+  --shadow-sm: 0 1px 2px 0 rgba(0, 0, 0, 0.05);
+  --shadow-md: 0 4px 6px -1px rgba(0, 0, 0, 0.08), 0 2px 4px -2px rgba(0, 0, 0, 0.06);
+  --shadow-lg: 0 12px 24px -4px rgba(0, 0, 0, 0.12), 0 4px 8px -2px rgba(0, 0, 0, 0.08);
 
   --font-sans: 'Inter', -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
 }
@@ -51,7 +43,7 @@
   padding: 0;
 }
 
-body {
+body.theme-monochrome {
   background-color: var(--bg-body);
   color: var(--text-main);
   font-family: var(--font-sans);
@@ -77,11 +69,11 @@ a {
 }
 
 /* ==========================================================================
-   Header & Navbar (Clean, White, Crisp)
+   Header & Navbar (Stark Monochrome)
    ========================================================================== */
 .navbar {
   background: var(--bg-surface);
-  border-bottom: 1px solid var(--border-color);
+  border-bottom: 2px solid var(--border-stark);
   position: sticky;
   top: 0;
   z-index: 50;
@@ -106,14 +98,14 @@ a {
 .brand-icon {
   width: 38px;
   height: 38px;
-  background: linear-gradient(135deg, #3b82f6 0%, #2563eb 100%);
-  color: #ffffff;
+  background: var(--border-stark);
+  color: var(--text-inverse);
   border-radius: var(--radius-md);
   display: flex;
   align-items: center;
   justify-content: center;
   font-size: 18px;
-  box-shadow: 0 2px 4px rgba(37, 99, 235, 0.25);
+  box-shadow: 0 2px 4px rgba(0, 0, 0, 0.2);
 }
 
 .brand-text {
@@ -123,24 +115,28 @@ a {
 
 .brand-title {
   font-size: 16px;
-  font-weight: 700;
+  font-weight: 800;
   color: var(--text-main);
   line-height: 1.2;
+  letter-spacing: -0.01em;
 }
 
 .brand-subtitle {
-  font-size: 12px;
+  font-size: 11.5px;
   color: var(--text-muted);
+  text-transform: uppercase;
+  letter-spacing: 0.05em;
+  font-weight: 600;
 }
 
 .badge-student {
   font-size: 11px;
-  font-weight: 600;
-  background: #f1f5f9;
-  color: #475569;
+  font-weight: 700;
+  background: var(--bg-subtle);
+  color: var(--text-main);
   padding: 3px 8px;
-  border-radius: var(--radius-pill);
-  border: 1px solid var(--border-color);
+  border-radius: var(--radius-sm);
+  border: 1px solid var(--border-dark);
   margin-left: 6px;
 }
 
@@ -154,27 +150,30 @@ a {
   font-size: 13.5px;
   font-weight: 500;
   color: var(--text-secondary);
-  padding: 8px 12px;
+  padding: 8px 14px;
   border-radius: var(--radius-md);
   display: flex;
   align-items: center;
   gap: 6px;
   transition: all 0.15s ease;
+  border: 1px solid transparent;
 }
 
 .nav-item:hover {
-  background: #f1f5f9;
+  background: var(--bg-subtle);
   color: var(--text-main);
+  border-color: var(--border-light);
 }
 
 .nav-item.active {
-  background: var(--primary-light);
-  color: var(--primary);
+  background: var(--border-stark);
+  color: var(--text-inverse);
   font-weight: 600;
+  border-color: var(--border-stark);
 }
 
 /* ==========================================================================
-   Buttons
+   Buttons (High-Contrast Black & White)
    ========================================================================== */
 .btn {
   display: inline-flex;
@@ -186,7 +185,7 @@ a {
   font-weight: 600;
   padding: 8px 16px;
   border-radius: var(--radius-md);
-  border: 1px solid transparent;
+  border: 1.5px solid transparent;
   cursor: pointer;
   transition: all 0.15s ease;
   line-height: 1.2;
@@ -194,9 +193,8 @@ a {
 
 .btn-primary {
   background: var(--primary);
-  color: #ffffff;
+  color: var(--primary-contrast);
   border-color: var(--primary);
-  box-shadow: 0 1px 2px rgba(37, 99, 235, 0.2);
 }
 
 .btn-primary:hover {
@@ -206,15 +204,14 @@ a {
 }
 
 .btn-secondary {
-  background: #ffffff;
-  color: var(--text-secondary);
-  border-color: var(--border-color);
+  background: var(--bg-surface);
+  color: var(--text-main);
+  border-color: var(--border-dark);
 }
 
 .btn-secondary:hover {
-  background: #f8fafc;
-  color: var(--text-main);
-  border-color: #cbd5e1;
+  background: var(--border-stark);
+  color: var(--text-inverse);
 }
 
 /* ==========================================================================
@@ -229,7 +226,7 @@ a {
 
 .page-title {
   font-size: 22px;
-  font-weight: 700;
+  font-weight: 800;
   color: var(--text-main);
   letter-spacing: -0.02em;
 }
@@ -241,22 +238,22 @@ a {
 }
 
 /* ==========================================================================
-   Cards & Layouts
+   Cards (Monochrome Crisp Cards)
    ========================================================================== */
 .card {
   background: var(--bg-surface);
-  border: 1px solid var(--border-color);
+  border: 1px solid var(--border-dark);
   border-radius: var(--radius-lg);
   box-shadow: var(--shadow-sm);
-  transition: box-shadow 0.2s ease, border-color 0.2s ease;
+  transition: all 0.2s ease;
 }
 
 .card:hover {
-  border-color: #cbd5e1;
+  box-shadow: var(--shadow-md);
 }
 
 /* ==========================================================================
-   Stat Cards (3 Column Grid)
+   Summary Stat Cards (3 Columns)
    ========================================================================== */
 .summary-grid {
   display: grid;
@@ -266,7 +263,7 @@ a {
 }
 
 .stat-card {
-  padding: 20px;
+  padding: 22px 20px;
   display: flex;
   justify-content: space-between;
   align-items: center;
@@ -278,18 +275,28 @@ a {
 }
 
 .stat-label {
-  font-size: 13px;
-  font-weight: 500;
-  color: var(--text-secondary);
+  font-size: 11.5px;
+  font-weight: 700;
+  color: var(--text-muted);
+  text-transform: uppercase;
+  letter-spacing: 0.06em;
   margin-bottom: 6px;
 }
 
 .stat-value {
   font-size: 26px;
-  font-weight: 700;
+  font-weight: 800;
   color: var(--text-main);
   letter-spacing: -0.02em;
   line-height: 1.2;
+}
+
+.stat-income-text {
+  color: var(--text-main);
+}
+
+.stat-expense-text {
+  color: var(--text-secondary);
 }
 
 .stat-meta {
@@ -298,7 +305,8 @@ a {
   margin-top: 8px;
   display: flex;
   align-items: center;
-  gap: 5px;
+  gap: 6px;
+  font-weight: 500;
 }
 
 .stat-icon-wrapper {
@@ -312,28 +320,22 @@ a {
   flex-shrink: 0;
 }
 
-/* Balance Theme */
+/* Monochrome Stat Icons */
 .card-balance .stat-icon-wrapper {
-  background: var(--balance-bg);
-  color: var(--balance-color);
+  background: var(--border-stark);
+  color: var(--text-inverse);
 }
 
-/* Income Theme */
 .card-income .stat-icon-wrapper {
-  background: var(--income-bg);
-  color: var(--income-color);
-}
-.text-green {
-  color: var(--income-color) !important;
+  background: var(--bg-subtle);
+  color: var(--text-main);
+  border: 1.5px solid var(--border-dark);
 }
 
-/* Expense Theme */
 .card-expense .stat-icon-wrapper {
-  background: var(--expense-bg);
-  color: var(--expense-color);
-}
-.text-red {
-  color: var(--expense-color) !important;
+  background: var(--bg-surface);
+  color: var(--text-main);
+  border: 1.5px dashed var(--border-dark);
 }
 
 /* ==========================================================================
@@ -361,7 +363,7 @@ a {
 
 .card-title {
   font-size: 15px;
-  font-weight: 600;
+  font-weight: 700;
   color: var(--text-main);
   display: flex;
   align-items: center;
@@ -381,7 +383,7 @@ a {
 }
 
 /* ==========================================================================
-   Transactions Section & Table
+   Transactions Section & Table (Monochrome High Contrast)
    ========================================================================== */
 .table-card {
   overflow: hidden;
@@ -389,13 +391,13 @@ a {
 
 .table-card-header {
   padding: 20px 20px 16px 20px;
-  border-bottom: 1px solid var(--border-light);
+  border-bottom: 1px solid var(--border-dark);
 }
 
 .toolbar {
   padding: 14px 20px;
-  background: #fafbfc;
-  border-bottom: 1px solid var(--border-color);
+  background: var(--bg-subtle);
+  border-bottom: 1px solid var(--border-dark);
   display: flex;
   flex-wrap: wrap;
   gap: 16px;
@@ -410,8 +412,10 @@ a {
 
 .toolbar-label {
   font-size: 12.5px;
-  font-weight: 600;
-  color: var(--text-secondary);
+  font-weight: 700;
+  color: var(--text-main);
+  text-transform: uppercase;
+  letter-spacing: 0.03em;
 }
 
 .toolbar-search {
@@ -435,8 +439,8 @@ a {
 
 .form-select, .form-input {
   background: #ffffff;
-  border: 1px solid var(--border-color);
-  border-radius: var(--radius-md);
+  border: 1.5px solid var(--border-dark);
+  border-radius: var(--radius-sm);
   padding: 7px 12px;
   font-family: var(--font-sans);
   font-size: 13px;
@@ -451,8 +455,8 @@ a {
 }
 
 .form-select:focus, .form-input:focus, .form-textarea:focus {
-  border-color: var(--primary);
-  box-shadow: 0 0 0 3px rgba(37, 99, 235, 0.12);
+  border-color: var(--border-stark);
+  box-shadow: 0 0 0 2px rgba(0, 0, 0, 0.15);
 }
 
 /* Table Container & Layout */
@@ -467,23 +471,23 @@ a {
 }
 
 .data-table thead th {
-  background: #fafbfc;
-  color: var(--text-secondary);
+  background: #f4f4f5;
+  color: var(--text-main);
   font-size: 12px;
-  font-weight: 600;
+  font-weight: 800;
   text-transform: uppercase;
-  letter-spacing: 0.04em;
+  letter-spacing: 0.05em;
   padding: 12px 18px;
-  border-bottom: 1px solid var(--border-color);
+  border-bottom: 2px solid var(--border-stark);
 }
 
 .data-table tbody tr {
   border-bottom: 1px solid var(--border-light);
-  transition: background 0.15s ease;
+  transition: background 0.12s ease;
 }
 
 .data-table tbody tr:hover {
-  background: #f8fafc;
+  background: var(--bg-subtle);
 }
 
 .data-table td {
@@ -500,49 +504,63 @@ a {
   font-style: italic;
 }
 
-/* Badges & Tags */
+/* Badges & Tags (Pure Black & White) */
 .type-badge {
   display: inline-flex;
   align-items: center;
   gap: 5px;
-  padding: 3px 8px;
+  padding: 3px 10px;
   border-radius: var(--radius-pill);
   font-size: 11.5px;
-  font-weight: 600;
+  font-weight: 700;
+  letter-spacing: 0.02em;
 }
 
+/* Thu: Solid Black */
 .type-income {
-  background: var(--income-bg);
-  color: var(--income-color);
-  border: 1px solid var(--income-border);
+  background: var(--border-stark);
+  color: var(--text-inverse);
+  border: 1px solid var(--border-stark);
 }
 
+/* Chi: White with Sharp Black Border */
 .type-expense {
-  background: var(--expense-bg);
-  color: var(--expense-color);
-  border: 1px solid var(--expense-border);
+  background: var(--bg-surface);
+  color: var(--text-main);
+  border: 1.5px solid var(--border-stark);
 }
 
 .category-tag {
   display: inline-flex;
   align-items: center;
   gap: 6px;
-  background: #f1f5f9;
-  color: var(--text-secondary);
+  background: var(--bg-subtle);
+  color: var(--text-main);
   padding: 3px 10px;
   border-radius: var(--radius-sm);
+  border: 1px solid var(--border-light);
   font-size: 12px;
-  font-weight: 500;
+  font-weight: 600;
 }
 
 .amount-display {
-  font-weight: 600;
+  font-weight: 700;
   font-feature-settings: 'tnum';
+}
+
+.amount-income {
+  color: var(--text-main);
+  font-weight: 800;
+}
+
+.amount-expense {
+  color: var(--text-secondary);
+  font-weight: 700;
 }
 
 .action-btn-delete {
   background: transparent;
-  border: none;
+  border: 1px solid transparent;
   color: var(--text-muted);
   width: 32px;
   height: 32px;
@@ -555,12 +573,13 @@ a {
 }
 
 .action-btn-delete:hover {
-  background: var(--expense-bg);
-  color: var(--expense-color);
+  background: var(--border-stark);
+  color: var(--text-inverse);
+  border-color: var(--border-stark);
 }
 
 /* ==========================================================================
-   Modern Simple Modal Dialog
+   Monochrome Modal Dialog
    ========================================================================== */
 .modal {
   display: none;
@@ -585,13 +604,14 @@ a {
   left: 0;
   width: 100%;
   height: 100%;
-  background: rgba(15, 23, 42, 0.4);
-  backdrop-filter: blur(4px);
+  background: rgba(0, 0, 0, 0.7);
+  backdrop-filter: blur(2px);
 }
 
 .modal-dialog {
   position: relative;
-  background: #ffffff;
+  background: var(--bg-surface);
+  border: 2px solid var(--border-stark);
   border-radius: var(--radius-lg);
   box-shadow: var(--shadow-lg);
   width: 100%;
@@ -614,16 +634,18 @@ a {
 
 .modal-header {
   padding: 20px 24px;
-  border-bottom: 1px solid var(--border-light);
+  border-bottom: 2px solid var(--border-stark);
   display: flex;
   justify-content: space-between;
   align-items: flex-start;
+  background: var(--bg-subtle);
 }
 
 .modal-title {
   font-size: 17px;
-  font-weight: 700;
+  font-weight: 800;
   color: var(--text-main);
+  letter-spacing: -0.01em;
 }
 
 .modal-subtitle {
@@ -634,9 +656,9 @@ a {
 
 .btn-close {
   background: transparent;
-  border: none;
+  border: 1px solid transparent;
   font-size: 22px;
-  color: var(--text-muted);
+  color: var(--text-main);
   cursor: pointer;
   width: 32px;
   height: 32px;
@@ -649,12 +671,12 @@ a {
 }
 
 .btn-close:hover {
-  background: #f1f5f9;
-  color: var(--text-main);
+  background: var(--border-stark);
+  color: var(--text-inverse);
 }
 
 #transactionForm {
-  padding: 20px 24px;
+  padding: 22px 24px;
 }
 
 .form-group {
@@ -664,22 +686,23 @@ a {
 .form-label {
   display: block;
   font-size: 13px;
-  font-weight: 600;
-  color: var(--text-secondary);
+  font-weight: 700;
+  color: var(--text-main);
   margin-bottom: 6px;
 }
 
 .required {
-  color: var(--expense-color);
+  color: var(--text-main);
 }
 
-/* Segmented Control for Thu/Chi */
+/* Segmented Control for Thu/Chi (Monochrome) */
 .segmented-control {
   display: grid;
   grid-template-columns: 1fr 1fr;
-  background: #f1f5f9;
+  background: var(--bg-subtle);
   padding: 4px;
-  border-radius: var(--radius-md);
+  border-radius: var(--radius-sm);
+  border: 1.5px solid var(--border-dark);
   gap: 4px;
 }
 
@@ -694,22 +717,17 @@ a {
   gap: 8px;
   padding: 8px 12px;
   font-size: 13px;
-  font-weight: 600;
+  font-weight: 700;
   border-radius: var(--radius-sm);
   color: var(--text-secondary);
   cursor: pointer;
   transition: all 0.15s ease;
 }
 
-.segmented-option input:checked + .segmented-pill.pill-expense {
-  background: #ffffff;
-  color: var(--expense-color);
-  box-shadow: var(--shadow-sm);
-}
-
-.segmented-option input:checked + .segmented-pill.pill-income {
-  background: #ffffff;
-  color: var(--income-color);
+/* Checked states */
+.segmented-option input:checked + .segmented-pill {
+  background: var(--border-stark);
+  color: var(--text-inverse);
   box-shadow: var(--shadow-sm);
 }
 
@@ -732,16 +750,16 @@ a {
   right: 12px;
   top: 50%;
   transform: translateY(-50%);
-  color: var(--text-muted);
-  font-weight: 600;
+  color: var(--text-main);
+  font-weight: 700;
   font-size: 14px;
 }
 
 .form-textarea {
   width: 100%;
   background: #ffffff;
-  border: 1px solid var(--border-color);
-  border-radius: var(--radius-md);
+  border: 1.5px solid var(--border-dark);
+  border-radius: var(--radius-sm);
   padding: 9px 12px;
   font-family: var(--font-sans);
   font-size: 13px;
@@ -758,11 +776,11 @@ a {
 }
 
 /* ==========================================================================
-   Footer
+   Footer (Monochrome)
    ========================================================================== */
 .footer {
-  background: #ffffff;
-  border-top: 1px solid var(--border-color);
+  background: var(--bg-surface);
+  border-top: 2px solid var(--border-stark);
   margin-top: auto;
 }
 
@@ -791,12 +809,12 @@ a {
 
 .status-pill {
   font-size: 11.5px;
-  font-weight: 500;
-  background: #f8fafc;
-  border: 1px solid var(--border-color);
-  color: var(--text-secondary);
+  font-weight: 600;
+  background: var(--bg-subtle);
+  border: 1px solid var(--border-dark);
+  color: var(--text-main);
   padding: 4px 10px;
-  border-radius: var(--radius-pill);
+  border-radius: var(--radius-sm);
   display: inline-flex;
   align-items: center;
   gap: 5px;
