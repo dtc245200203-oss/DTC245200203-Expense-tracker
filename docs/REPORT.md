@@ -5,7 +5,7 @@
 
 ```
                        BỘ GIÁO DỤC VÀ ĐÀO TẠO
-                   TRƯỜNG ĐẠI HỌC KHOA HỌC TỰ NHIÊN / BÁCH KHOA
+                   TRƯỜNG ĐẠI HỌC CÔNG NGHỆ THÔNG TIN VÀ TRUYỀN THÔNG (ICTU)
                         KHOA CÔNG NGHỆ THÔNG TIN
                    BỘ MÔN MẠNG MÁY TÍNH & HỆ THỐNG THÔNG TIN
                                   ***
@@ -22,16 +22,16 @@
 
 <br><br>
 
-**Giảng viên hướng dẫn:** ThS. / TS. [Tên Giảng Viên Hướng Dẫn]  
-**Sinh viên thực hiện:** [Họ và tên Sinh viên]  
+**Sinh viên thực hiện:** **HOÀNG TRẤN HUY**  
+**Lớp:** **CNTT K23H**  
 **Mã số sinh viên (MSSV):** **DTC245200203**  
 **Tài khoản GitHub:** **dtc245200203-oss**  
 **Kho lưu trữ (Repository):** [DTC245200203-Expense-tracker](https://github.com/dtc245200203-oss/DTC245200203-Expense-tracker)  
-**Khóa học:** 2022 - 2026  
+**Khóa học:** 2023 - 2027  
 
 <br><br><br>
 
-*Thành phố Hồ Chí Minh, Tháng 10 Năm 2026*
+*Thái Nguyên, ngày 22, tháng 09, năm 2026*
 
 </div>
 
