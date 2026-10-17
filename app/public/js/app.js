@@ -3,23 +3,28 @@ let categories = [];
 let categoryChartInstance = null;
 let trendChartInstance = null;
 
-// Vintage Chart Colors & Fonts
-const VINTAGE_PALETTE = [
-  '#872127', // Deep Wine / Burgundy
-  '#1e5932', // Forest Hunter Green
-  '#c5a059', // Antique Gold
-  '#1f3b56', // Slate Navy
-  '#9c4b18', // Terracotta
-  '#5c3d2e', // Leather Brown
-  '#4f5d75', // Muted Charcoal
-  '#845007', // Bronze
-  '#3d5a80', // Vintage Denim
-  '#6b2d5c'  // Royal Plum
+// Clean Modern Palette
+const MODERN_PALETTE = [
+  '#3b82f6', // Blue
+  '#10b981', // Emerald
+  '#f59e0b', // Amber
+  '#8b5cf6', // Violet
+  '#ec4899', // Pink
+  '#06b6d4', // Cyan
+  '#f97316', // Orange
+  '#6366f1', // Indigo
+  '#14b8a6', // Teal
+  '#64748b'  // Slate
 ];
 
 if (typeof Chart !== 'undefined') {
-  Chart.defaults.font.family = "'Lora', Georgia, 'Times New Roman', serif";
-  Chart.defaults.color = '#4a3b2c';
+  Chart.defaults.font.family = "'Inter', -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif";
+  Chart.defaults.color = '#64748b';
+  Chart.defaults.plugins.tooltip.padding = 10;
+  Chart.defaults.plugins.tooltip.cornerRadius = 8;
+  Chart.defaults.plugins.tooltip.backgroundColor = '#0f172a';
+  Chart.defaults.plugins.tooltip.titleFont = { size: 13, weight: '600' };
+  Chart.defaults.plugins.tooltip.bodyFont = { size: 12.5 };
 }
 
 // Helpers
@@ -104,7 +109,7 @@ async function loadStats() {
     netBalanceEl.textContent = formatCurrency(data.summary.netBalance);
     totalIncomeEl.textContent = formatCurrency(data.summary.totalIncome);
     totalExpenseEl.textContent = formatCurrency(data.summary.totalExpense);
-    transactionCountEl.innerHTML = `<i class="fa-solid fa-receipt"></i> ${data.summary.totalTransactions} giao dịch`;
+    transactionCountEl.innerHTML = `<i class="fa-regular fa-folder-open"></i> ${data.summary.totalTransactions} giao dịch`;
 
     // 2. Render Doughnut Chart (Categories)
     renderCategoryChart(data.categoryBreakdown);
@@ -129,7 +134,13 @@ function renderCategoryChart(data) {
         labels: ['Chưa có dữ liệu'],
         datasets: [{ data: [1], backgroundColor: ['#e2e8f0'] }]
       },
-      options: { responsive: true, maintainAspectRatio: false }
+      options: { 
+        responsive: true, 
+        maintainAspectRatio: false,
+        plugins: {
+          legend: { display: false }
+        }
+      }
     });
     return;
   }
@@ -140,23 +151,33 @@ function renderCategoryChart(data) {
       labels: data.map(d => d.name),
       datasets: [{
         data: data.map(d => d.amount),
-        backgroundColor: data.map((d, i) => VINTAGE_PALETTE[i % VINTAGE_PALETTE.length]),
+        backgroundColor: data.map((d, i) => MODERN_PALETTE[i % MODERN_PALETTE.length]),
         borderWidth: 2,
-        borderColor: '#fcfaf6'
+        borderColor: '#ffffff'
       }]
     },
     options: {
       responsive: true,
       maintainAspectRatio: false,
       plugins: {
-        legend: { position: 'bottom', labels: { boxWidth: 12, padding: 15, font: { family: "'Lora', Georgia, serif", size: 12 } } },
+        legend: { 
+          position: 'bottom', 
+          labels: { 
+            boxWidth: 10, 
+            boxHeight: 10,
+            usePointStyle: true,
+            pointStyle: 'circle',
+            padding: 14, 
+            font: { size: 12, weight: '500' } 
+          } 
+        },
         tooltip: {
           callbacks: {
             label: (ctx) => ` ${ctx.label}: ${formatCurrency(ctx.raw)}`
           }
         }
       },
-      cutout: '62%'
+      cutout: '68%'
     }
   });
 }
@@ -177,20 +198,18 @@ function renderTrendChart(data) {
       labels: labels.length ? labels : ['Hiện tại'],
       datasets: [
         {
-          label: 'Nhập Quỹ (Thu nhập)',
+          label: 'Thu nhập',
           data: incomeData.length ? incomeData : [0],
-          backgroundColor: '#1e5932',
-          borderColor: '#143c22',
-          borderWidth: 1,
-          borderRadius: 2
+          backgroundColor: '#10b981',
+          borderRadius: 6,
+          maxBarThickness: 36
         },
         {
-          label: 'Xuất Quỹ (Chi tiêu)',
+          label: 'Chi tiêu',
           data: expenseData.length ? expenseData : [0],
-          backgroundColor: '#872127',
-          borderColor: '#5c1317',
-          borderWidth: 1,
-          borderRadius: 2
+          backgroundColor: '#ef4444',
+          borderRadius: 6,
+          maxBarThickness: 36
         }
       ]
     },
@@ -201,17 +220,30 @@ function renderTrendChart(data) {
         y: {
           beginAtZero: true,
           ticks: {
-            font: { family: "'Courier Prime', monospace" },
+            font: { size: 11 },
             callback: (val) => val >= 1000000 ? `${val / 1000000}M` : `${val / 1000}k`
           },
-          grid: { color: '#e6decb' }
+          grid: { color: '#f1f5f9' },
+          border: { display: false }
         },
         x: {
-          grid: { display: false }
+          grid: { display: false },
+          border: { display: false },
+          ticks: { font: { size: 11 } }
         }
       },
       plugins: {
-        legend: { position: 'bottom', labels: { boxWidth: 12, padding: 15, font: { family: "'Lora', Georgia, serif", size: 12 } } },
+        legend: { 
+          position: 'bottom', 
+          labels: { 
+            boxWidth: 10, 
+            boxHeight: 10,
+            usePointStyle: true,
+            pointStyle: 'circle',
+            padding: 14, 
+            font: { size: 12, weight: '500' } 
+          } 
+        },
         tooltip: {
           callbacks: {
             label: (ctx) => ` ${ctx.dataset.label}: ${formatCurrency(ctx.raw)}`
@@ -234,36 +266,43 @@ async function loadTransactions() {
     const transactions = await res.json();
 
     if (transactions.length === 0) {
-      transactionsBody.innerHTML = `<tr><td colspan="6" class="text-center text-vintage-muted" style="padding: 24px;">Không tìm thấy chứng từ nào trong sổ cái</td></tr>`;
+      transactionsBody.innerHTML = `
+        <tr>
+          <td colspan="6" class="table-empty">
+            <i class="fa-regular fa-folder-open" style="font-size: 26px; display: block; margin-bottom: 8px; opacity: 0.5;"></i>
+            Không có giao dịch nào phù hợp với bộ lọc
+          </td>
+        </tr>
+      `;
       return;
     }
 
     transactionsBody.innerHTML = transactions.map(t => {
       const isIncome = t.type === 'income';
       const typeBadge = isIncome 
-        ? `<span class="badge-tag" style="background:#edf5ef; color:#1e5932; border: 1px solid #9ec2a8;"><i class="fa-solid fa-circle-plus"></i> THU</span>`
-        : `<span class="badge-tag" style="background:#f9ebeb; color:#872127; border: 1px solid #d49a9d;"><i class="fa-solid fa-circle-minus"></i> CHI</span>`;
+        ? `<span class="type-badge type-income"><i class="fa-solid fa-arrow-down-long"></i> Thu</span>`
+        : `<span class="type-badge type-expense"><i class="fa-solid fa-arrow-up-long"></i> Chi</span>`;
       
       const categoryBadge = `
-        <span class="category-badge" style="background: #f7f2e6; color: #2a1c12; border: 1px solid #dcd2be;">
-          <i class="fa-solid fa-${t.category_icon || 'tag'}" style="color: #8c7355;"></i> ${t.category_name}
+        <span class="category-tag">
+          <i class="fa-solid fa-${t.category_icon || 'tag'}"></i> ${t.category_name}
         </span>
       `;
 
       const amountFormatted = isIncome 
         ? `+${formatCurrency(t.amount)}` 
         : `-${formatCurrency(t.amount)}`;
-      const amountClass = isIncome ? 'text-green font-mono' : 'text-red font-mono';
+      const amountClass = isIncome ? 'text-green amount-display' : 'text-red amount-display';
 
       return `
         <tr>
-          <td class="font-mono" style="font-size: 13px; color: #5f5548;">${formatDate(t.transaction_date)}</td>
+          <td style="color: var(--text-secondary); font-size: 13px;">${formatDate(t.transaction_date)}</td>
           <td>${typeBadge}</td>
           <td>${categoryBadge}</td>
-          <td style="font-style: italic;">${t.description || '<span class="text-vintage-muted">(Không ghi chú)</span>'}</td>
-          <td class="${amountClass}" style="text-align: right; font-size: 14px; font-weight: 700;">${amountFormatted}</td>
-          <td class="text-center">
-            <button class="action-btn delete" onclick="deleteTransaction(${t.id})" title="Hủy chứng từ">
+          <td>${t.description || '<span style="color: var(--text-muted); font-style: italic;">Chưa có ghi chú</span>'}</td>
+          <td class="${amountClass}" style="text-align: right; font-size: 14px;">${amountFormatted}</td>
+          <td style="text-align: center;">
+            <button class="action-btn-delete" onclick="deleteTransaction(${t.id})" title="Xóa giao dịch">
               <i class="fa-regular fa-trash-can"></i>
             </button>
           </td>

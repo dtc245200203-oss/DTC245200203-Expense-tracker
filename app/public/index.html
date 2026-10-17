@@ -3,235 +3,265 @@
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>Sổ Tay Quản Lý Chi Tiêu - Expense Tracker (Đề tài 38)</title>
-  <!-- Google Fonts: Cinzel, Playfair Display, Lora, Courier Prime -->
+  <title>Quản Lý Chi Tiêu - Expense Tracker (Đề tài 38)</title>
+  <!-- Google Font: Inter -->
   <link rel="preconnect" href="https://fonts.googleapis.com">
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-  <link href="https://fonts.googleapis.com/css2?family=Cinzel:wght@600;800;900&family=Courier+Prime:ital,wght@0,400;0,700;1,400&family=Lora:ital,wght@0,400;0,600;0,700;1,400&family=Playfair+Display:ital,wght@0,600;0,800;1,600&display=swap" rel="stylesheet">
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet">
   <!-- Font Awesome -->
   <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css">
   <!-- Chart.js -->
   <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
-  <!-- Vintage Classic CSS -->
+  <!-- Clean & Simple CSS -->
   <link rel="stylesheet" href="/css/style.css">
 </head>
 <body>
-  <!-- Vintage Leather / Wood Header -->
+  <!-- Clean Modern Header -->
   <header class="navbar">
     <div class="nav-container">
       <div class="brand">
-        <div class="brand-crest">
-          <i class="fa-solid fa-book-bookmark"></i>
+        <div class="brand-icon">
+          <i class="fa-solid fa-wallet"></i>
         </div>
         <div class="brand-text">
-          <span class="brand-title">SỔ THU CHI GIA ĐÌNH</span>
-          <span class="brand-subtitle">GENERAL EXPENSE LEDGER &bull; EST. 2026</span>
+          <h1 class="brand-title">Expense Tracker</h1>
+          <span class="brand-subtitle">Quản lý thu chi cá nhân</span>
         </div>
-        <span class="badge badge-vintage"><i class="fa-solid fa-stamp"></i> ĐỀ TÀI SỐ 38</span>
+        <span class="badge-student">Đề tài 38 &bull; DTC245200203</span>
       </div>
 
       <nav class="nav-links">
-        <a href="#dashboard" class="nav-item active"><i class="fa-solid fa-compass"></i> Bảng Tổng Quát</a>
-        <a href="#transactions" class="nav-item"><i class="fa-solid fa-book-open"></i> Sổ Giao Dịch</a>
-        <a href="/pgadmin" target="_blank" class="nav-item"><i class="fa-solid fa-database"></i> Quản Trị pgAdmin</a>
-        <a href="http://localhost:3001" id="grafanaLink" target="_blank" class="nav-item"><i class="fa-solid fa-chart-line"></i> Giám Sát Grafana</a>
-        <button id="btnOpenModal" class="btn btn-vintage-primary"><i class="fa-solid fa-feather-pointed"></i> Ghi Chứng Từ Mới</button>
+        <a href="#dashboard" class="nav-item active"><i class="fa-solid fa-chart-pie"></i> Tổng quan</a>
+        <a href="#transactions" class="nav-item"><i class="fa-solid fa-list-check"></i> Sổ giao dịch</a>
+        <a href="/pgadmin" target="_blank" class="nav-item"><i class="fa-solid fa-database"></i> pgAdmin</a>
+        <a href="http://localhost:3001" id="grafanaLink" target="_blank" class="nav-item"><i class="fa-solid fa-chart-line"></i> Grafana</a>
+        <button id="btnOpenModal" class="btn btn-primary"><i class="fa-solid fa-plus"></i> Thêm giao dịch</button>
       </nav>
     </div>
   </header>
 
-  <!-- Ledger Frame Container -->
+  <!-- Main Content -->
   <main class="container">
-    <div class="vintage-frame">
-      <!-- Ledger Header Ribbon -->
-      <div class="ledger-header-ornament">
-        <div class="ornament-line"></div>
-        <div class="ornament-title">
-          <span>&starf; NIÊN GIÁM THỐNG KÊ TÀI CHÍNH CÁ NHÂN &bull; NĂM TÀI KHÓA 2026 &starf;</span>
-        </div>
-        <div class="ornament-line"></div>
+    <!-- Welcome Header -->
+    <div class="page-header">
+      <div>
+        <h2 class="page-title">Bảng điều khiển tài chính</h2>
+        <p class="page-desc">Theo dõi thu chi, phân bổ ngân sách và quản lý dòng tiền hàng tháng dễ dàng.</p>
       </div>
-
-      <!-- Top Summary Cards (Ledger Balances) -->
-      <section class="summary-grid" id="dashboard">
-        <div class="card stat-card card-balance">
-          <div class="stat-info">
-            <p class="stat-label">Tồn Quỹ Ròng (Net Balance)</p>
-            <h2 class="stat-value font-mono" id="netBalance">0 ₫</h2>
-            <span class="stat-sub" id="transactionCount"><i class="fa-solid fa-feather"></i> 0 chứng từ ghi chép</span>
-          </div>
-          <div class="stat-icon-vintage icon-balance"><i class="fa-solid fa-scale-balanced"></i></div>
-        </div>
-
-        <div class="card stat-card card-income">
-          <div class="stat-info">
-            <p class="stat-label">Tổng Thu Nhập (Credit)</p>
-            <h2 class="stat-value font-mono text-green" id="totalIncome">0 ₫</h2>
-            <span class="stat-sub text-green"><i class="fa-solid fa-circle-arrow-down"></i> Các nguồn thu gia tăng</span>
-          </div>
-          <div class="stat-icon-vintage icon-income"><i class="fa-solid fa-sack-dollar"></i></div>
-        </div>
-
-        <div class="card stat-card card-expense">
-          <div class="stat-info">
-            <p class="stat-label">Tổng Chi Tiêu (Debit)</p>
-            <h2 class="stat-value font-mono text-red" id="totalExpense">0 ₫</h2>
-            <span class="stat-sub text-red"><i class="fa-solid fa-circle-arrow-up"></i> Các khoản giải ngân</span>
-          </div>
-          <div class="stat-icon-vintage icon-expense"><i class="fa-solid fa-receipt"></i></div>
-        </div>
-      </section>
-
-      <!-- Analytics Charts Section -->
-      <section class="charts-grid">
-        <div class="card chart-card">
-          <div class="card-header-vintage">
-            <h3><i class="fa-solid fa-chart-pie"></i> Cơ Cấu Chi Phí Theo Hạng Mục</h3>
-            <span class="header-note">Tỷ trọng phân bổ</span>
-          </div>
-          <div class="chart-wrapper">
-            <canvas id="categoryChart"></canvas>
-          </div>
-        </div>
-
-        <div class="card chart-card">
-          <div class="card-header-vintage">
-            <h3><i class="fa-solid fa-chart-column"></i> Diễn Biến Thu Chi Các Tháng</h3>
-            <span class="header-note">Đối chiếu chu kỳ</span>
-          </div>
-          <div class="chart-wrapper">
-            <canvas id="trendChart"></canvas>
-          </div>
-        </div>
-      </section>
-
-      <!-- Ledger Table Section -->
-      <section class="card ledger-book-card" id="transactions">
-        <div class="card-header-vintage flex-between">
-          <div class="table-title">
-            <h3><i class="fa-solid fa-book-open"></i> Sổ Cái Chi Tiết Các Khoản Giao Dịch</h3>
-            <p class="text-vintage-muted">Chứng từ thu chi theo niên giám kế toán minh bạch</p>
-          </div>
-          <div class="table-actions">
-            <a href="/api/export-csv" class="btn btn-vintage-outline"><i class="fa-solid fa-file-excel"></i> Xuất Sổ Kế Toán (CSV)</a>
-            <button id="btnRefresh" class="btn btn-vintage-outline"><i class="fa-solid fa-arrow-rotate-right"></i> Đồng Bộ Lại</button>
-          </div>
-        </div>
-
-        <!-- Classic Filter Bar -->
-        <div class="filter-toolbar-vintage">
-          <div class="filter-group">
-            <label><i class="fa-solid fa-filter"></i> Phân loại:</label>
-            <select id="filterType" class="input-vintage-select">
-              <option value="">Tất cả khoản thu / chi</option>
-              <option value="income">Chỉ xem Khoản Thu (+)</option>
-              <option value="expense">Chỉ xem Khoản Chi (-)</option>
-            </select>
-          </div>
-
-          <div class="filter-group">
-            <label><i class="fa-solid fa-folder-tree"></i> Danh mục:</label>
-            <select id="filterCategory" class="input-vintage-select">
-              <option value="">Tất cả danh mục nghiệp vụ</option>
-            </select>
-          </div>
-
-          <div class="filter-group">
-            <label><i class="fa-solid fa-magnifying-glass"></i> Tra cứu:</label>
-            <input type="text" id="filterSearch" class="input-vintage-text" placeholder="Tìm theo nội dung diễn giải...">
-          </div>
-        </div>
-
-        <!-- Ledger Styled Table -->
-        <div class="table-responsive">
-          <table class="ledger-table">
-            <thead>
-              <tr>
-                <th style="width: 130px;"><i class="fa-regular fa-calendar"></i> Ngày Ghi Sổ</th>
-                <th style="width: 100px;">Tính Chất</th>
-                <th style="width: 180px;">Hạng Mục Kế Toán</th>
-                <th>Nội Dung Diễn Giải Chứng Từ</th>
-                <th style="width: 160px; text-align: right;">Phát Sinh (VNĐ)</th>
-                <th style="width: 80px; text-align: center;">Thao Tác</th>
-              </tr>
-            </thead>
-            <tbody id="transactionsBody">
-              <tr><td colspan="6" class="text-center" style="padding: 24px;">Đang tải dữ liệu sổ cái kế toán...</td></tr>
-            </tbody>
-          </table>
-        </div>
-      </section>
+      <div class="page-actions">
+        <button id="btnRefresh" class="btn btn-secondary"><i class="fa-solid fa-rotate-right"></i> Làm mới</button>
+      </div>
     </div>
-  </main>
 
-  <!-- Vintage Voucher Modal (Phiếu Thu / Chi) -->
-  <div class="modal" id="transactionModal">
-    <div class="modal-backdrop" id="modalBackdrop"></div>
-    <div class="modal-content-vintage card">
-      <div class="modal-header-vintage flex-between">
-        <div>
-          <h3 id="modalTitle"><i class="fa-solid fa-feather-pointed"></i> LẬP CHỨNG TỪ THU CHI MỚI</h3>
-          <p class="modal-sub">Phiếu hạch toán thu chi tài chính</p>
+    <!-- Summary Cards (Số dư, Thu, Chi) -->
+    <section class="summary-grid" id="dashboard">
+      <!-- Balance Card -->
+      <div class="card stat-card card-balance">
+        <div class="stat-body">
+          <p class="stat-label">Số Dư Hiện Tại</p>
+          <h3 class="stat-value" id="netBalance">0 ₫</h3>
+          <p class="stat-meta" id="transactionCount"><i class="fa-regular fa-folder-open"></i> 0 giao dịch</p>
         </div>
-        <button class="btn-vintage-close" id="btnCloseModal">&times;</button>
+        <div class="stat-icon-wrapper icon-balance">
+          <i class="fa-solid fa-scale-balanced"></i>
+        </div>
       </div>
 
-      <form id="transactionForm">
-        <div class="form-group-vintage">
-          <label>Hình thức phát sinh <span class="required">*</span></label>
-          <div class="radio-group-vintage">
-            <label class="radio-label-vintage">
-              <input type="radio" name="type" value="expense" checked> 
-              <span class="pill-vintage pill-vintage-expense"><i class="fa-solid fa-circle-minus"></i> Xuất Quỹ (Chi tiêu)</span>
-            </label>
-            <label class="radio-label-vintage">
-              <input type="radio" name="type" value="income"> 
-              <span class="pill-vintage pill-vintage-income"><i class="fa-solid fa-circle-plus"></i> Nhập Quỹ (Thu nhập)</span>
-            </label>
+      <!-- Income Card -->
+      <div class="card stat-card card-income">
+        <div class="stat-body">
+          <p class="stat-label">Tổng Thu Nhập</p>
+          <h3 class="stat-value text-green" id="totalIncome">0 ₫</h3>
+          <p class="stat-meta text-green"><i class="fa-solid fa-arrow-trend-up"></i> Khoản tiền thu vào</p>
+        </div>
+        <div class="stat-icon-wrapper icon-income">
+          <i class="fa-solid fa-arrow-down-long"></i>
+        </div>
+      </div>
+
+      <!-- Expense Card -->
+      <div class="card stat-card card-expense">
+        <div class="stat-body">
+          <p class="stat-label">Tổng Chi Tiêu</p>
+          <h3 class="stat-value text-red" id="totalExpense">0 ₫</h3>
+          <p class="stat-meta text-red"><i class="fa-solid fa-arrow-trend-down"></i> Khoản tiền chi ra</p>
+        </div>
+        <div class="stat-icon-wrapper icon-expense">
+          <i class="fa-solid fa-arrow-up-long"></i>
+        </div>
+      </div>
+    </section>
+
+    <!-- Analytics Charts Section -->
+    <section class="charts-grid">
+      <!-- Doughnut Chart -->
+      <div class="card chart-card">
+        <div class="card-header">
+          <div class="card-title-group">
+            <h3 class="card-title"><i class="fa-solid fa-chart-pie"></i> Phân bổ chi tiêu theo danh mục</h3>
+            <p class="card-subtitle">Tỷ lệ các khoản chi phát sinh</p>
           </div>
         </div>
-
-        <div class="form-group-vintage">
-          <label for="amount">Số tiền hạch toán (VNĐ) <span class="required">*</span></label>
-          <input type="number" id="amount" name="amount" class="input-vintage-text font-mono" placeholder="Ví dụ: 150000" min="1000" required>
+        <div class="chart-wrapper">
+          <canvas id="categoryChart"></canvas>
         </div>
+      </div>
 
-        <div class="form-group-vintage">
-          <label for="categoryId">Khoản mục tài chính <span class="required">*</span></label>
-          <select id="categoryId" name="category_id" class="input-vintage-select" required>
-            <option value="">-- Lựa chọn hạng mục chi tiêu / thu nhập --</option>
+      <!-- Bar Chart -->
+      <div class="card chart-card">
+        <div class="card-header">
+          <div class="card-title-group">
+            <h3 class="card-title"><i class="fa-solid fa-chart-column"></i> Xu hướng thu chi theo tháng</h3>
+            <p class="card-subtitle">So sánh các tháng gần đây</p>
+          </div>
+        </div>
+        <div class="chart-wrapper">
+          <canvas id="trendChart"></canvas>
+        </div>
+      </div>
+    </section>
+
+    <!-- Transactions Table Section -->
+    <section class="card table-card" id="transactions">
+      <div class="card-header table-card-header">
+        <div class="card-title-group">
+          <h3 class="card-title"><i class="fa-solid fa-clock-rotate-left"></i> Danh sách giao dịch</h3>
+          <p class="card-subtitle">Toàn bộ lịch sử thu chi được ghi nhận</p>
+        </div>
+        <div class="table-actions">
+          <a href="/api/export-csv" class="btn btn-secondary"><i class="fa-solid fa-file-arrow-down"></i> Xuất file CSV</a>
+        </div>
+      </div>
+
+      <!-- Filters & Search Toolbar -->
+      <div class="toolbar">
+        <div class="toolbar-group">
+          <label for="filterType" class="toolbar-label">Phân loại:</label>
+          <select id="filterType" class="form-select">
+            <option value="">Tất cả giao dịch</option>
+            <option value="income">Khoản Thu (+)</option>
+            <option value="expense">Khoản Chi (-)</option>
           </select>
         </div>
 
-        <div class="form-group-vintage">
-          <label for="transactionDate">Ngày ghi nhận chứng từ <span class="required">*</span></label>
-          <input type="date" id="transactionDate" name="transaction_date" class="input-vintage-text" required>
+        <div class="toolbar-group">
+          <label for="filterCategory" class="toolbar-label">Danh mục:</label>
+          <select id="filterCategory" class="form-select">
+            <option value="">Tất cả danh mục</option>
+          </select>
         </div>
 
-        <div class="form-group-vintage">
-          <label for="description">Nội dung diễn giải chi tiết</label>
-          <textarea id="description" name="description" class="input-vintage-textarea" rows="2" placeholder="Ví dụ: Thanh toán tiền điện thoại, cà phê cùng đồng nghiệp..."></textarea>
+        <div class="toolbar-group toolbar-search">
+          <label for="filterSearch" class="toolbar-label">Tìm kiếm:</label>
+          <div class="search-input-wrapper">
+            <i class="fa-solid fa-magnifying-glass search-icon"></i>
+            <input type="text" id="filterSearch" class="form-input" placeholder="Tìm theo nội dung ghi chú...">
+          </div>
+        </div>
+      </div>
+
+      <!-- Clean Data Table -->
+      <div class="table-container">
+        <table class="data-table">
+          <thead>
+            <tr>
+              <th style="width: 130px;">Ngày</th>
+              <th style="width: 100px;">Loại</th>
+              <th style="width: 180px;">Danh mục</th>
+              <th>Nội dung ghi chú</th>
+              <th style="width: 160px; text-align: right;">Số tiền</th>
+              <th style="width: 80px; text-align: center;">Thao tác</th>
+            </tr>
+          </thead>
+          <tbody id="transactionsBody">
+            <tr><td colspan="6" class="table-empty">Đang tải dữ liệu giao dịch...</td></tr>
+          </tbody>
+        </table>
+      </div>
+    </section>
+  </main>
+
+  <!-- Modern Simple Modal Dialog -->
+  <div class="modal" id="transactionModal">
+    <div class="modal-backdrop" id="modalBackdrop"></div>
+    <div class="modal-dialog">
+      <div class="modal-header">
+        <div>
+          <h3 class="modal-title" id="modalTitle">Thêm giao dịch mới</h3>
+          <p class="modal-subtitle">Nhập thông tin khoản thu hoặc chi của bạn</p>
+        </div>
+        <button class="btn-close" id="btnCloseModal" title="Đóng">&times;</button>
+      </div>
+
+      <form id="transactionForm">
+        <!-- Segmented Control for Income / Expense -->
+        <div class="form-group">
+          <label class="form-label">Loại giao dịch <span class="required">*</span></label>
+          <div class="segmented-control">
+            <label class="segmented-option">
+              <input type="radio" name="type" value="expense" checked>
+              <span class="segmented-pill pill-expense">
+                <i class="fa-solid fa-arrow-trend-down"></i> Khoản Chi
+              </span>
+            </label>
+            <label class="segmented-option">
+              <input type="radio" name="type" value="income">
+              <span class="segmented-pill pill-income">
+                <i class="fa-solid fa-arrow-trend-up"></i> Khoản Thu
+              </span>
+            </label>
+          </div>
         </div>
 
-        <div class="modal-footer-vintage flex-end">
-          <button type="button" class="btn btn-vintage-outline" id="btnCancelModal">Hủy Bỏ</button>
-          <button type="submit" class="btn btn-vintage-primary"><i class="fa-solid fa-stamp"></i> Ký Duyệt & Vào Sổ</button>
+        <!-- Amount Input -->
+        <div class="form-group">
+          <label for="amount" class="form-label">Số tiền (VNĐ) <span class="required">*</span></label>
+          <div class="input-currency-wrapper">
+            <input type="number" id="amount" name="amount" class="form-input form-input-lg" placeholder="Ví dụ: 50000" min="1000" required>
+            <span class="currency-tag">₫</span>
+          </div>
+        </div>
+
+        <!-- Category Dropdown -->
+        <div class="form-group">
+          <label for="categoryId" class="form-label">Danh mục <span class="required">*</span></label>
+          <select id="categoryId" name="category_id" class="form-select form-input-lg" required>
+            <option value="">-- Chọn danh mục --</option>
+          </select>
+        </div>
+
+        <!-- Date Input -->
+        <div class="form-group">
+          <label for="transactionDate" class="form-label">Ngày giao dịch <span class="required">*</span></label>
+          <input type="date" id="transactionDate" name="transaction_date" class="form-input" required>
+        </div>
+
+        <!-- Description Input -->
+        <div class="form-group">
+          <label for="description" class="form-label">Ghi chú / Diễn giải</label>
+          <textarea id="description" name="description" class="form-textarea" rows="2" placeholder="Ví dụ: Ăn trưa, xăng xe, tiền lương tháng..."></textarea>
+        </div>
+
+        <!-- Modal Actions -->
+        <div class="modal-footer">
+          <button type="button" class="btn btn-secondary" id="btnCancelModal">Hủy bỏ</button>
+          <button type="submit" class="btn btn-primary"><i class="fa-solid fa-check"></i> Lưu giao dịch</button>
         </div>
       </form>
     </div>
   </div>
 
-  <!-- Vintage Footer -->
-  <footer class="footer-vintage">
-    <div class="container flex-between">
-      <div class="footer-info">
-        <p><strong>HỆ THỐNG QUẢN LÝ CHI TIÊU &bull; BÁO CÁO THỰC HÀNH ĐỀ TÀI SỐ 38</strong></p>
-        <p class="footer-sub">Môn học: Triển khai và Quản trị Hệ thống Phần mềm &bull; Sinh viên: DTC245200203</p>
+  <!-- Clean Footer -->
+  <footer class="footer">
+    <div class="container footer-content">
+      <div class="footer-left">
+        <p><strong>Hệ thống Quản lý Chi tiêu Cá nhân</strong> &bull; Đề tài số 38</p>
+        <p class="footer-muted">Môn học: Triển khai và Quản trị Hệ thống Phần mềm &bull; Sinh viên: DTC245200203</p>
       </div>
-      <div class="footer-seals">
-        <span class="vintage-seal"><i class="fa-solid fa-shield-halved"></i> Nginx SSL Offloading</span>
-        <span class="vintage-seal"><i class="fa-solid fa-gauge"></i> Prometheus 2.54</span>
-        <span class="vintage-seal"><i class="fa-solid fa-scroll"></i> Loki 3.1 & LogQL</span>
+      <div class="footer-badges">
+        <span class="status-pill"><i class="fa-solid fa-shield-halved"></i> HTTPS / TLS</span>
+        <span class="status-pill"><i class="fa-solid fa-server"></i> PostgreSQL 16</span>
+        <span class="status-pill"><i class="fa-solid fa-chart-line"></i> Prometheus & Grafana</span>
       </div>
     </div>
   </footer>
