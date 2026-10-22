@@ -3,24 +3,23 @@ let categories = [];
 let categoryChartInstance = null;
 let trendChartInstance = null;
 
-// Simple & Clean Color Palette
-const SIMPLE_PALETTE = [
-  '#2563eb', // Royal Blue
-  '#16a34a', // Emerald Green
-  '#f59e0b', // Amber
-  '#dc2626', // Red
-  '#8b5cf6', // Violet
-  '#06b6d4', // Cyan
-  '#ea580c', // Orange
-  '#64748b', // Slate
-  '#4f46e5', // Indigo
-  '#14b8a6'  // Teal
+const CHART_PALETTE = [
+  '#3d8b50',
+  '#62a76b',
+  '#87bd82',
+  '#a8ce91',
+  '#c1dca4',
+  '#4e9d83',
+  '#78b8a3',
+  '#95c4b2',
+  '#67986b',
+  '#acd1b0'
 ];
 
 if (typeof Chart !== 'undefined') {
   Chart.defaults.font.family = "'Inter', -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif";
-  Chart.defaults.color = '#475569';
-  Chart.defaults.plugins.tooltip.cornerRadius = 0; // Square tooltip
+  Chart.defaults.color = '#718178';
+  Chart.defaults.plugins.tooltip.cornerRadius = 10;
   Chart.defaults.plugins.tooltip.padding = 8;
   Chart.defaults.plugins.tooltip.backgroundColor = '#0f172a';
   Chart.defaults.plugins.tooltip.titleFont = { size: 12, weight: '600' };
@@ -132,7 +131,7 @@ function renderCategoryChart(data) {
       type: 'doughnut',
       data: {
         labels: ['Chưa có dữ liệu'],
-        datasets: [{ data: [1], backgroundColor: ['#e2e8f0'] }]
+        datasets: [{ data: [1], backgroundColor: ['#e5eee6'] }]
       },
       options: { 
         responsive: true, 
@@ -149,8 +148,8 @@ function renderCategoryChart(data) {
       labels: data.map(d => d.name),
       datasets: [{
         data: data.map(d => d.amount),
-        backgroundColor: data.map((d, i) => SIMPLE_PALETTE[i % SIMPLE_PALETTE.length]),
-        borderWidth: 2,
+        backgroundColor: data.map((d, i) => CHART_PALETTE[i % CHART_PALETTE.length]),
+        borderWidth: 4,
         borderColor: '#ffffff'
       }]
     },
@@ -164,7 +163,7 @@ function renderCategoryChart(data) {
             boxWidth: 10, 
             boxHeight: 10,
             usePointStyle: true,
-            pointStyle: 'rect', // Square legend marker
+            pointStyle: 'circle',
             padding: 14, 
             font: { size: 12, weight: '500' } 
           } 
@@ -198,19 +197,19 @@ function renderTrendChart(data) {
         {
           label: 'Thu nhập',
           data: incomeData.length ? incomeData : [0],
-          backgroundColor: '#16a34a', // Emerald Green
-          borderColor: '#15803d',
-          borderWidth: 1,
-          borderRadius: 0, // Strict square bars
+          backgroundColor: '#68ad75',
+          borderColor: '#68ad75',
+          borderWidth: 0,
+          borderRadius: 8,
           maxBarThickness: 34
         },
         {
           label: 'Chi tiêu',
           data: expenseData.length ? expenseData : [0],
-          backgroundColor: '#dc2626', // Clean Red
-          borderColor: '#b91c1c',
-          borderWidth: 1,
-          borderRadius: 0, // Strict square bars
+          backgroundColor: '#ed7771',
+          borderColor: '#ed7771',
+          borderWidth: 0,
+          borderRadius: 8,
           maxBarThickness: 34
         }
       ]
@@ -223,16 +222,16 @@ function renderTrendChart(data) {
           beginAtZero: true,
           ticks: {
             font: { size: 11 },
-            color: '#64748b',
+            color: '#7c8c82',
             callback: (val) => val >= 1000000 ? `${val / 1000000}M` : `${val / 1000}k`
           },
-          grid: { color: '#e2e8f0' },
+          grid: { color: '#edf2ed' },
           border: { display: false }
         },
         x: {
           grid: { display: false },
           border: { display: false },
-          ticks: { font: { size: 11 }, color: '#64748b' }
+          ticks: { font: { size: 11 }, color: '#7c8c82' }
         }
       },
       plugins: {
@@ -242,7 +241,7 @@ function renderTrendChart(data) {
             boxWidth: 10, 
             boxHeight: 10,
             usePointStyle: true,
-            pointStyle: 'rect', // Square legend marker
+            pointStyle: 'circle',
             padding: 14, 
             font: { size: 12, weight: '500' } 
           } 

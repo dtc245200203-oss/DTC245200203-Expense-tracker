@@ -12,11 +12,11 @@
   <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css">
   <!-- Chart.js -->
   <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
-  <!-- Square Minimal CSS -->
+  <!-- Dashboard styles -->
   <link rel="stylesheet" href="/css/style.css">
 </head>
-<body>
-  <!-- Square Flat Navbar -->
+<body class="dashboard-page">
+  <!-- Main navigation -->
   <header class="navbar">
     <div class="nav-container">
       <div class="brand">
@@ -47,14 +47,14 @@
     <div class="page-header">
       <div>
         <h2 class="page-title">Bảng điều khiển tài chính</h2>
-        <p class="page-desc">Theo dõi thu chi với giao diện viền phẳng vuông vắn, màu sắc đơn giản và dễ nhìn.</p>
+        <p class="page-desc">Nắm bắt dòng tiền và thói quen chi tiêu của bạn trong một giao diện trực quan.</p>
       </div>
       <div class="page-actions">
         <button id="btnRefresh" class="btn btn-secondary"><i class="fa-solid fa-rotate-right"></i> Làm mới</button>
       </div>
     </div>
 
-    <!-- 3 Summary Stat Cards (Square Borders) -->
+    <!-- Financial summary cards -->
     <section class="summary-grid" id="dashboard">
       <!-- Balance Card -->
       <div class="card stat-card card-balance">
@@ -93,7 +93,7 @@
       </div>
     </section>
 
-    <!-- Analytics Charts Section -->
+    <!-- Analytics charts -->
     <section class="charts-grid">
       <!-- Doughnut Chart (Categories) -->
       <div class="card chart-card">
@@ -161,7 +161,7 @@
         </div>
       </div>
 
-      <!-- Square Data Table -->
+      <!-- Transaction table -->
       <div class="table-container">
         <table class="data-table">
           <thead>
@@ -182,7 +182,7 @@
     </section>
   </main>
 
-  <!-- Square Modal Dialog -->
+  <!-- Transaction dialog -->
   <div class="modal" id="transactionModal">
     <div class="modal-backdrop" id="modalBackdrop"></div>
     <div class="modal-dialog">
@@ -252,7 +252,7 @@
     </div>
   </div>
 
-  <!-- Square Minimal Footer -->
+  <!-- System footer -->
   <footer class="footer">
     <div class="container footer-content">
       <div class="footer-left">
