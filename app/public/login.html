@@ -1,0 +1,45 @@
+<!doctype html>
+<html lang="vi">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>Đăng nhập | Expense Tracker</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css">
+  <link rel="stylesheet" href="/css/style.css">
+</head>
+<body class="login-page">
+  <main class="login-layout">
+    <section class="login-intro" aria-label="Giới thiệu ứng dụng">
+      <a class="login-brand" href="/"><span class="login-brand-icon"><i class="fa-solid fa-wallet"></i></span><span>Expense Tracker</span></a>
+      <div class="login-intro-content">
+        <span class="login-eyebrow"><i class="fa-solid fa-shield-halved"></i> QUẢN LÝ TÀI CHÍNH CÁ NHÂN</span>
+        <h1>Kiểm soát chi tiêu, bắt đầu từ hôm nay.</h1>
+        <p>Theo dõi thu nhập, chi phí và các mục tiêu tài chính của bạn trong một không gian trực quan, dễ sử dụng.</p>
+        <ul class="login-features">
+          <li><i class="fa-solid fa-chart-pie"></i> Tổng quan tài chính rõ ràng</li>
+          <li><i class="fa-solid fa-tags"></i> Phân loại mọi khoản thu chi</li>
+          <li><i class="fa-solid fa-file-export"></i> Xuất báo cáo khi cần</li>
+        </ul>
+      </div>
+      <p class="login-copyright">© 2026 Expense Tracker</p>
+    </section>
+    <section class="login-panel" aria-labelledby="login-title">
+      <div class="login-card">
+        <div class="login-card-heading"><h2 id="login-title">Chào mừng trở lại</h2><p>Đăng nhập để tiếp tục quản lý tài chính của bạn.</p></div>
+        <form id="loginForm" novalidate>
+          <div class="login-form-group"><label for="email">Email</label><div class="login-input-wrap"><i class="fa-regular fa-envelope"></i><input id="email" name="email" type="email" autocomplete="email" placeholder="name@example.com" required></div></div>
+          <div class="login-form-group"><div class="login-label-row"><label for="password">Mật khẩu</label><a href="#" id="forgotPassword">Quên mật khẩu?</a></div><div class="login-input-wrap"><i class="fa-solid fa-lock"></i><input id="password" name="password" type="password" autocomplete="current-password" placeholder="Nhập mật khẩu" minlength="6" required><button class="password-toggle" type="button" id="passwordToggle" aria-label="Hiện mật khẩu" aria-pressed="false"><i class="fa-regular fa-eye"></i></button></div></div>
+          <div class="login-options"><label class="remember-option"><input type="checkbox" id="rememberMe"><span>Ghi nhớ đăng nhập</span></label></div>
+          <p class="login-message" id="loginMessage" role="alert" aria-live="polite"></p>
+          <button type="submit" class="login-submit">Đăng nhập <i class="fa-solid fa-arrow-right"></i></button>
+        </form>
+        <p class="login-register">Chưa có tài khoản? <a href="#" id="registerLink">Đăng ký ngay</a></p>
+      </div>
+    </section>
+  </main>
+  <script src="/js/login.js"></script>
+</body>
+</html>
