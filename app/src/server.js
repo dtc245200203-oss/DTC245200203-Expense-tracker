@@ -1,5 +1,7 @@
 require('dotenv').config();
 const fs = require('fs');
+const crypto = require('crypto');
+const { promisify } = require('util');
 const express = require('express');
 const path = require('path');
 const db = require('./db');
@@ -10,6 +12,49 @@ const PORT = process.env.PORT || 3000;
 
 const LOG_DIR = '/var/log/app';
 const LOG_FILE = path.join(LOG_DIR, 'app.log');
+const scrypt = promisify(crypto.scrypt);
+const sessions = new Map();
+
+function parseCookies(req) {
+  return (req.headers.cookie || '').split(';').reduce((cookies, item) => {
+    const [name, ...value] = item.trim().split('=');
+    if (name) cookies[name] = decodeURIComponent(value.join('='));
+    return cookies;
+  }, {});
+}
+
+function setSessionCookie(res, token, remember = false) {
+  const lifetime = remember ? '; Max-Age=28800' : '';
+  res.setHeader('Set-Cookie', `expense_session=${encodeURIComponent(token)}; HttpOnly; Secure; SameSite=Lax; Path=/${lifetime}`);
+}
+
+function clearSessionCookie(res) {
+  res.setHeader('Set-Cookie', 'expense_session=; HttpOnly; Secure; SameSite=Lax; Path=/; Max-Age=0');
+}
+
+function currentSession(req) {
+  return sessions.get(parseCookies(req).expense_session);
+}
+
+function requireAuth(req, res, next) {
+  const session = currentSession(req);
+  if (!session) return res.status(401).json({ error: 'Authentication required' });
+  req.user = session;
+  next();
+}
+
+async function hashPassword(password) {
+  const salt = crypto.randomBytes(16).toString('hex');
+  const hash = await scrypt(password, salt, 64);
+  return `${salt}:${hash.toString('hex')}`;
+}
+
+async function verifyPassword(password, storedValue) {
+  const [salt, storedHash] = storedValue.split(':');
+  if (!salt || !storedHash) return false;
+  const derivedHash = await scrypt(password, salt, 64);
+  return crypto.timingSafeEqual(derivedHash, Buffer.from(storedHash, 'hex'));
+}
 
 function writeLog(data) {
   const line = JSON.stringify(data);
@@ -75,6 +120,64 @@ app.use((req, res, next) => {
 
 // Serve frontend static assets
 app.use(express.static(path.join(__dirname, '../public')));
+
+// Authentication API
+app.post('/api/auth/register', async (req, res, next) => {
+  try {
+    const name = String(req.body.name || '').trim();
+    const email = String(req.body.email || '').trim().toLowerCase();
+    const password = String(req.body.password || '');
+    if (name.length < 2 || name.length > 100) return res.status(400).json({ error: 'Name must contain 2 to 100 characters' });
+    if (!/^\S+@\S+\.\S+$/.test(email) || email.length > 255) return res.status(400).json({ error: 'A valid email is required' });
+    if (password.length < 8) return res.status(400).json({ error: 'Password must contain at least 8 characters' });
+
+    const passwordHash = await hashPassword(password);
+    const { rows } = await db.query(
+      'INSERT INTO users (name, email, password_hash) VALUES ($1, $2, $3) RETURNING id, name, email',
+      [name, email, passwordHash]
+    );
+    const user = rows[0];
+    const token = crypto.randomBytes(32).toString('hex');
+    sessions.set(token, { id: user.id, name: user.name, email: user.email });
+    setSessionCookie(res, token, Boolean(req.body.remember));
+    res.status(201).json({ user });
+  } catch (err) {
+    if (err.code === '23505') return res.status(409).json({ error: 'Email already registered' });
+    next(err);
+  }
+});
+
+app.post('/api/auth/login', async (req, res, next) => {
+  try {
+    const email = String(req.body.email || '').trim().toLowerCase();
+    const password = String(req.body.password || '');
+    const { rows } = await db.query('SELECT id, name, email, password_hash FROM users WHERE email = $1', [email]);
+    const user = rows[0];
+    if (!user || !(await verifyPassword(password, user.password_hash))) {
+      return res.status(401).json({ error: 'Invalid email or password' });
+    }
+    const token = crypto.randomBytes(32).toString('hex');
+    sessions.set(token, { id: user.id, name: user.name, email: user.email });
+    setSessionCookie(res, token, Boolean(req.body.remember));
+    res.json({ user: { id: user.id, name: user.name, email: user.email } });
+  } catch (err) {
+    next(err);
+  }
+});
+
+app.post('/api/auth/logout', (req, res) => {
+  sessions.delete(parseCookies(req).expense_session);
+  clearSessionCookie(res);
+  res.status(204).end();
+});
+
+app.get('/api/auth/session', (req, res) => {
+  const user = currentSession(req);
+  if (!user) return res.status(401).json({ error: 'Not signed in' });
+  res.json({ user });
+});
+
+app.use('/api', requireAuth);
 
 // Prometheus metrics endpoint
 app.get('/metrics', async (req, res) => {

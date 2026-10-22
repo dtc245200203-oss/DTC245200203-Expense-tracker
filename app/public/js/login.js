@@ -4,6 +4,10 @@ const passwordInput = document.getElementById('password');
 const passwordToggle = document.getElementById('passwordToggle');
 const loginMessage = document.getElementById('loginMessage');
 
+fetch('/api/auth/session').then((response) => {
+  if (response.ok) window.location.replace('/');
+}).catch(() => {});
+
 passwordToggle.addEventListener('click', () => {
   const isHidden = passwordInput.type === 'password';
   passwordInput.type = isHidden ? 'text' : 'password';
@@ -12,21 +16,34 @@ passwordToggle.addEventListener('click', () => {
   passwordToggle.querySelector('i').className = isHidden ? 'fa-regular fa-eye-slash' : 'fa-regular fa-eye';
 });
 
-loginForm.addEventListener('submit', (event) => {
+loginForm.addEventListener('submit', async (event) => {
   event.preventDefault();
   loginMessage.className = 'login-message';
   if (!loginForm.checkValidity()) {
-    loginMessage.textContent = 'Vui lòng nhập email hợp lệ và mật khẩu có ít nhất 6 ký tự.';
+    loginMessage.textContent = 'Vui lòng nhập email hợp lệ và mật khẩu có ít nhất 8 ký tự.';
     loginMessage.classList.add('is-error');
     loginForm.reportValidity();
     return;
   }
-  // Replace this client-side transition with a server-side /api/auth/login call when authentication is added.
-  const storage = document.getElementById('rememberMe').checked ? localStorage : sessionStorage;
-  storage.setItem('expenseTrackerUser', emailInput.value.trim());
-  loginMessage.textContent = 'Đăng nhập thành công. Đang chuyển đến bảng điều khiển…';
-  loginMessage.classList.add('is-success');
-  window.setTimeout(() => window.location.assign('/'), 450);
+  try {
+    const response = await fetch('/api/auth/login', {
+      method: 'POST',
+      headers: { 'Content-Type': 'application/json' },
+      body: JSON.stringify({
+        email: emailInput.value.trim(),
+        password: passwordInput.value,
+        remember: document.getElementById('rememberMe').checked
+      })
+    });
+    const data = await response.json();
+    if (!response.ok) throw new Error(data.error || 'Không thể đăng nhập');
+    loginMessage.textContent = 'Đăng nhập thành công. Đang chuyển đến bảng điều khiển…';
+    loginMessage.classList.add('is-success');
+    window.setTimeout(() => window.location.assign('/'), 450);
+  } catch (error) {
+    loginMessage.textContent = error.message || 'Không thể kết nối đến máy chủ.';
+    loginMessage.classList.add('is-error');
+  }
 });
 
 function showUnavailable(event, message) {
@@ -36,4 +53,7 @@ function showUnavailable(event, message) {
 }
 
 document.getElementById('forgotPassword').addEventListener('click', (event) => showUnavailable(event, 'Tính năng khôi phục mật khẩu sẽ được bổ sung khi hệ thống có tài khoản người dùng.'));
-document.getElementById('registerLink').addEventListener('click', (event) => showUnavailable(event, 'Tính năng đăng ký sẽ được bổ sung cùng mô-đun xác thực.'));
+document.getElementById('registerLink').addEventListener('click', (event) => {
+  event.preventDefault();
+  window.location.assign('/register.html');
+});

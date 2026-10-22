@@ -35,7 +35,7 @@
         <a href="#transactions" class="nav-item"><i class="fa-solid fa-list-check"></i> Sổ giao dịch</a>
         <a href="/pgadmin" target="_blank" class="nav-item"><i class="fa-solid fa-database"></i> pgAdmin</a>
         <a href="http://localhost:3001" id="grafanaLink" target="_blank" class="nav-item"><i class="fa-solid fa-chart-line"></i> Grafana</a>
-        <a href="/login.html" class="nav-item"><i class="fa-solid fa-right-to-bracket"></i> Đăng nhập</a>
+        <a href="#" class="nav-item" id="logoutLink"><i class="fa-solid fa-right-from-bracket"></i> Đăng xuất</a>
         <button id="btnOpenModal" class="btn btn-primary"><i class="fa-solid fa-plus"></i> Thêm giao dịch</button>
       </nav>
     </div>
@@ -268,6 +268,7 @@
     </div>
   </footer>
 
+  <script src="/js/auth-guard.js"></script>
   <script src="/js/app.js"></script>
 </body>
 </html>
