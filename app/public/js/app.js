@@ -4,21 +4,21 @@ let categoryChartInstance = null;
 let trendChartInstance = null;
 
 const CHART_PALETTE = [
-  '#3d8b50',
-  '#62a76b',
-  '#87bd82',
-  '#a8ce91',
-  '#c1dca4',
-  '#4e9d83',
-  '#78b8a3',
-  '#95c4b2',
-  '#67986b',
-  '#acd1b0'
+  '#347a49',
+  '#4b9660',
+  '#68ad75',
+  '#8bc18d',
+  '#a9d0a3',
+  '#4f9982',
+  '#73b19f',
+  '#89b9aa',
+  '#72945d',
+  '#b2d0a2'
 ];
 
 if (typeof Chart !== 'undefined') {
   Chart.defaults.font.family = "'Inter', -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif";
-  Chart.defaults.color = '#718178';
+  Chart.defaults.color = '#718174';
   Chart.defaults.plugins.tooltip.cornerRadius = 10;
   Chart.defaults.plugins.tooltip.padding = 8;
   Chart.defaults.plugins.tooltip.backgroundColor = '#0f172a';
@@ -222,16 +222,16 @@ function renderTrendChart(data) {
           beginAtZero: true,
           ticks: {
             font: { size: 11 },
-            color: '#7c8c82',
+            color: '#7c8a79',
             callback: (val) => val >= 1000000 ? `${val / 1000000}M` : `${val / 1000}k`
           },
-          grid: { color: '#edf2ed' },
+          grid: { color: '#edf2eb' },
           border: { display: false }
         },
         x: {
           grid: { display: false },
           border: { display: false },
-          ticks: { font: { size: 11 }, color: '#7c8c82' }
+          ticks: { font: { size: 11 }, color: '#7c8a79' }
         }
       },
       plugins: {

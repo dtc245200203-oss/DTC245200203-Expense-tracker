@@ -1256,3 +1256,476 @@ a {
     padding: 14px 16px;
   }
 }
+
+/* Refined dashboard layout */
+.dashboard-page {
+  --bg-body: #f5f8f3;
+  --bg-surface: #ffffff;
+  --bg-subtle: #f1f6ef;
+  --bg-hover: #e6f0e3;
+  --text-main: #1d3326;
+  --text-secondary: #637569;
+  --text-muted: #8a9a8e;
+  --border-color: #e1eae0;
+  --border-light: #edf2eb;
+  --border-dark: #b9cbb8;
+  --primary: #388b54;
+  --primary-hover: #2c7444;
+  --primary-light: #eaf5e8;
+  --primary-border: #cfe4cc;
+}
+
+.dashboard-page .navbar {
+  background: rgba(255, 255, 255, 0.96);
+  border-bottom: 1px solid #e8eee6;
+  box-shadow: 0 4px 18px rgba(38, 68, 43, 0.035);
+}
+
+.dashboard-page .nav-container {
+  max-width: 1320px;
+  min-height: 76px;
+  padding: 12px 30px;
+}
+
+.dashboard-page .brand {
+  gap: 12px;
+}
+
+.dashboard-page .brand-icon {
+  width: 44px;
+  height: 44px;
+  border-radius: 14px;
+  background: #e8f4e7;
+  color: #388b54;
+  box-shadow: none;
+  font-size: 18px;
+}
+
+.dashboard-page .brand-title {
+  font-size: 16px;
+}
+
+.dashboard-page .badge-student {
+  background: #f4f7f2;
+  color: #748477;
+  font-size: 10px;
+  letter-spacing: 0.02em;
+}
+
+.dashboard-page .nav-links {
+  gap: 4px;
+}
+
+.dashboard-page .nav-item {
+  padding: 9px 11px;
+  color: #68796d;
+  font-size: 13px;
+}
+
+.dashboard-page .nav-item.active {
+  background: #edf6eb;
+  color: #357b49;
+}
+
+.dashboard-page .nav-item.active i {
+  color: #478f59;
+}
+
+.dashboard-page .btn {
+  border-radius: 12px;
+  font-size: 13px;
+  padding: 10px 15px;
+}
+
+.dashboard-page .btn-primary {
+  background: #398c55;
+  border-color: #398c55;
+  box-shadow: 0 5px 12px rgba(57, 140, 85, 0.16);
+}
+
+.dashboard-page .btn-primary:hover {
+  background: #2d7546;
+  border-color: #2d7546;
+}
+
+.dashboard-page .container {
+  max-width: 1320px;
+  padding: 42px 30px 48px;
+}
+
+.dashboard-page .page-header {
+  align-items: flex-end;
+  margin-bottom: 28px;
+}
+
+.dashboard-page .page-eyebrow {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  margin-bottom: 9px;
+  color: #66816b;
+  font-size: 10px;
+  font-weight: 700;
+  letter-spacing: 0.12em;
+}
+
+.dashboard-page .page-eyebrow span {
+  width: 7px;
+  height: 7px;
+  border-radius: 50%;
+  background: #65a873;
+  box-shadow: 0 0 0 4px #e4f1e2;
+}
+
+.dashboard-page .page-title {
+  font-size: clamp(28px, 3vw, 36px);
+  font-weight: 700;
+  letter-spacing: -0.055em;
+  line-height: 1.14;
+}
+
+.dashboard-page .page-desc {
+  margin-top: 8px;
+  color: #7b8a7e;
+  font-size: 14px;
+}
+
+.dashboard-page .btn-secondary {
+  border-color: #e1e9df;
+  background: #fff;
+  color: #506456;
+}
+
+.dashboard-page .btn-secondary:hover {
+  border-color: #c9ddc7;
+  background: #f8fbf7;
+}
+
+.dashboard-page .summary-grid {
+  grid-template-columns: 1.25fr 1fr 1fr;
+  gap: 18px;
+  margin-bottom: 20px;
+}
+
+.dashboard-page .card {
+  border: 1px solid #e5ece3;
+  border-radius: 20px;
+  box-shadow: 0 5px 18px rgba(36, 63, 39, 0.035);
+  transition: box-shadow 0.2s ease, transform 0.2s ease;
+}
+
+.dashboard-page .card:hover {
+  border-color: #d9e6d6;
+  box-shadow: 0 10px 26px rgba(36, 63, 39, 0.07);
+  transform: translateY(-2px);
+}
+
+.dashboard-page .stat-card {
+  min-height: 166px;
+  padding: 26px;
+}
+
+.dashboard-page .card-balance {
+  border: 0;
+  background:
+    radial-gradient(ellipse at 94% 2%, rgba(176, 221, 171, 0.24), transparent 13rem),
+    linear-gradient(135deg, #285f3d 0%, #36784b 55%, #438c55 100%);
+  box-shadow: 0 12px 28px rgba(39, 100, 58, 0.18);
+}
+
+.dashboard-page .card-balance:hover {
+  border-color: transparent;
+  box-shadow: 0 16px 34px rgba(39, 100, 58, 0.22);
+}
+
+.dashboard-page .card-balance .stat-label,
+.dashboard-page .card-balance .stat-meta {
+  color: rgba(245, 255, 243, 0.72);
+}
+
+.dashboard-page .card-balance .stat-value {
+  color: #ffffff;
+  font-size: clamp(26px, 2.4vw, 34px);
+}
+
+.dashboard-page .card-balance .stat-icon-wrapper {
+  background: rgba(255, 255, 255, 0.14);
+  color: #f4fff0;
+}
+
+.dashboard-page .card-income,
+.dashboard-page .card-expense {
+  border-left: 0;
+}
+
+.dashboard-page .card-income::before,
+.dashboard-page .card-expense::before {
+  width: 42px;
+  height: 4px;
+  content: "";
+  position: absolute;
+  top: 0;
+  left: 26px;
+  border-radius: 0 0 5px 5px;
+}
+
+.dashboard-page .card-income,
+.dashboard-page .card-expense {
+  position: relative;
+}
+
+.dashboard-page .card-income::before {
+  background: #68b478;
+}
+
+.dashboard-page .card-expense::before {
+  background: #e8877d;
+}
+
+.dashboard-page .stat-label {
+  margin-bottom: 9px;
+  color: #78887b;
+  font-size: 11px;
+  letter-spacing: 0.09em;
+}
+
+.dashboard-page .stat-value {
+  font-size: clamp(24px, 2vw, 30px);
+  letter-spacing: -0.05em;
+}
+
+.dashboard-page .text-income {
+  color: #41905a;
+}
+
+.dashboard-page .text-expense {
+  color: #d66f68;
+}
+
+.dashboard-page .stat-meta {
+  margin-top: 10px;
+  font-size: 12px;
+}
+
+.dashboard-page .stat-icon-wrapper {
+  width: 46px;
+  height: 46px;
+  border-radius: 14px;
+}
+
+.dashboard-page .icon-income {
+  background: #edf7ec;
+  color: #4b9a60;
+}
+
+.dashboard-page .icon-expense {
+  background: #fff1ee;
+  color: #d97870;
+}
+
+.dashboard-page .charts-grid {
+  grid-template-columns: 0.92fr 1.28fr;
+  gap: 18px;
+  margin-bottom: 20px;
+}
+
+.dashboard-page .chart-card {
+  min-height: 420px;
+  padding: 25px 26px 20px;
+}
+
+.dashboard-page .card-header {
+  margin-bottom: 20px;
+}
+
+.dashboard-page .card-title {
+  font-size: 15px;
+  font-weight: 650;
+}
+
+.dashboard-page .card-title > i {
+  width: 30px;
+  height: 30px;
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  border-radius: 10px;
+  background: #edf6eb;
+  color: #468d57;
+  font-size: 13px;
+}
+
+.dashboard-page .card-subtitle {
+  margin-top: 4px;
+  font-size: 12px;
+}
+
+.dashboard-page .chart-wrapper {
+  min-height: 300px;
+}
+
+.dashboard-page .table-card {
+  border-radius: 20px;
+}
+
+.dashboard-page .table-card-header {
+  padding: 22px 26px;
+}
+
+.dashboard-page .toolbar {
+  gap: 12px 18px;
+  padding: 16px 26px;
+  border-bottom: 1px solid #edf2eb;
+  background: #fafcf9;
+}
+
+.dashboard-page .toolbar-label {
+  color: #738276;
+  font-size: 12px;
+}
+
+.dashboard-page .form-select,
+.dashboard-page .form-input,
+.dashboard-page .form-textarea {
+  border-color: #e0e9de;
+  border-radius: 10px;
+}
+
+.dashboard-page .data-table thead th {
+  padding-top: 13px;
+  padding-bottom: 13px;
+  background: #f6f9f5;
+  color: #77867a;
+  font-size: 10px;
+  letter-spacing: 0.09em;
+}
+
+.dashboard-page .data-table td {
+  padding-top: 14px;
+  padding-bottom: 14px;
+}
+
+.dashboard-page .data-table tbody tr:last-child {
+  border-bottom: 0;
+}
+
+.dashboard-page .type-income {
+  background: #edf7ec;
+  color: #438a55;
+}
+
+.dashboard-page .type-expense {
+  background: #fff1ee;
+  color: #cf7068;
+}
+
+.dashboard-page .category-tag {
+  background: #f0f6ed;
+  color: #5a735e;
+}
+
+.dashboard-page .footer {
+  background: #fbfdfa;
+  border-top-color: #e7eee5;
+}
+
+@media (max-width: 1000px) {
+  .dashboard-page .nav-container {
+    flex-wrap: wrap;
+    justify-content: center;
+    gap: 10px 20px;
+  }
+
+  .dashboard-page .brand {
+    margin-right: auto;
+  }
+
+  .dashboard-page .nav-links {
+    justify-content: flex-end;
+    flex-wrap: wrap;
+  }
+}
+
+@media (max-width: 900px) {
+  .dashboard-page .charts-grid {
+    grid-template-columns: 1fr;
+  }
+}
+
+@media (max-width: 640px) {
+  .dashboard-page .nav-container {
+    align-items: flex-start;
+    padding: 12px 16px;
+  }
+
+  .dashboard-page .badge-student {
+    display: none;
+  }
+
+  .dashboard-page .nav-links {
+    justify-content: flex-start;
+    overflow-x: auto;
+    flex-wrap: nowrap;
+    padding-bottom: 3px;
+  }
+
+  .dashboard-page .nav-item {
+    flex: 0 0 auto;
+    padding: 8px 9px;
+    font-size: 12px;
+  }
+
+  .dashboard-page .nav-item i {
+    display: none;
+  }
+
+  .dashboard-page .container {
+    padding: 30px 16px 38px;
+  }
+
+  .dashboard-page .page-header {
+    align-items: flex-start;
+  }
+
+  .dashboard-page .page-title {
+    font-size: 29px;
+  }
+
+  .dashboard-page .page-desc {
+    max-width: 290px;
+    font-size: 13px;
+  }
+
+  .dashboard-page .summary-grid {
+    grid-template-columns: 1fr;
+    gap: 12px;
+  }
+
+  .dashboard-page .stat-card {
+    min-height: 138px;
+    padding: 22px;
+  }
+
+  .dashboard-page .card-balance {
+    grid-column: auto;
+  }
+
+  .dashboard-page .charts-grid {
+    gap: 14px;
+  }
+
+  .dashboard-page .chart-card {
+    min-height: 390px;
+    padding: 20px 16px 16px;
+  }
+
+  .dashboard-page .chart-wrapper {
+    min-height: 280px;
+  }
+
+  .dashboard-page .table-card-header,
+  .dashboard-page .toolbar {
+    padding-right: 16px;
+    padding-left: 16px;
+  }
+}
