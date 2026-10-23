@@ -1048,7 +1048,7 @@ a {
 }
 
 .dashboard-page .card-expense {
-  border-left: 4px solid #ed7771;
+  border-left: 4px solid #343a34;
 }
 
 .dashboard-page .stat-label {
@@ -1077,7 +1077,7 @@ a {
 }
 
 .dashboard-page .icon-expense {
-  background: #fff0ed;
+  background: #f0f2ef;
 }
 
 .dashboard-page .chart-card {
@@ -1499,7 +1499,7 @@ a {
 }
 
 .dashboard-page .text-expense {
-  color: #d66f68;
+  color: #303630;
 }
 
 .dashboard-page .stat-meta {
@@ -1519,8 +1519,8 @@ a {
 }
 
 .dashboard-page .icon-expense {
-  background: #fff1ee;
-  color: #d97870;
+  background: #f0f2ef;
+  color: #303630;
 }
 
 .dashboard-page .charts-grid {
@@ -1615,8 +1615,8 @@ a {
 }
 
 .dashboard-page .type-expense {
-  background: #fff1ee;
-  color: #cf7068;
+  background: #f0f2ef;
+  color: #303630;
 }
 
 .dashboard-page .category-tag {
@@ -1817,4 +1817,69 @@ a {
 
 .dashboard-page .footer {
   background: #ffffff;
+}
+
+/* White, black and green functional palette */
+.dashboard-page {
+  --text-main: #202820;
+  --text-secondary: #59645a;
+  --text-muted: #818b82;
+  --primary: #36854c;
+  --primary-hover: #286d3c;
+  --primary-light: #eaf3e9;
+  --primary-border: #cbdcc9;
+  --income-color: #36854c;
+  --income-bg: #edf5ec;
+  --income-border: #cbdcc9;
+  --expense-color: #303630;
+  --expense-bg: #f0f2ef;
+  --expense-border: #d9ded8;
+}
+
+.dashboard-page .nav-item.active,
+.dashboard-page .nav-item.active i,
+.dashboard-page .card-title > i,
+.dashboard-page .text-income,
+.dashboard-page .icon-income,
+.dashboard-page .required {
+  color: #36854c;
+}
+
+.dashboard-page .card-expense::before {
+  background: #343a34;
+}
+
+.dashboard-page .text-expense,
+.dashboard-page .icon-expense {
+  color: #303630;
+}
+
+.dashboard-page .icon-expense,
+.dashboard-page .type-expense,
+.dashboard-page .type-income,
+.dashboard-page .category-tag {
+  background: #edf3eb;
+  color: #303630;
+}
+
+.dashboard-page .type-income {
+  color: #36854c;
+}
+
+.dashboard-page .type-expense {
+  border-color: #d9ded8;
+}
+
+.dashboard-page .type-income {
+  border-color: #cbdcc9;
+}
+
+.dashboard-page .btn-primary {
+  background: #36854c;
+  border-color: #36854c;
+}
+
+.dashboard-page .btn-primary:hover {
+  background: #286d3c;
+  border-color: #286d3c;
 }

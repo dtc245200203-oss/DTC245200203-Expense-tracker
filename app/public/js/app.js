@@ -4,16 +4,16 @@ let categoryChartInstance = null;
 let trendChartInstance = null;
 
 const CHART_PALETTE = [
-  '#347a49',
-  '#4b9660',
-  '#68ad75',
-  '#8bc18d',
-  '#a9d0a3',
-  '#4f9982',
-  '#73b19f',
-  '#89b9aa',
-  '#72945d',
-  '#b2d0a2'
+  '#286d3c',
+  '#36854c',
+  '#4d995f',
+  '#65aa73',
+  '#7fba89',
+  '#96c89c',
+  '#afd4b1',
+  '#4a8255',
+  '#739d76',
+  '#c2dfc1'
 ];
 
 if (typeof Chart !== 'undefined') {
@@ -206,8 +206,8 @@ function renderTrendChart(data) {
         {
           label: 'Chi tiêu',
           data: expenseData.length ? expenseData : [0],
-          backgroundColor: '#ed7771',
-          borderColor: '#ed7771',
+          backgroundColor: '#343a34',
+          borderColor: '#343a34',
           borderWidth: 0,
           borderRadius: 0,
           maxBarThickness: 34
