@@ -163,7 +163,7 @@ function renderCategoryChart(data) {
             boxWidth: 10, 
             boxHeight: 10,
             usePointStyle: true,
-            pointStyle: 'circle',
+            pointStyle: 'rect',
             padding: 14, 
             font: { size: 12, weight: '500' } 
           } 
@@ -200,7 +200,7 @@ function renderTrendChart(data) {
           backgroundColor: '#68ad75',
           borderColor: '#68ad75',
           borderWidth: 0,
-          borderRadius: 8,
+          borderRadius: 0,
           maxBarThickness: 34
         },
         {
@@ -209,7 +209,7 @@ function renderTrendChart(data) {
           backgroundColor: '#ed7771',
           borderColor: '#ed7771',
           borderWidth: 0,
-          borderRadius: 8,
+          borderRadius: 0,
           maxBarThickness: 34
         }
       ]
@@ -241,7 +241,7 @@ function renderTrendChart(data) {
             boxWidth: 10, 
             boxHeight: 10,
             usePointStyle: true,
-            pointStyle: 'circle',
+            pointStyle: 'rect',
             padding: 14, 
             font: { size: 12, weight: '500' } 
           } 

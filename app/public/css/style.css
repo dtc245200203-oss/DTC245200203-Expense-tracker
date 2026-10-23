@@ -1729,3 +1729,92 @@ a {
     padding-left: 16px;
   }
 }
+
+/* Simple, square dashboard styling */
+.dashboard-page *,
+.dashboard-page *::before,
+.dashboard-page *::after {
+  border-radius: 0 !important;
+}
+
+.dashboard-page {
+  background: #f5f7f4;
+}
+
+.dashboard-page .navbar {
+  background: #ffffff;
+  box-shadow: 0 1px 3px rgba(31, 54, 36, 0.06);
+  backdrop-filter: none;
+}
+
+.dashboard-page .brand-icon {
+  background: #e8f2e6;
+  box-shadow: none;
+}
+
+.dashboard-page .page-eyebrow {
+  color: #66766a;
+}
+
+.dashboard-page .page-eyebrow span {
+  box-shadow: none;
+}
+
+.dashboard-page .btn,
+.dashboard-page .card,
+.dashboard-page .card:hover {
+  box-shadow: 0 1px 3px rgba(31, 54, 36, 0.06);
+  transition: none;
+}
+
+.dashboard-page .btn-primary,
+.dashboard-page .btn-primary:hover {
+  box-shadow: none;
+  transform: none;
+}
+
+.dashboard-page .card:hover {
+  transform: none;
+}
+
+.dashboard-page .card-balance,
+.dashboard-page .card-balance:hover {
+  border: 1px solid #d4e2d1;
+  background: #e5f0e2;
+  box-shadow: 0 1px 3px rgba(31, 54, 36, 0.06);
+}
+
+.dashboard-page .card-balance .stat-label,
+.dashboard-page .card-balance .stat-meta {
+  color: #637765;
+}
+
+.dashboard-page .card-balance .stat-value {
+  color: #2e7042;
+}
+
+.dashboard-page .card-balance .stat-icon-wrapper {
+  background: #d5e8d2;
+  color: #367c4a;
+}
+
+.dashboard-page .card-income::before,
+.dashboard-page .card-expense::before {
+  width: 4px;
+  height: 38px;
+  top: 22px;
+  left: 0;
+}
+
+.dashboard-page .card-title > i {
+  background: #edf4eb;
+}
+
+.dashboard-page .modal-dialog {
+  border-radius: 0;
+  box-shadow: 0 8px 24px rgba(31, 54, 36, 0.14);
+}
+
+.dashboard-page .footer {
+  background: #ffffff;
+}
