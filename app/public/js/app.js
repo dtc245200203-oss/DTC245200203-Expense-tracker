@@ -4,16 +4,16 @@ let categoryChartInstance = null;
 let trendChartInstance = null;
 
 const CHART_PALETTE = [
-  '#286d3c',
-  '#36854c',
-  '#4d995f',
-  '#65aa73',
-  '#7fba89',
-  '#96c89c',
-  '#afd4b1',
-  '#4a8255',
-  '#739d76',
-  '#c2dfc1'
+  '#2563eb',
+  '#16a34a',
+  '#f59e0b',
+  '#dc2626',
+  '#8b5cf6',
+  '#06b6d4',
+  '#ea580c',
+  '#64748b',
+  '#4f46e5',
+  '#14b8a6'
 ];
 
 if (typeof Chart !== 'undefined') {
@@ -197,8 +197,8 @@ function renderTrendChart(data) {
         {
           label: 'Thu nhập',
           data: incomeData.length ? incomeData : [0],
-          backgroundColor: '#68ad75',
-          borderColor: '#68ad75',
+          backgroundColor: '#16a34a',
+          borderColor: '#16a34a',
           borderWidth: 0,
           borderRadius: 0,
           maxBarThickness: 34
@@ -206,8 +206,8 @@ function renderTrendChart(data) {
         {
           label: 'Chi tiêu',
           data: expenseData.length ? expenseData : [0],
-          backgroundColor: '#343a34',
-          borderColor: '#343a34',
+          backgroundColor: '#dc2626',
+          borderColor: '#dc2626',
           borderWidth: 0,
           borderRadius: 0,
           maxBarThickness: 34
@@ -222,16 +222,16 @@ function renderTrendChart(data) {
           beginAtZero: true,
           ticks: {
             font: { size: 11 },
-            color: '#7c8a79',
+            color: '#64748b',
             callback: (val) => val >= 1000000 ? `${val / 1000000}M` : `${val / 1000}k`
           },
-          grid: { color: '#edf2eb' },
+          grid: { color: '#e2e8f0' },
           border: { display: false }
         },
         x: {
           grid: { display: false },
           border: { display: false },
-          ticks: { font: { size: 11 }, color: '#7c8a79' }
+          ticks: { font: { size: 11 }, color: '#64748b' }
         }
       },
       plugins: {
